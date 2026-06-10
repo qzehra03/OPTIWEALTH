@@ -1,0 +1,61 @@
+import type { OnboardingFormData } from "@/lib/types";
+
+export const SANDBOX_PROFILE: OnboardingFormData = {
+  email: "sandbox.reviewer@optiwealth.app",
+  password: "Sandbox123!",
+  confirmPassword: "Sandbox123!",
+  fullName: "Sandbox Reviewer",
+  annualGrossSalary: 1850000,
+  fixedMonthlyRent: 28000,
+  debts: [
+    {
+      name: "Home Loan — HDFC",
+      principal: 4200000,
+      emi: 38500,
+      apr: 8.75,
+      termMonths: 180,
+      remainingBalance: 3180000,
+    },
+    {
+      name: "Personal Loan — ICICI",
+      principal: 350000,
+      emi: 12800,
+      apr: 14.2,
+      termMonths: 36,
+      remainingBalance: 214500,
+    },
+    {
+      name: "Education Loan — SBI",
+      principal: 680000,
+      emi: 9200,
+      apr: 9.5,
+      termMonths: 96,
+      remainingBalance: 412000,
+    },
+  ],
+  creditCardBalance: 68500,
+  creditCardLimit: 250000,
+  liquidSavings: 185000,
+  fixedDeposits: [
+    {
+      bankName: "Axis Bank",
+      principal: 500000,
+      interestRate: 7.25,
+      maturityDate: "2027-03-15",
+    },
+    {
+      bankName: "Kotak Mahindra",
+      principal: 300000,
+      interestRate: 7.1,
+      maturityDate: "2026-11-30",
+    },
+  ],
+  monthlySip: 25000,
+  mutualFundValuation: 1240000,
+  epfBalance: 890000,
+  epfMonthlyContribution: 18500,
+  targetRetirementAge: 58,
+  expectedMonthlyRetirementExpenses: 85000,
+  ytdSection80C: 112500,
+  ytdSection80D: 32000,
+};
