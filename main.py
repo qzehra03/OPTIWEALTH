@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from typing import Any, Dict, List, Literal, Optional
 
@@ -49,10 +50,21 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+cors_origins_raw = os.getenv("CORS_ORIGINS", "")
+if cors_origins_raw:
+    cors_origins = [origin.strip() for origin in cors_origins_raw.split(",") if origin.strip()]
+else:
+    cors_origins = ["*"]
+
+# credentials cannot be allowed with wildcard '*' origin in FastAPI/Starlette
+allow_credentials = True
+if "*" in cors_origins:
+    allow_credentials = False
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )

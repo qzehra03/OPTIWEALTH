@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.next
+node_modules
+__pycache__
+*.db
+frontend
+restored_data.json
+test_decode_unicode.py
+inspect_step_*.py
+Dockerfile
+.dockerignore
+implementation_plan.md
+task.md
+walkthrough.md

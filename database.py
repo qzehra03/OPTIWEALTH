@@ -18,6 +18,10 @@ DATABASE_URL: str = os.getenv(
     "postgresql+asyncpg://postgres:postgres@localhost:5432/optiwealth",
 )
 
+# Convert standard postgresql:// to postgresql+asyncpg:// for async compatibility
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
 engine: AsyncEngine = create_async_engine(
     DATABASE_URL,
     pool_size=10,
