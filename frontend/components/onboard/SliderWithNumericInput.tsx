@@ -71,7 +71,7 @@ export function SliderWithNumericInput({
     <div className="space-y-2">
       <Label
         htmlFor={id}
-        className="text-slate-700 font-semibold text-sm tracking-wide font-sans block"
+        className="text-luxe-ivory/90 font-semibold text-sm tracking-wide font-sans block"
       >
         {label}
       </Label>
@@ -87,7 +87,7 @@ export function SliderWithNumericInput({
             step={step}
             value={value}
             onChange={handleSliderChange}
-            className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-[#037A6B]"
+            className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-luxe-bronze"
             style={{
               background: `linear-gradient(to right, #037A6B 0%, #037A6B ${((value - min) / (max - min)) * 100}%, #e2e8f0 ${((value - min) / (max - min)) * 100}%, #e2e8f0 100%)`
             }}
@@ -97,7 +97,7 @@ export function SliderWithNumericInput({
         {/* Dynamic formatted input */}
         <div className="relative w-32 sm:w-40 shrink-0">
           {isCurrency && (
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-[#037A6B]">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-luxe-bronze">
               ₹
             </span>
           )}
@@ -108,7 +108,7 @@ export function SliderWithNumericInput({
             value={inputValue}
             onChange={handleInputChange}
             className={cn(
-              "text-right font-sans font-extrabold text-xl text-[#037A6B] h-10 bg-white/50 border-slate-200 focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] focus-visible:ring-[#037A6B] focus-visible:border-[#037A6B] focus-visible:ring-offset-0 outline-none rounded-lg",
+              "text-right font-sans font-extrabold text-xl text-luxe-bronze h-10 bg-luxe-forest/50 border-luxe-copper/30 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none rounded-lg",
               isCurrency ? "pl-7 pr-2.5" : "px-2.5"
             )}
             placeholder="0"
@@ -117,7 +117,7 @@ export function SliderWithNumericInput({
       </div>
 
       {hint && !error && (
-        <p className="text-[11px] text-slate-500 leading-normal font-sans mt-0.5">{hint}</p>
+        <p className="text-[11px] text-muted-foreground leading-normal font-sans mt-0.5">{hint}</p>
       )}
       {error && (
         <p className="text-red-500 font-sans text-xs font-semibold mt-1 flex items-center gap-1" role="alert" id={`${id}-error`}>

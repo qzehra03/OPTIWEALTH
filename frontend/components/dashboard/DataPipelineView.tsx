@@ -102,7 +102,7 @@ export function DataPipelineView() {
   return (
     <div className="space-y-8 animate-fade-in font-sans">
       <div className="space-y-1">
-        <h2 className="text-2xl font-sans antialiased tracking-tight text-finance-deep">Data Pipeline Diagnostics</h2>
+        <h2 className="text-2xl font-sans antialiased tracking-tight text-luxe-bronze">Data Pipeline Diagnostics</h2>
         <p className="text-sm text-muted-foreground font-sans">
           Real-time schema telemetry, SQLite engine hooks, and FastAPI contract inspector.
         </p>
@@ -112,16 +112,16 @@ export function DataPipelineView() {
         {/* Left Side: Server Status & Schema Telemetry */}
         <div className="col-span-1 lg:col-span-6 space-y-6">
           {/* Connection Status Card */}
-          <Card className="border border-slate-100 bg-white shadow-sm">
+          <Card className="border border-luxe-copper/20 shadow-luxe-sm">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground font-header flex items-center gap-2">
-                  <Server className="h-4 w-4 text-finance-deep" />
+                  <Server className="h-4 w-4 text-luxe-bronze" />
                   API Gateway Ping
                 </CardTitle>
                 <button 
                   onClick={checkConnection}
-                  className="text-xs text-finance-deep hover:text-finance-deep/85 flex items-center gap-1 font-semibold outline-none"
+                  className="text-xs text-luxe-bronze hover:text-luxe-bronze/85 flex items-center gap-1 font-semibold outline-none"
                 >
                   <RefreshCw className={`h-3 w-3 ${pingStatus === "connecting" ? "animate-spin" : ""}`} />
                   Ping
@@ -129,7 +129,7 @@ export function DataPipelineView() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50/50">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-luxe-copper/20 bg-luxe-forest/40">
                 <div className="flex items-center gap-3">
                   {pingStatus === "connected" ? (
                     <div className="relative flex h-3.5 w-3.5">
@@ -146,14 +146,14 @@ export function DataPipelineView() {
                     </div>
                   )}
                   <div>
-                    <p className="text-sm font-bold text-slate-800">
+                    <p className="text-sm font-bold text-luxe-ivory">
                       {pingStatus === "connected" ? "FastAPI Status: Active" : pingStatus === "connecting" ? "Pinging endpoint..." : "FastAPI Status: Offline"}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">{API_BASE}</p>
                   </div>
                 </div>
                 {pingStatus === "connected" && latency !== null && (
-                  <Badge className="bg-finance-mint text-finance-deep border-none font-semibold">
+                  <Badge className="bg-luxe-copper/15 text-luxe-bronze border-none font-semibold">
                     {latency} ms
                   </Badge>
                 )}
@@ -162,29 +162,29 @@ export function DataPipelineView() {
           </Card>
 
           {/* SQLite DB Schema Telemetry */}
-          <Card className="border border-slate-100 bg-white shadow-sm">
+          <Card className="border border-luxe-copper/20 shadow-luxe-sm">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground font-header flex items-center gap-2">
-                <Database className="h-4 w-4 text-finance-deep" />
+                <Database className="h-4 w-4 text-luxe-bronze" />
                 SQLite Table Schema
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-500 border-b border-slate-100 pb-2">
+              <div className="flex items-center justify-between text-xs text-muted-foreground border-b border-luxe-copper/20 pb-2">
                 <span>Database Engine: <strong>SQLite 3</strong></span>
-                <span>File: <strong className="text-finance-deep font-mono">optiwealth.db</strong></span>
+                <span>File: <strong className="text-luxe-bronze font-mono">optiwealth.db</strong></span>
                 <span>Status: <Badge className={`text-[10px] px-1.5 py-0.5 font-bold ${dbStatus === "online" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : "bg-rose-500/10 text-rose-500 border-rose-500/20"}`}>{dbStatus.toUpperCase()}</Badge></span>
               </div>
 
               <div className="space-y-3">
                 {/* Users Table */}
-                <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50/50 transition-colors">
+                <div className="p-3 rounded-xl border border-luxe-copper/20 bg-luxe-forest/30 hover:bg-luxe-forest/40 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <TableProperties className="h-4 w-4 text-slate-400" />
-                      <span className="text-sm font-bold text-slate-800">users</span>
+                      <TableProperties className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-bold text-luxe-ivory">users</span>
                     </div>
-                    <Badge variant="outline" className="text-xs border-slate-200">
+                    <Badge variant="outline" className="text-xs border-luxe-copper/30">
                       1 Row
                     </Badge>
                   </div>
@@ -194,13 +194,13 @@ export function DataPipelineView() {
                 </div>
 
                 {/* Debts Table */}
-                <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50/50 transition-colors">
+                <div className="p-3 rounded-xl border border-luxe-copper/20 bg-luxe-forest/30 hover:bg-luxe-forest/40 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <TableProperties className="h-4 w-4 text-slate-400" />
-                      <span className="text-sm font-bold text-slate-800">debts</span>
+                      <TableProperties className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-bold text-luxe-ivory">debts</span>
                     </div>
-                    <Badge variant="outline" className="text-xs border-slate-200">
+                    <Badge variant="outline" className="text-xs border-luxe-copper/30">
                       {user?.debts?.length || 0} Rows
                     </Badge>
                   </div>
@@ -210,13 +210,13 @@ export function DataPipelineView() {
                 </div>
 
                 {/* Fixed Deposits Table */}
-                <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50/50 transition-colors">
+                <div className="p-3 rounded-xl border border-luxe-copper/20 bg-luxe-forest/30 hover:bg-luxe-forest/40 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <TableProperties className="h-4 w-4 text-slate-400" />
-                      <span className="text-sm font-bold text-slate-800">fixed_deposits</span>
+                      <TableProperties className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm font-bold text-luxe-ivory">fixed_deposits</span>
                     </div>
-                    <Badge variant="outline" className="text-xs border-slate-200">
+                    <Badge variant="outline" className="text-xs border-luxe-copper/30">
                       {user?.fixed_deposits?.length || 0} Rows
                     </Badge>
                   </div>
@@ -231,32 +231,32 @@ export function DataPipelineView() {
 
         {/* Right Side: Payload Contract Inspector */}
         <div className="col-span-1 lg:col-span-6">
-          <Card className="border border-slate-100 bg-white shadow-sm h-full flex flex-col justify-between">
+          <Card className="border border-luxe-copper/20 shadow-luxe-sm h-full flex flex-col justify-between">
             <div>
-              <CardHeader className="pb-3 border-b border-slate-100">
+              <CardHeader className="pb-3 border-b border-luxe-copper/20">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FileCode className="h-5 w-5 text-finance-deep" />
+                    <FileCode className="h-5 w-5 text-luxe-bronze" />
                     <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground font-header">
                       Payload Contracts
                     </CardTitle>
                   </div>
-                  <div className="flex gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-100">
+                  <div className="flex gap-1.5 bg-luxe-forest/50 p-1 rounded-lg border border-luxe-copper/20">
                     <button
                       onClick={() => setActivePayloadTab("user")}
-                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "user" ? "bg-white text-finance-deep shadow-sm" : "text-muted-foreground"}`}
+                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "user" ? "bg-luxe-emerald/40 text-luxe-bronze shadow-sm" : "text-muted-foreground"}`}
                     >
                       User Schema
                     </button>
                     <button
                       onClick={() => setActivePayloadTab("onboard")}
-                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "onboard" ? "bg-white text-finance-deep shadow-sm" : "text-muted-foreground"}`}
+                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "onboard" ? "bg-luxe-emerald/40 text-luxe-bronze shadow-sm" : "text-muted-foreground"}`}
                     >
                       Onboard Req
                     </button>
                     <button
                       onClick={() => setActivePayloadTab("health")}
-                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "health" ? "bg-white text-finance-deep shadow-sm" : "text-muted-foreground"}`}
+                      className={`px-2 py-1 text-[10px] font-bold rounded ${activePayloadTab === "health" ? "bg-luxe-emerald/40 text-luxe-bronze shadow-sm" : "text-muted-foreground"}`}
                     >
                       Health Res
                     </button>
@@ -269,9 +269,9 @@ export function DataPipelineView() {
                 </div>
               </CardContent>
             </div>
-            <div className="p-4 border-t border-slate-100 bg-slate-50/30 rounded-b-xl flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>Dynamic validation: <strong className="text-slate-700">Strict Pydantic V2</strong></span>
-              <span>Authentication: <strong className="text-slate-700">JWT OAuth2 Bearer</strong></span>
+            <div className="p-4 border-t border-luxe-copper/20 bg-luxe-forest/50/30 rounded-b-xl flex items-center justify-between text-[11px] text-muted-foreground">
+              <span>Dynamic validation: <strong className="text-luxe-ivory/90">Strict Pydantic V2</strong></span>
+              <span>Authentication: <strong className="text-luxe-ivory/90">JWT OAuth2 Bearer</strong></span>
             </div>
           </Card>
         </div>

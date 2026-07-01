@@ -55,10 +55,10 @@ export function SavingsSnapshotStep({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full mt-2">
       <div className="md:col-span-2">
-        <h2 className="text-[#037A6B] font-extrabold text-xl tracking-tight font-header">
+        <h2 className="text-luxe-bronze font-extrabold text-xl tracking-tight font-header">
           Savings Snapshot
         </h2>
-        <p className="mt-0.5 text-xs text-slate-500 font-sans">
+        <p className="mt-0.5 text-xs text-muted-foreground font-sans">
           Liquid reserves, fixed deposits, SIP flows, and retirement-linked assets.
         </p>
       </div>
@@ -96,7 +96,7 @@ export function SavingsSnapshotStep({
       </div>
 
       {/* Right Column: SIP, EPF, and FDs */}
-      <div className="space-y-4 max-h-[45vh] overflow-y-auto pr-2 custom-scrollbar">
+      <div className="space-y-4 font-sans">
         <NumberField
           id="monthlySip"
           label="Monthly SIP"
@@ -135,37 +135,37 @@ export function SavingsSnapshotStep({
           />
         </div>
 
-        <Card className="border border-slate-100 bg-white/40 shadow-sm">
+        <Card className="border border-luxe-copper/20 bg-luxe-emerald/30 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-800 font-header">Fixed Deposits</CardTitle>
-              <p className="text-[10px] text-slate-500 font-sans">
+              <CardTitle className="text-sm font-bold text-luxe-ivory font-header">Fixed Deposits</CardTitle>
+              <p className="text-[10px] text-muted-foreground font-sans">
                 FD ledger list
               </p>
             </div>
-            <Button type="button" variant="outline" size="sm" onClick={addFd} className="h-7 text-xs border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg">
+            <Button type="button" variant="outline" size="sm" onClick={addFd} className="h-7 text-xs border-luxe-copper/30 text-luxe-ivory/90 hover:bg-luxe-forest/50 rounded-lg">
               <Plus className="h-3.5 w-3.5 mr-1" />
               Add
             </Button>
           </CardHeader>
           <CardContent className="space-y-3 p-3 pt-0">
             {values.fixedDeposits.length === 0 && (
-              <p className="rounded-md border border-dashed border-slate-200 p-4 text-center text-xs text-slate-500 bg-slate-50/20 font-sans">
+              <p className="rounded-md border border-dashed border-luxe-copper/30 p-4 text-center text-xs text-muted-foreground bg-luxe-forest/30 font-sans">
                 No fixed deposits recorded.
               </p>
             )}
             {values.fixedDeposits.map((fd, index) => (
               <div
                 key={index}
-                className="grid gap-2 rounded-md border border-slate-100 p-3 bg-white/70"
+                className="grid gap-2 rounded-md border border-luxe-copper/20 p-3 bg-luxe-forest/50"
               >
                 <div className="space-y-1.5">
-                  <Label htmlFor={`fd-bank-${index}`} className="text-xs font-semibold text-slate-700 font-sans">Bank Name</Label>
+                  <Label htmlFor={`fd-bank-${index}`} className="text-xs font-semibold text-luxe-ivory/90 font-sans">Bank Name</Label>
                   <Input
                     id={`fd-bank-${index}`}
                     value={fd.bankName}
                     onChange={(e) => updateFd(index, "bankName", e.target.value)}
-                    className="h-8 text-xs bg-white/50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] focus-visible:ring-[#037A6B] focus-visible:border-[#037A6B] focus-visible:ring-offset-0 outline-none rounded-lg font-sans"
+                    className="h-8 text-xs bg-luxe-forest/50 border-luxe-copper/30 text-luxe-ivory placeholder-slate-400 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none rounded-lg font-sans"
                     aria-invalid={!!errors[`fixedDeposits.${index}.bankName`]}
                   />
                   {errors[`fixedDeposits.${index}.bankName`] && (
@@ -193,13 +193,13 @@ export function SavingsSnapshotStep({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor={`fd-maturity-${index}`} className="text-xs font-semibold text-slate-700 font-sans">Maturity Date</Label>
+                  <Label htmlFor={`fd-maturity-${index}`} className="text-xs font-semibold text-luxe-ivory/90 font-sans">Maturity Date</Label>
                   <Input
                     id={`fd-maturity-${index}`}
                     type="date"
                     value={fd.maturityDate}
                     onChange={(e) => updateFd(index, "maturityDate", e.target.value)}
-                    className="h-8 text-xs bg-white/50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] focus-visible:ring-[#037A6B] focus-visible:border-[#037A6B] focus-visible:ring-offset-0 outline-none rounded-lg font-sans"
+                    className="h-8 text-xs bg-luxe-forest/50 border-luxe-copper/30 text-luxe-ivory placeholder-slate-400 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none rounded-lg font-sans"
                     aria-invalid={!!errors[`fixedDeposits.${index}.maturityDate`]}
                   />
                   {errors[`fixedDeposits.${index}.maturityDate`] && (

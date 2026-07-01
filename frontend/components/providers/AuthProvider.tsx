@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
   clearAuthSession,
@@ -39,8 +40,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback((session: AuthSession) => {
     setAuthSession(session);
-    setToken(session.accessToken);
-    setUser(session.user);
+    flushSync(() => {
+      setToken(session.accessToken);
+      setUser(session.user);
+    });
   }, []);
 
   const logout = useCallback(() => {
@@ -87,6 +90,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    const storedToken = getStoredToken();
+    const storedUser = getStoredUser();
+    if (storedToken && storedUser && (!token || !user)) {
+      setToken(storedToken);
+      setUser(storedUser);
+    }
+  }, [token, user]);
 
   const value = useMemo(
     () => ({

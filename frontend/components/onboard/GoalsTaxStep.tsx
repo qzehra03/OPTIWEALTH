@@ -57,12 +57,12 @@ function TaxFormattedField({
     <div className="space-y-1.5">
       <Label
         htmlFor={id}
-        className="font-sans font-semibold text-slate-700 text-sm block tracking-wide"
+        className="font-sans font-semibold text-luxe-ivory/90 text-sm block tracking-wide"
       >
         {label}
       </Label>
       <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-[#037A6B]">
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-luxe-bronze">
           ₹
         </span>
         <Input
@@ -71,7 +71,7 @@ function TaxFormattedField({
           inputMode="numeric"
           value={displayValue}
           onChange={handleInputChange}
-          className="pl-8 bg-white/50 border-slate-200 text-[#037A6B] font-extrabold text-xl placeholder-slate-400 focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] focus-visible:ring-[#037A6B] focus-visible:border-[#037A6B] focus-visible:ring-offset-0 outline-none h-10 rounded-lg font-sans"
+          className="pl-8 bg-luxe-forest/50 border-luxe-copper/30 text-luxe-bronze font-extrabold text-xl placeholder-slate-400 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none h-10 rounded-lg font-sans"
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
           placeholder="0"
@@ -80,13 +80,13 @@ function TaxFormattedField({
 
       {isMaxed ? (
         <div className="mt-1">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-[#037A6B] border border-emerald-200 font-sans">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-600/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 font-sans">
             ✨ Maxed out under {capLabel} cap
           </span>
         </div>
       ) : (
         !error && (
-          <p className="text-[10px] text-slate-500 mt-1 font-sans">
+          <p className="text-[10px] text-muted-foreground mt-1 font-sans">
             ₹{remaining.toLocaleString("en-IN")} remaining under {capLabel} cap
           </p>
         )
@@ -105,10 +105,10 @@ export function GoalsTaxStep({ values, errors, onChange }: GoalsTaxStepProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full mt-2">
       <div className="md:col-span-2">
-        <h2 className="text-[#037A6B] font-extrabold text-xl tracking-tight font-header">
+        <h2 className="text-luxe-bronze font-extrabold text-xl tracking-tight font-header">
           Goals & Tax Parameters
         </h2>
-        <p className="mt-0.5 text-xs text-slate-500 font-sans">
+        <p className="mt-0.5 text-xs text-muted-foreground font-sans">
           Retirement targets and year-to-date deduction entries for regime simulation.
         </p>
       </div>
@@ -138,7 +138,7 @@ export function GoalsTaxStep({ values, errors, onChange }: GoalsTaxStepProps) {
       </div>
 
       {/* Right Column: Tax Fields & summary note */}
-      <div className="space-y-4 max-h-[45vh] overflow-y-auto pr-2 custom-scrollbar">
+      <div className="space-y-4 font-sans">
         <TaxFormattedField
           id="ytdSection80C"
           label="Year-to-Date Section 80C"
@@ -158,7 +158,7 @@ export function GoalsTaxStep({ values, errors, onChange }: GoalsTaxStepProps) {
           capLabel="₹1L"
         />
 
-        <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3 text-[11px] text-slate-500 leading-normal font-sans">
+        <div className="rounded-lg border border-luxe-copper/20 bg-luxe-forest/40 p-3 text-[11px] text-muted-foreground leading-normal font-sans">
           <p>
             Tax regime comparison, health scoring, and debt optimization are computed
             server-side after submission. No financial logic runs in the browser.

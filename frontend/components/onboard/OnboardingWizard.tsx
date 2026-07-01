@@ -18,7 +18,7 @@ import { IncomeObligationsStep } from "@/components/onboard/IncomeObligationsSte
 import { SavingsSnapshotStep } from "@/components/onboard/SavingsSnapshotStep";
 import { GoalsTaxStep } from "@/components/onboard/GoalsTaxStep";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { onboardUser } from "@/lib/api";
+import { onboardUser, loginUser } from "@/lib/api";
 import {
   extractExtendedProfile,
   mapFormToOnboardingRequest,
@@ -217,9 +217,21 @@ export function OnboardingWizard() {
       const payload = mapFormToOnboardingRequest(form);
       const response = await onboardUser(payload);
 
+      let accessToken = response.access_token;
+      let user = response.user;
+
+      if (!accessToken) {
+        const authResponse = await loginUser({
+          email: form.email,
+          password: form.password,
+        });
+        accessToken = authResponse.access_token;
+        user = authResponse.user;
+      }
+
       login({
-        accessToken: response.access_token,
-        user: response.user,
+        accessToken,
+        user,
       });
 
       sessionStorage.setItem("optiwealth_onboarding", JSON.stringify(response));
@@ -228,7 +240,7 @@ export function OnboardingWizard() {
         JSON.stringify(extractExtendedProfile(form))
       );
 
-      router.push("/dashboard");
+      router.replace("/dashboard");
     } catch (err) {
       const apiErr = err as ApiError;
       setSubmitError(
@@ -246,7 +258,7 @@ export function OnboardingWizard() {
   };
 
   return (
-    <div className="h-screen w-full bg-gradient-to-tr from-[#E6F7F0]/40 via-[#F0FAF6] to-[#D8F3E5]/50 relative flex items-start justify-center pt-20 pb-4 md:pt-24 md:pb-6 px-4 md:px-8 font-sans antialiased overflow-hidden">
+    <div className="h-screen w-full bg-background text-foreground relative flex items-start justify-center pt-20 pb-4 md:pt-24 md:pb-6 px-4 md:px-8 font-sans antialiased overflow-hidden fintech-grid">
       
       {/* Background Canvas Animation Layer */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
@@ -259,8 +271,8 @@ export function OnboardingWizard() {
 
       {/* Brand Logo in the top left corner */}
       <div className="absolute top-4 left-4 md:top-6 md:left-8 z-20 flex items-center gap-2.5 select-none pointer-events-auto">
-        <PremiumOptiWealthLogo className="h-7 w-7 text-[#037A6B] shrink-0" />
-        <span className="font-header font-bold text-xl tracking-tight text-slate-900">
+        <PremiumOptiWealthLogo className="h-7 w-7 text-primary shrink-0" />
+        <span className="font-header font-bold text-xl tracking-tight text-foreground">
           OptiWealth
         </span>
       </div>
@@ -272,35 +284,35 @@ export function OnboardingWizard() {
           variant="outline"
           size="sm"
           onClick={loadSandbox}
-          className="shrink-0 border-slate-200 text-slate-700 bg-white/60 hover:bg-white focus-visible:ring-[#037A6B] shadow-sm rounded-xl h-8 text-xs"
+          className="shrink-0 border-border text-foreground bg-card/60 hover:bg-card focus-visible:ring-primary shadow-sm rounded-xl h-8 text-xs"
         >
-          <FlaskConical className="h-3.5 w-3.5 mr-1" />
+          <FlaskConical className="h-3.5 w-3.5 mr-1 text-primary" />
           Demo Data
         </Button>
-        <div className="text-[10px] font-bold tracking-widest text-slate-400 uppercase font-header pointer-events-none hidden md:block">
+        <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase font-header pointer-events-none hidden md:block">
           OptiWealth Telemetry Workspace
         </div>
       </div>
 
       {/* Floating Translucent Glass Tile Container */}
-      <div className="bg-white/35 backdrop-blur-md border border-white/50 rounded-3xl p-6 md:p-8 shadow-xl w-full max-w-4xl flex flex-col gap-4 z-10 relative select-none max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-130px)]">
+      <div className="bg-card/75 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 shadow-xl w-full max-w-5xl flex flex-col gap-4 z-10 relative select-none max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-130px)]">
         
         {/* Step Indicator & Progress */}
         <div className="space-y-2.5 shrink-0">
           <StepIndicator currentStep={step} />
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs text-slate-500">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>
                 Step {step} of {TOTAL_STEPS}
               </span>
-              <Badge variant="secondary" className="bg-slate-100 text-slate-700 border border-slate-200 font-semibold">
+              <Badge variant="secondary" className="bg-muted text-muted-foreground border border-border font-semibold">
                 {Math.round(progressValue)}%
               </Badge>
             </div>
             <Progress 
               value={progressValue} 
-              indicatorClassName="bg-[#037A6B]" 
-              className="bg-slate-100 h-1.5"
+              indicatorClassName="bg-primary" 
+              className="bg-muted h-1.5"
               aria-label="Onboarding progress" 
             />
           </div>
@@ -316,61 +328,237 @@ export function OnboardingWizard() {
           </div>
         )}
 
-        {/* Scrollable Main Form Content */}
-        <div className="flex-1 overflow-y-auto pr-1.5 custom-scrollbar min-h-0 py-1 space-y-4">
-          {/* Active Step Panel */}
-          <div
-            key={`${step}-${direction}`}
-            className={cn(
-              "flex-1",
-              direction === "forward"
-                ? "animate-slide-in-right"
-                : "animate-slide-in-left"
-            )}
-          >
-            {step === 1 && (
-              <IncomeObligationsStep
-                values={form}
-                errors={errors}
-                onChange={updateField}
-                onEmailBlur={handleEmailBlur}
-              />
-            )}
-            {step === 2 && (
-              <SavingsSnapshotStep
-                values={form}
-                errors={errors}
-                onChange={updateField}
-                onSavingsChange={triggerSavingsChange}
-              />
-            )}
-            {step === 3 && (
-              <GoalsTaxStep
-                values={form}
-                errors={errors}
-                onChange={updateField}
-              />
+        {/* Scrollable Main Form Content with Sidebar */}
+        <div className="flex-1 flex flex-col md:flex-row gap-6 min-h-0">
+          {/* Left Column: Form Content */}
+          <div className="flex-1 overflow-y-auto pr-1.5 custom-scrollbar min-h-0 py-1 space-y-4">
+            <div
+              key={`${step}-${direction}`}
+              className={cn(
+                "flex-1",
+                direction === "forward"
+                  ? "animate-slide-in-right"
+                  : "animate-slide-in-left"
+              )}
+            >
+              {step === 1 && (
+                <IncomeObligationsStep
+                  values={form}
+                  errors={errors}
+                  onChange={updateField}
+                  onEmailBlur={handleEmailBlur}
+                />
+              )}
+              {step === 2 && (
+                <SavingsSnapshotStep
+                  values={form}
+                  errors={errors}
+                  onChange={updateField}
+                  onSavingsChange={triggerSavingsChange}
+                />
+              )}
+              {step === 3 && (
+                <GoalsTaxStep
+                  values={form}
+                  errors={errors}
+                  onChange={updateField}
+                />
+              )}
+            </div>
+
+            {submitError && (
+              <div
+                className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+                role="alert"
+              >
+                {submitError}
+              </div>
             )}
           </div>
 
-          {submitError && (
-            <div
-              className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
-              role="alert"
-            >
-              {submitError}
+          {/* Right Column: Live Preview Card Sidebar */}
+          <div className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-border/80 pt-4 md:pt-0 md:pl-6 flex flex-col gap-4 justify-between bg-muted/5 p-4 rounded-2xl overflow-y-auto custom-scrollbar">
+            <div className="space-y-4">
+              <div className="flex items-center gap-1.5">
+                <h4 className="font-header font-bold text-xs uppercase tracking-wider text-luxe-bronze">
+                  Live Plan Preview
+                </h4>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              
+              {step === 1 && (
+                <div className="space-y-4 animate-in fade-in duration-200">
+                  <div>
+                    <h5 className="font-header font-bold text-xs text-foreground">
+                      The 50/30/20 Rule
+                    </h5>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-normal font-sans">
+                      What it means: A simple, structured budgeting blueprint used to divide your monthly take-home income into three clear categories.
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-normal font-sans">
+                      How it's calculated: The app takes your total monthly net income and splits it mathematically: exactly 50% for essential living needs, 30% for personal wants, and 20% directed straight into savings.
+                    </p>
+                  </div>
+
+                  <div className="border-t border-border/60 pt-3 space-y-2">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                      Estimated Monthly Split
+                    </span>
+                    {form.annualGrossSalary > 0 ? (
+                      (() => {
+                        const monthlyIncome = Math.round(form.annualGrossSalary / 12);
+                        const needs = Math.round(monthlyIncome * 0.5);
+                        const wants = Math.round(monthlyIncome * 0.3);
+                        const savings = Math.round(monthlyIncome * 0.2);
+                        return (
+                          <div className="space-y-2">
+                            <div className="flex justify-between items-baseline text-xs font-semibold">
+                              <span className="text-muted-foreground">Monthly Share:</span>
+                              <span className="text-foreground font-bold">₹{monthlyIncome.toLocaleString("en-IN")}</span>
+                            </div>
+                            
+                            {/* Stacked Progress Bar */}
+                            <div className="h-3 w-full rounded-full overflow-hidden flex bg-muted">
+                              <div className="h-full bg-luxe-copper" style={{ width: "50%" }} title="Needs 50%" />
+                              <div className="h-full bg-luxe-bronze opacity-80" style={{ width: "30%" }} title="Wants 30%" />
+                              <div className="h-full bg-emerald-500" style={{ width: "20%" }} title="Savings 20%" />
+                            </div>
+
+                            <div className="space-y-1.5 pt-1">
+                              <div className="flex justify-between text-[10px] leading-none">
+                                <span className="text-luxe-copper font-bold">Needs (50%):</span>
+                                <span className="text-foreground font-semibold">₹{needs.toLocaleString("en-IN")}</span>
+                              </div>
+                              <div className="flex justify-between text-[10px] leading-none">
+                                <span className="text-luxe-bronze font-bold">Wants (30%):</span>
+                                <span className="text-foreground font-semibold">₹{wants.toLocaleString("en-IN")}</span>
+                              </div>
+                              <div className="flex justify-between text-[10px] leading-none">
+                                <span className="text-emerald-600 font-bold">Savings (20%):</span>
+                                <span className="text-foreground font-semibold">₹{savings.toLocaleString("en-IN")}</span>
+                              </div>
+                            </div>
+
+                            <p className="text-[9px] text-muted-foreground leading-normal mt-2 italic">
+                              *Rent commitment: ₹{(form.fixedMonthlyRent || 0).toLocaleString("en-IN")}/mo is categorized under Needs.
+                            </p>
+                          </div>
+                        );
+                      })()
+                    ) : (
+                      <p className="text-xs text-muted-foreground italic">
+                        Input salary on the left to view split metrics.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="space-y-4 animate-in fade-in duration-200">
+                  <div>
+                    <h5 className="font-header font-bold text-xs text-foreground">
+                      Liquidity
+                    </h5>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-normal font-sans">
+                      What it means: How quickly and easily you can convert an asset back into spendable cash without losing its value.
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-normal font-sans">
+                      How it's calculated: The app categorizes your wealth into immediate funds (like savings accounts) and locked funds (like long-term deposits), showing you exactly how much cash is available for instant withdrawal.
+                    </p>
+                  </div>
+
+                  <div className="border-t border-border/60 pt-3 space-y-3">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
+                      Reserves Breakdown
+                    </span>
+                    {(() => {
+                      const liquid = form.liquidSavings || 0;
+                      const locked = (form.fixedDeposits?.reduce((sum, fd) => sum + (fd.principal || 0), 0) || 0) + (form.epfBalance || 0);
+                      const total = liquid + locked + (form.mutualFundValuation || 0);
+                      
+                      const liquidPercent = total > 0 ? Math.round((liquid / total) * 100) : 0;
+                      const lockedPercent = total > 0 ? Math.round((locked / total) * 100) : 0;
+                      const mfPercent = total > 0 ? Math.round(((form.mutualFundValuation || 0) / total) * 100) : 0;
+
+                      return (
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-baseline text-xs font-semibold">
+                            <span className="text-muted-foreground">Total Tracker Reserves:</span>
+                            <span className="text-foreground font-bold">₹{total.toLocaleString("en-IN")}</span>
+                          </div>
+
+                          <div className="h-2.5 w-full rounded-full overflow-hidden flex bg-muted">
+                            <div className="h-full bg-emerald-500" style={{ width: `${liquidPercent}%` }} title="Immediate Cash" />
+                            <div className="h-full bg-luxe-copper" style={{ width: `${mfPercent}%` }} title="Mutual Funds" />
+                            <div className="h-full bg-luxe-bronze" style={{ width: `${lockedPercent}%` }} title="Locked Funds" />
+                          </div>
+
+                          <div className="space-y-1.5 pt-1 text-[10px]">
+                            <div className="flex justify-between items-center">
+                              <span className="text-emerald-600 font-bold">Immediate Cash (Liquid):</span>
+                              <span className="text-foreground font-semibold">₹{liquid.toLocaleString("en-IN")} ({liquidPercent}%)</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-luxe-copper font-bold">Mutual Funds (Market):</span>
+                              <span className="text-foreground font-semibold">₹{(form.mutualFundValuation || 0).toLocaleString("en-IN")} ({mfPercent}%)</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-luxe-bronze font-bold">Locked Funds (EPF + FD):</span>
+                              <span className="text-foreground font-semibold">₹{locked.toLocaleString("en-IN")} ({lockedPercent}%)</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="space-y-4 animate-in fade-in duration-200">
+                  <div>
+                    <h5 className="font-header font-bold text-xs text-foreground">
+                      Asset Value & Tax Optimization
+                    </h5>
+                    <p className="text-[10px] text-muted-foreground mt-1 leading-normal font-sans">
+                      We will use your retirement targets and Section 80C/80D investments to calculate your future wealth growth.
+                    </p>
+                  </div>
+                  
+                  <div className="border-t border-border/60 pt-3 space-y-2">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
+                      Computed Indicators
+                    </span>
+                    <div className="rounded-xl border border-border bg-card p-3 space-y-2 text-[10px]">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Retirement Goal:</span>
+                        <span className="text-foreground font-bold">₹{(form.expectedMonthlyRetirementExpenses * 12 * 25).toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Tax Deductions Declared:</span>
+                        <span className="text-foreground font-bold">₹{((form.ytdSection80C || 0) + (form.ytdSection80D || 0)).toLocaleString("en-IN")}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+
+            <div className="text-[9px] text-muted-foreground leading-snug border-t border-border/40 pt-2 font-sans select-none">
+              This real-time tracker uses literal financial modeling rules to ensure complete transparency.
+            </div>
+          </div>
         </div>
 
         {/* Footer Navigation Buttons */}
-        <div className="flex items-center justify-between border-t border-slate-100 pt-4 shrink-0">
+        <div className="flex items-center justify-between border-t border-border pt-4 shrink-0">
           <Button
             type="button"
             variant="outline"
             onClick={handleBack}
             disabled={step === 1 || isSubmitting}
-            className="border-slate-200 text-slate-700 hover:bg-slate-50 h-9 text-xs rounded-xl font-sans"
+            className="border-border text-foreground hover:bg-muted h-9 text-xs rounded-xl font-sans"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
@@ -382,7 +570,7 @@ export function OnboardingWizard() {
               onClick={handleNext}
               disabled={!isCurrentStepValid}
               className={cn(
-                "bg-[#037A6B] hover:bg-[#026356] text-white font-bold px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 outline-none h-9 text-xs",
+                "bg-primary hover:opacity-90 text-primary-foreground font-bold px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 outline-none h-9 text-xs",
                 !isCurrentStepValid && "opacity-50 pointer-events-none cursor-not-allowed"
               )}
             >
@@ -395,7 +583,7 @@ export function OnboardingWizard() {
               onClick={handleFinalSubmit}
               disabled={isSubmitting || !isCurrentStepValid}
               className={cn(
-                "bg-[#037A6B] hover:bg-[#026356] text-white font-bold px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 outline-none h-9 text-xs",
+                "bg-primary hover:opacity-90 text-primary-foreground font-bold px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 outline-none h-9 text-xs",
                 (!isCurrentStepValid || isSubmitting) && "opacity-50 pointer-events-none cursor-not-allowed"
               )}
             >

@@ -5,6 +5,7 @@ import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { PremiumOptiWealthLogo } from "./PremiumOptiWealthLogo";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function AppHeader() {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
@@ -18,6 +19,7 @@ export function AppHeader() {
         </Link>
 
         <nav className="flex items-center gap-2">
+          <ThemeToggle />
           {!isLoading && isAuthenticated && user ? (
             <>
               <span className="hidden items-center gap-1.5 text-xs text-muted-foreground sm:flex">

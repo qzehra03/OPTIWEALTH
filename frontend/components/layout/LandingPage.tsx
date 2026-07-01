@@ -1,345 +1,655 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { 
-  ArrowRight, 
-  Activity, 
-  PieChart, 
-  TrendingDown, 
-  Coins, 
-  ShieldCheck, 
-  Sliders, 
-  CheckCircle2,
-  Sparkles,
-  ArrowUpRight
-} from "lucide-react";
-import { PremiumOptiWealthLogo } from "./PremiumOptiWealthLogo";
+import dynamic from "next/dynamic";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { useTheme } from "@/components/providers/ThemeProvider";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { TypewriterCard } from "@/components/Pillars/TypewriterCard";
+import { TriangleWall } from "@/components/Timeline/TriangleWall";
+import { ArrowRight, Shield } from "lucide-react";
 
+// ─────────────────────────────────────────────
+// The images are stored in public folder and we will use them as backgrounds.
+// ─────────────────────────────────────────────
+
+// ─────────────────────────────────────────────
+// Decorative gold ribbon separator (thin wavy line)
+// ─────────────────────────────────────────────
+function GoldRibbonSeparator() {
+  return (
+    <div className="w-full flex justify-center py-6 pointer-events-none" aria-hidden>
+      <svg viewBox="0 0 600 60" className="w-full max-w-3xl h-auto opacity-60" fill="none">
+        <path
+          d="M0 30 Q100 10 200 30 Q300 50 400 30 Q500 10 600 30"
+          stroke="url(#sepRib)" strokeWidth="3" strokeLinecap="round"
+        />
+        <defs>
+          <linearGradient id="sepRib" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#8B6914" />
+            <stop offset="0.3" stopColor="#D4AF37" />
+            <stop offset="0.5" stopColor="#F0D060" />
+            <stop offset="0.7" stopColor="#D4AF37" />
+            <stop offset="1"   stopColor="#8B6914" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  );
+}
+
+const SecurityChain = dynamic(
+  () => import("../XRayReveal/SecurityChain").then((m) => m.SecurityChain),
+  { ssr: false }
+);
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// ─────────────────────────────────────────────
+// Four Pillars data
+// ─────────────────────────────────────────────
+const PILLARS = [
+  {
+    icon: "⚡",
+    title: "Agentic Tax Engine",
+    description:
+      "Scans multi-asset portfolios for real-time tax-loss harvesting and optimal tax allocation. Automated. Unbiased. Always on.",
+  },
+  {
+    icon: "🧠",
+    title: "Behavioral Rule Engine",
+    description:
+      "Analyzes spending, saving, and investing patterns to flag cognitive biases and emotional over-reactions before they cost you.",
+  },
+  {
+    icon: "🏛️",
+    title: "Unified Wealth Architecture",
+    description:
+      "Building a single command center for all your assets across accounts, brokerages, and tax wrappers — connected, optimized, governed.",
+  },
+  {
+    icon: "🔮",
+    title: "Predictive Scenario Engine",
+    description:
+      "Monte Carlo probability simulations run across your portfolio to surface risk-weighted outcomes—so every decision is made from data, not instinct.",
+  },
+];
+
+// ─────────────────────────────────────────────
+// Main Landing Page
+// ─────────────────────────────────────────────
 export function LandingPage() {
   const { isAuthenticated } = useAuth();
-  
-  // Hydration safety
-  const [mounted, setMounted] = useState(false);
-  React.useEffect(() => {
-    setMounted(true);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const heroScreen1Ref = useRef<HTMLDivElement>(null);
+  const heroScreen2Ref = useRef<HTMLDivElement>(null);
+
+  const satinBgRef = useRef<HTMLDivElement>(null);
+
+  // GSAP cross-fade: Screen 1 → Screen 2 on scroll
+  useEffect(() => {
+    const s1 = heroScreen1Ref.current;
+    const s2 = heroScreen2Ref.current;
+    if (!s1 || !s2) return;
+
+    gsap.set(s2, { opacity: 0, y: 30 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: s1.closest("section"),
+        start: "top top",
+        end: "+=800", // Fades over the first 800px of scrolling
+        scrub: 0.9,
+      },
+    });
+
+    tl.to(s1, { opacity: 0, y: -50, ease: "power2.inOut" }, 0)
+      .to(s2, { opacity: 1, y: 0,  ease: "power2.inOut" }, 0.25);
+
+    // Subtle pan and scale on satin background for "flowing" effect
+    if (satinBgRef.current) {
+      gsap.to(satinBgRef.current, {
+        scale: 1.15,
+        x: "-2%",
+        y: "2%",
+        duration: 20,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+
+    return () => { tl.kill(); };
   }, []);
 
-  const formatNumber = (num: number) => {
-    return mounted ? num.toLocaleString() : num.toString();
-  };
-
-  // Interactive Sandbox state
-  const [monthlyExpense, setMonthlyExpense] = useState(60000);
-
-  // Dynamic calculations
-  const emergencyFund = monthlyExpense * 6;
-  const dailySpentLimit = Math.round(monthlyExpense / 30);
-  const nestEggGoal = monthlyExpense * 12 * 25; // 25x annual expenses
-
-  // Gauge configurations (micro-scaled 53 score matching mock UI requirements)
-  const radius = 45;
-  const strokeWidth = 8;
-  const circumference = 2 * Math.PI * radius;
-  const score = 53;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
+  // ── Centralised design tokens (dark / light) ──
+  const bg           = isDark ? "#0B1C15" : "#F5F5F0";
+  const sectionBg    = isDark ? "#071410" : "#ECEFE9";
+  const scriptColor  = isDark ? "#D4AF37" : "#B8960E";
+  const headingColor = isDark ? "#FFFFFF" : "#1A2E22";
+  const subColor     = isDark ? "#8FB89A" : "#4F6E56";
+  const cardBg       = isDark ? "rgba(0,0,0,0.3)"   : "rgba(255,255,255,0.5)";
+  const cardBorder   = isDark ? "rgba(212,175,55,0.15)" : "rgba(184,150,14,0.2)";
+  const quoteBorder  = isDark ? "#D4AF37" : "#B8960E";
+  const quoteText    = isDark ? "#D4AF37" : "#B8960E";
+  const headerBg     = isDark ? "rgba(11,28,21,0.85)"   : "rgba(245,245,240,0.85)";
+  const headerBorder = isDark ? "rgba(212,175,55,0.10)" : "rgba(184,150,14,0.15)";
+  const navText      = isDark ? "#8FB89A" : "#5A7E64";
+  const navHover     = isDark ? "#D4AF37" : "#B8960E";
+  const vignette     = isDark
+    ? "radial-gradient(ellipse 70% 70% at 50% 50%,transparent 20%,rgba(11,28,21,0.65) 100%)"
+    : "radial-gradient(ellipse 70% 70% at 50% 50%,transparent 20%,rgba(242,239,231,0.45) 100%)";
 
   return (
-    <div className="min-h-screen bg-slate-50/30 text-slate-900 font-sans flex flex-col justify-between selection:bg-[#E6F7F0] selection:text-[#037A6B]">
-      
-      {/* 2. Frosted Sticky Navigation Bar */}
-      <header className="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 flex justify-between items-center transition-all duration-300">
-        <Link href="/" className="flex items-center gap-2.5 outline-none group">
-          <PremiumOptiWealthLogo className="h-8 w-8 text-finance-deep shrink-0 transition-transform duration-300 group-hover:rotate-12" />
-          <span className="font-header antialiased tracking-tight text-xl text-slate-900 font-bold">
-            OptiWealth
-          </span>
-        </Link>
+    <>
+      <style>{`
+        @keyframes breathScale {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.05); }
+        }
+      `}</style>
 
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-650">
-          <a href="#features" className="hover:text-[#037A6B] transition-colors">Features</a>
-          <a href="#sandbox" className="hover:text-[#037A6B] transition-colors">Interactive Sandbox</a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#037A6B] transition-colors">Documentation</a>
-        </nav>
+      <div className="relative w-full overflow-x-clip" style={{ backgroundColor: bg }}>
 
-        {/* Auth Actions */}
-        <div className="flex items-center gap-4">
-          <Link 
-            href={isAuthenticated ? "/dashboard" : "/login"}
-            className="bg-[#037A6B] hover:bg-[#026356] text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm shadow-[#037A6B]/10 hover:shadow-md flex items-center gap-1.5"
-          >
-            {isAuthenticated ? "Launch Dashboard" : "Enter App"}
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </header>
-
-      {/* 3. Typography-Driven Hero Section */}
-      <main className="flex-1">
-        <section 
-          className="relative py-20 md:py-28 overflow-hidden flex flex-col items-center justify-center border-b border-slate-100"
-          style={{ 
-            backgroundImage: "linear-gradient(to right, #f1f5f9 1px, transparent 1px), linear-gradient(to bottom, #f1f5f9 1px, transparent 1px)", 
-            backgroundSize: "24px 24px" 
-          }}
+        {/* ══════════════════════════════════════════════ */}
+        {/* STICKY NAV                                     */}
+        {/* ══════════════════════════════════════════════ */}
+        <header
+          className="fixed top-0 w-full z-50 backdrop-blur-md border-b"
+          style={{ backgroundColor: headerBg, borderColor: headerBorder }}
         >
-          {/* Subtle Ambient Glows */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-finance-mint/20 rounded-full blur-3xl -z-10" />
-          <div className="absolute bottom-10 right-10 w-[300px] h-[300px] bg-emerald-50/30 rounded-full blur-2xl -z-10" />
-
-          {/* Hero Core Content */}
-          <div className="max-w-5xl mx-auto px-6 flex flex-col items-center text-center space-y-6">
-            <div className="text-[10px] font-bold tracking-widest text-[#037A6B] bg-[#E6F7F0] px-3 py-1 rounded-full uppercase font-header">
-              💸 ADDICTED TO IMPULSE DROPS?
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 font-header max-w-4xl mx-auto leading-none">
-              Stop aimlessly draining your wallet. <span className="text-[#037A6B]">Track the fun. Lock the wealth.</span>
-            </h1>
-            
-            <p className="text-sm md:text-base font-medium text-slate-500 max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
-              OptiWealth doesn’t tell you to stop spending on weekend concert tickets or late-night food deliveries. We just give you an automated psychological buffer system that protects your true financial freedom runway behind the scenes before you click buy.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-              <Link 
-                href="/onboard"
-                className="bg-[#037A6B] hover:bg-[#026356] text-white font-semibold px-8 py-3.5 rounded-xl transition-all shadow-md flex items-center gap-2"
+          <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-7 h-7 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center">
+                <span className="text-[#D4AF37] text-xs font-bold">OW</span>
+              </div>
+              <span
+                className="text-sm font-bold tracking-widest uppercase"
+                style={{ color: headingColor }}
               >
-                Fix My Wallet ➔
-              </Link>
-              <Link 
-                href="/login"
-                className="border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium px-6 py-3.5 rounded-xl transition-all"
+                OptiWealth
+              </span>
+            </Link>
+
+            {/* Nav links */}
+            <nav className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.18em]">
+              {[
+                ["Problem",       "#problem"],
+                ["Four Pillars",  "#pillars"],
+                ["Feature Wall",  "#rule-wall"],
+                ["Security",      "#security"],
+                ["About",         "#about"],
+              ].map(([label, href]) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="transition-colors duration-200"
+                  style={{ color: navText }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = navHover)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = navText)}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-3">
+              {/* Theme toggle */}
+              <ThemeToggle />
+              {/* CTA */}
+              <Link
+                href={isAuthenticated ? "/dashboard" : "/onboard"}
+                className="flex items-center gap-1.5 px-5 py-2 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 shadow-md"
               >
-                Sign In
+                {isAuthenticated ? "Dashboard" : "Get Started"} <ArrowRight className="h-3 w-3"/>
               </Link>
             </div>
           </div>
+        </header>
 
-          {/* Interactive Mock UI Block */}
-          <div className="max-w-4xl w-full mx-auto px-6 mt-16 relative">
-            <div className="bg-white/80 backdrop-blur-md border border-slate-100 shadow-xl rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-8 max-w-2xl mx-auto">
-              
-              {/* Left Side: Micro-scaled Score Gauge */}
-              <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-slate-50/50 border border-slate-100 shadow-sm shrink-0 w-full sm:w-auto">
-                <div className="relative w-28 h-28 flex items-center justify-center">
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 110 110">
-                    <circle
-                      cx="55"
-                      cy="55"
-                      r={radius}
-                      className="stroke-slate-100"
-                      strokeWidth={strokeWidth}
-                      fill="transparent"
-                    />
-                    <circle
-                      cx="55"
-                      cy="55"
-                      r={radius}
-                      className="stroke-amber-500 transition-all duration-1000 ease-in-out"
-                      strokeWidth={strokeWidth}
-                      strokeDasharray={circumference}
-                      strokeDashoffset={strokeDashoffset}
-                      strokeLinecap="round"
-                      fill="transparent"
-                    />
-                  </svg>
-                  <div className="absolute flex flex-col items-center justify-center text-center">
-                    <span className="text-3xl font-extrabold tracking-tight font-sans text-slate-900">53</span>
-                    <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider font-header mt-0.5">
-                      FAIR
-                    </span>
-                  </div>
-                </div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-4">
-                  Financial Health Index
-                </span>
-              </div>
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 1: HERO — Animated Satin Canvas          */}
+        {/* Screen 1 → Screen 2 dissolve on scroll        */}
+        {/* ══════════════════════════════════════════════ */}
+        <section
+          className="relative h-[250vh]"
+          style={{ backgroundColor: bg }}
+        >
+          <div className="sticky top-0 h-screen w-full overflow-hidden">
 
-              {/* Right Side: 4x1 Stack Frame */}
-              <div className="flex-1 w-full space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100/80 bg-white/50 shadow-sm whitespace-nowrap">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">SAVINGS RATE</span>
-                  <span className="text-sm font-bold text-[#037A6B] font-sans">40.37%</span>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100/80 bg-white/50 shadow-sm whitespace-nowrap">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">EMERGENCY BUFFER</span>
-                  <span className="text-sm font-bold text-slate-700 font-sans">2.01 mo</span>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100/80 bg-white/50 shadow-sm whitespace-nowrap">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">DEBT-TO-INCOME</span>
-                  <span className="text-sm font-bold text-slate-700 font-sans">28.5%</span>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100/80 bg-white/50 shadow-sm whitespace-nowrap">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">EXPENSE RATIO</span>
-                  <span className="text-sm font-bold text-amber-500 font-sans">59.63%</span>
+            {/* Full-viewport satin background from image */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div 
+                ref={satinBgRef}
+                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out" 
+                style={{ 
+                  backgroundImage: `url('${isDark ? '/bg-satin-dark.png' : '/bg-satin-light.png'}')`,
+                  transformOrigin: "center center",
+                }} 
+              />
+            </div>
+
+            {/* Vignette */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: vignette }}
+            />
+
+            {/* ── Screen 1: Hero CTA ── */}
+            <div
+              ref={heroScreen1Ref}
+              className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10 pt-16"
+            >
+              <div className="max-w-4xl mx-auto space-y-6">
+                <p
+                  className="font-script text-5xl md:text-7xl leading-none drop-shadow-lg"
+                  style={{ color: scriptColor }}
+                >
+                  The Future Of Wealth Intelligence
+                </p>
+
+                <h1
+                  className="text-2xl md:text-4xl font-serif font-medium leading-tight tracking-tight uppercase"
+                  style={{ color: headingColor }}
+                >
+                  MAXIMIZE NET RETURNS.{" "}
+                  <span className="text-[#D4AF37]">MINIMIZE TAX DRAG,</span>{" "}
+                  AUTOMATICALLY.
+                </h1>
+
+                <p className="text-base max-w-2xl mx-auto leading-relaxed mt-4" style={{ color: subColor }}>
+                  OptiWealth combines agentic AI-driven tax optimizations with behavioral
+                  finance engines to safeguard and grow your wealth—automatically, on the rails.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center pt-2">
+                  <Link
+                    href="/onboard"
+                    className="group flex items-center gap-2 px-8 py-3.5 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] font-bold rounded-2xl transition-all duration-300 text-sm tracking-wide shadow-lg shadow-[#D4AF37]/25 hover:-translate-y-0.5"
+                  >
+                    Launch OptiWealth Beta →
+                  </Link>
+                  <Link
+                    href={isAuthenticated ? "/dashboard" : "/login"}
+                    className="flex items-center gap-2 px-8 py-3.5 font-semibold rounded-2xl transition-all duration-300 text-sm"
+                    style={{
+                      border: `1px solid ${isDark ? "rgba(212,175,55,0.30)" : "rgba(184,150,14,0.30)"}`,
+                      color: headingColor,
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.60)" : "rgba(184,150,14,0.60)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.30)" : "rgba(184,150,14,0.30)")}
+                  >
+                    Enter the App →
+                  </Link>
                 </div>
               </div>
             </div>
+
+            {/* ── Screen 2: Problem Statement — Malachite Marble ── */}
+            <div
+              id="problem"
+              ref={heroScreen2Ref}
+              className="absolute inset-0 z-10"
+            >
+              {/* Problem section background from image (marble with branches) */}
+              <div className="absolute inset-0 overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out"
+                  style={{
+                    backgroundImage: `url('${isDark ? '/bg-marble-dark.png' : '/bg-marble-light.png'}')`,
+                    animation: "breathScale 15s ease-in-out infinite alternate"
+                  }}
+                />
+              </div>
+
+              <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 pt-16">
+                <div className="max-w-3xl mx-auto space-y-7">
+                  <p
+                    className="font-script text-5xl md:text-7xl leading-none drop-shadow-md"
+                    style={{ color: scriptColor }}
+                  >
+                    Problem we solve
+                  </p>
+
+                  <h2
+                    className="text-2xl md:text-4xl font-serif font-medium leading-tight tracking-tight uppercase"
+                    style={{ color: headingColor }}
+                  >
+                    YOUR WEALTH IS LEAKING.{" "}
+                    <span style={{ color: "#D4AF37" }}>TRADITIONAL APPS ONLY TRACK IT</span>
+                    —OPTIWEALTH OPTIMIZES IT.
+                  </h2>
+
+                  <div
+                    className="p-6 rounded-2xl backdrop-blur-sm text-left space-y-5"
+                    style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
+                  >
+                    <blockquote
+                      className="border-l-2 pl-4 italic text-sm md:text-base leading-relaxed"
+                      style={{ borderColor: quoteBorder, color: quoteText }}
+                    >
+                      &ldquo;It&rsquo;s not just about how much your portfolio grows. It&rsquo;s
+                      about how much you actually keep after inflation, taxes, and behavioral
+                      missteps.&rdquo;
+                    </blockquote>
+
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <p className="text-xs font-bold uppercase tracking-widest" style={{ color: headingColor }}>
+                          · The Hidden Cost of Tax Drag
+                        </p>
+                        <p className="text-xs leading-relaxed" style={{ color: subColor }}>
+                          Poor tax timing silently erodes 1–2% of portfolio value annually. Over
+                          20 years, that gap equals the difference between freedom and falling short.
+                        </p>
+                      </div>
+                      <div className="space-y-1.5">
+                        <p className="text-xs font-bold uppercase tracking-widest" style={{ color: headingColor }}>
+                          · The Behavioral Gap
+                        </p>
+                        <p className="text-xs leading-relaxed" style={{ color: subColor }}>
+                          Dalbar studies show investors underperform their own funds by 3–4%
+                          annually from emotional timing errors alone. The behavioral engine closes
+                          this gap.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
-        {/* 4. Core Feature Matrix Grid */}
-        <section id="features" className="py-24 bg-white">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight font-header max-w-3xl mx-auto text-center">
-                Built to protect you from <span className="text-[#037A6B]">your own spending habits</span>.
-              </h2>
-              <p className="text-sm md:text-base text-slate-500 font-medium max-w-xl mx-auto text-center mt-3 font-sans">
-                Four rule-based automated frameworks designed to instantly intercept aimless wallet drainage and calculate your true path to freedom.
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 2: FOUR PILLARS — Single Diagonal Ribbon */}
+        {/* ══════════════════════════════════════════════ */}
+        <section
+          id="pillars"
+          className="relative w-full py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: sectionBg }}
+        >
+          {/* Four Pillars Background image (single diagonal ribbon) */}
+          <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
+            <div 
+              className="absolute w-[110%] h-[110%] bg-cover bg-center transition-all duration-700 ease-in-out"
+              style={{
+                backgroundImage: `url('${isDark ? '/bg-ribbon-dark.png' : '/bg-ribbon-light.png'}')`,
+                animation: "panScale 20s ease-in-out infinite alternate"
+              }}
+            />
+          </div>
+
+          {/* Subtle dot grid */}
+          <div
+            className="absolute inset-0 opacity-[0.04] pointer-events-none"
+            style={{
+              backgroundImage: `linear-gradient(to right,${isDark ? "#D4AF37" : "#B8960E"} 1px,transparent 1px),linear-gradient(to bottom,${isDark ? "#D4AF37" : "#B8960E"} 1px,transparent 1px)`,
+              backgroundSize: "60px 60px",
+            }}
+          />
+
+          <div className="relative z-10 max-w-6xl mx-auto space-y-14">
+            <div className="text-center space-y-2 mb-10 md:mb-0">
+              <p
+                className="font-script text-5xl md:text-6xl leading-none drop-shadow-md"
+                style={{ color: scriptColor }}
+              >
+                Four Pillars of Capital Independence
+              </p>
+              <GoldRibbonSeparator />
+              <p className="text-sm max-w-xl mx-auto" style={{ color: subColor }}>
+                Each layer runs autonomously, executes decisions on your behalf, and
+                communicates with the others—24/7, without friction.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              
-              {/* Card 1: Impulse Control */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-start text-left">
-                <div className="h-12 w-12 rounded-2xl bg-[#E6F7F0] text-[#037A6B] flex items-center justify-center">
-                  <Activity className="h-6 w-6" />
-                </div>
-                <h3 className="text-slate-900 font-bold font-header text-lg mb-2 mt-4">30-Day Impulse Cooling Vault</h3>
-                <p className="text-slate-500 font-medium text-xs leading-relaxed font-sans">
-                  Stop blowing cash on late-night impulse drops. Lock your wants inside an automated cooling loop that enforces a psychological delay countdown before you can click buy.
-                </p>
+            <div className="relative md:h-[600px] flex flex-col md:block gap-5 mt-10">
+              <div className="md:absolute md:top-[0%] md:left-[2%] md:w-[320px] lg:w-[350px]">
+                <TypewriterCard
+                  index={0}
+                  icon={PILLARS[0].icon}
+                  title={PILLARS[0].title}
+                  description={PILLARS[0].description}
+                  darkMode={isDark}
+                />
               </div>
-
-              {/* Card 2: Compounding Budgeting */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-start text-left">
-                <div className="h-12 w-12 rounded-2xl bg-[#E6F7F0] text-[#037A6B] flex items-center justify-center">
-                  <PieChart className="h-6 w-6" />
-                </div>
-                <h3 className="text-slate-900 font-bold font-header text-lg mb-2 mt-4">The Guilt-Free 50/30/20 Rule</h3>
-                <p className="text-slate-500 font-medium text-xs leading-relaxed font-sans">
-                  No tedious line-item expense tracking. Split your pay instantly to secure your fixed bills and compounding savings baseline, leaving your discretionary cash 100% free to spend.
-                </p>
+              <div className="md:absolute md:top-[12%] md:right-[2%] md:w-[320px] lg:w-[350px]">
+                <TypewriterCard
+                  index={2}
+                  icon={PILLARS[2].icon}
+                  title={PILLARS[2].title}
+                  description={PILLARS[2].description}
+                  darkMode={isDark}
+                />
               </div>
-
-              {/* Card 3: Vehicle Affordability */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-start text-left">
-                <div className="h-12 w-12 rounded-2xl bg-[#E6F7F0] text-[#037A6B] flex items-center justify-center">
-                  <TrendingDown className="h-6 w-6" />
-                </div>
-                <h3 className="text-slate-900 font-bold font-header text-lg mb-2 mt-4">The 20/4/10 Car Check</h3>
-                <p className="text-slate-500 font-medium text-xs leading-relaxed font-sans">
-                  Before you commit to a car loan that suffocates your income for years, run our strict multi-variable evaluation engine to check if that premium ride safely matches your cash flow.
-                </p>
+              <div className="md:absolute md:bottom-[0%] md:left-[25%] md:w-[320px] lg:w-[350px]">
+                <TypewriterCard
+                  index={3}
+                  icon={PILLARS[3].icon}
+                  title={PILLARS[3].title}
+                  description={PILLARS[3].description}
+                  darkMode={isDark}
+                />
               </div>
-
-              {/* Card 4: Retirement Target */}
-              <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-start text-left">
-                <div className="h-12 w-12 rounded-2xl bg-[#E6F7F0] text-[#037A6B] flex items-center justify-center">
-                  <Coins className="h-6 w-6" />
-                </div>
-                <h3 className="text-slate-900 font-bold font-header text-lg mb-2 mt-4">The 25x True Freedom Multiplier</h3>
-                <p className="text-slate-500 font-medium text-xs leading-relaxed font-sans">
-                  Stop guessing. Input your desired monthly lifestyle budget to instantly calculate your precise nest-egg destination number using empirical safe withdrawal rules.
-                </p>
+              <div className="md:absolute md:bottom-[15%] md:right-[15%] md:w-[320px] lg:w-[350px]">
+                <TypewriterCard
+                  index={1}
+                  icon={PILLARS[1].icon}
+                  title={PILLARS[1].title}
+                  description={PILLARS[1].description}
+                  darkMode={isDark}
+                />
               </div>
-
             </div>
           </div>
         </section>
 
-        {/* 5. Call-To-Action Sandbox Footer */}
-        <section id="sandbox" className="py-20 bg-slate-50/50 border-t border-slate-100">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="bg-[#E6F7F0]/40 rounded-[32px] p-8 sm:p-12 text-center border border-[#E6F7F0] space-y-8 relative overflow-hidden">
-              <div className="absolute -top-12 -left-12 w-48 h-48 bg-finance-mint/30 rounded-full blur-2xl -z-10" />
-              
-              <div className="space-y-3 max-w-2xl mx-auto">
-                <h2 className="text-3xl sm:text-4xl font-extrabold font-header text-slate-900 tracking-tight leading-tight">
-                  Ready for absolute liquidity optimization?
-                </h2>
-                <p className="text-slate-500 text-sm sm:text-base font-sans">
-                  Drag the target monthly expense slider below to model your financial metrics in real time.
-                </p>
-              </div>
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 3: TRIANGLE RULE WALL — asymmetric mosaic */}
+        {/* ══════════════════════════════════════════════ */}
+        <TriangleWall />
 
-              {/* Slider Panel */}
-              <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-6 max-w-2xl mx-auto space-y-6">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="font-semibold text-slate-500 flex items-center gap-1.5 font-header">
-                      <Sliders className="h-4 w-4 text-[#037A6B]" />
-                      TARGET MONTHLY BUDGET
-                    </span>
-                    <span className="text-xl font-bold font-sans text-slate-900">
-                      ₹{formatNumber(monthlyExpense)}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="15000"
-                    max="300000"
-                    step="5000"
-                    value={monthlyExpense}
-                    onChange={(e) => setMonthlyExpense(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#037A6B]"
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 4: SECURITY & TRUST                     */}
+        {/* ══════════════════════════════════════════════ */}
+        <SecurityChain />
+
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 5: ABOUT OPTIWEALTH (NEW)               */}
+        {/* ══════════════════════════════════════════════ */}
+        <section
+          id="about"
+          className="relative w-full py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: bg }}
+        >
+          {/* Faint marble vein layer for texture continuity using the image */}
+          <div className="absolute inset-0 pointer-events-none opacity-25">
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url('${isDark ? '/bg-marble-dark.png' : '/bg-marble-light.png'}')`
+              }}
+            />
+          </div>
+
+          <div className="relative z-10 max-w-6xl mx-auto space-y-16">
+            <div className="text-center space-y-4">
+              <p
+                className="font-script text-5xl md:text-6xl leading-none"
+                style={{ color: scriptColor }}
+              >
+                About OptiWealth
+              </p>
+              <p className="text-sm max-w-xl mx-auto" style={{ color: subColor }}>
+                The philosophy, methodology, and principles behind every algorithm we run.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: "✦",
+                  title: "Engineered Wealth.\nNot Hoped For.",
+                  body: "OptiWealth was conceived to bridge the gap between institutional-grade capital management and the everyday investor. We believe wealth is not luck — it is a system.",
+                },
+                {
+                  icon: "✦",
+                  title: "Rules-Based.\nBias-Free.",
+                  body: "Every decision OptiWealth makes is governed by strict mathematical models: the same frameworks employed by quant funds, hedge desks, and endowments — now available to you.",
+                },
+                {
+                  icon: "✦",
+                  title: "Transparent\nby Design.",
+                  body: "Non-custodial. Zero-knowledge. Fully auditable. We will never hold your funds or obscure our logic. You see everything. You control everything.",
+                },
+              ].map((card) => (
+                <div
+                  key={card.title}
+                  className="p-8 rounded-2xl backdrop-blur-sm space-y-5 group hover:-translate-y-1 transition-all duration-500"
+                  style={{
+                    border: `1px solid ${cardBorder}`,
+                    backgroundColor: isDark ? "rgba(13,43,30,0.6)" : "rgba(255,255,255,0.6)",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.40)" : "rgba(184,150,14,0.40)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = cardBorder)}
+                >
+                  <div className="text-3xl" style={{ color: scriptColor }}>{card.icon}</div>
+                  <h3
+                    className="text-lg font-black uppercase tracking-tight whitespace-pre-line font-display"
+                    style={{ color: headingColor }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: subColor }}>{card.body}</p>
+                  {/* Animated underline reveal on hover */}
+                  <div
+                    className="h-[1px] w-0 group-hover:w-full transition-all duration-700"
+                    style={{
+                      background: `linear-gradient(to right, transparent, ${isDark ? "#D4AF37" : "#B8960E"}, transparent)`,
+                    }}
                   />
                 </div>
-
-                {/* Simulated Outputs */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
-                  <div className="text-left p-4 rounded-xl bg-slate-50/50 border border-slate-100">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-header">
-                      6-Mo Emergency Buffer
-                    </span>
-                    <p className="text-lg font-bold font-sans text-slate-800 mt-1">
-                      ₹{formatNumber(emergencyFund)}
-                    </p>
-                  </div>
-                  <div className="text-left p-4 rounded-xl bg-slate-50/50 border border-slate-100">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-header">
-                      Daily Velocity Cap
-                    </span>
-                    <p className="text-lg font-bold font-sans text-slate-800 mt-1">
-                      ₹{formatNumber(dailySpentLimit)}
-                    </p>
-                  </div>
-                  <div className="text-left p-4 rounded-xl bg-[#E6F7F0]/30 border border-[#E6F7F0] hover:border-[#037A6B]/30 transition-colors">
-                    <span className="text-[10px] font-bold text-[#037A6B] uppercase tracking-wider font-header">
-                      Nest-Egg Target (25x)
-                    </span>
-                    <p className="text-lg font-bold font-sans text-[#037A6B] mt-1">
-                      ₹{formatNumber(nestEggGoal)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom CTA */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-                <Link 
-                  href="/onboard"
-                  className="bg-[#037A6B] hover:bg-[#026356] text-white px-8 py-3.5 rounded-xl font-bold text-base transition-all shadow-md shadow-[#037A6B]/15"
-                >
-                  Optimize My Capital
-                </Link>
-              </div>
+              ))}
             </div>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-100 bg-white py-12 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <PremiumOptiWealthLogo className="h-6 w-6 text-slate-400" />
-            <span className="text-sm font-semibold font-header text-slate-500">OptiWealth © 2026. All rights reserved.</span>
+        {/* ══════════════════════════════════════════════ */}
+        {/* PHASE 6: FOOTER OUTRO                         */}
+        {/* ══════════════════════════════════════════════ */}
+        <footer
+          className="relative w-full overflow-hidden"
+          style={{ backgroundColor: isDark ? "#060E0A" : "#E3E6E0" }}
+        >
+          {/* Re-emerging satin canvas image at low opacity */}
+          <div className="absolute inset-0 opacity-[0.25] pointer-events-none">
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url('${isDark ? '/bg-satin-dark.png' : '/bg-satin-light.png'}')`
+              }}
+            />
           </div>
-          <div className="flex items-center gap-6 text-xs font-semibold text-slate-400">
-            <span className="flex items-center gap-1"><ShieldCheck className="h-4 w-4" /> Bank-grade encryption</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-          </div>
-        </div>
-      </footer>
 
-    </div>
+          <div
+            className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none z-10"
+            style={{
+              background: `linear-gradient(to top, ${isDark ? "#060E0A" : "#E3E6E0"}, transparent)`,
+            }}
+          />
+
+          <div className="relative z-20 max-w-6xl mx-auto px-6 pt-24 pb-16 space-y-14">
+            {/* Closing CTA */}
+            <div className="text-center space-y-6 max-w-2xl mx-auto">
+              <p
+                className="font-script text-4xl md:text-5xl leading-none"
+                style={{ color: scriptColor }}
+              >
+                Take Command of Your Wealth Architecture.
+              </p>
+              <p className="text-sm leading-relaxed max-w-lg mx-auto" style={{ color: subColor }}>
+                Join the early access cohort. OptiWealth is built for individuals who understand
+                that wealth is engineered, not hoped for.
+              </p>
+              <Link
+                href="/onboard"
+                className="inline-flex items-center gap-2 px-10 py-3.5 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] font-bold rounded-2xl text-sm tracking-wide transition-all duration-300 shadow-lg shadow-[#D4AF37]/20 hover:-translate-y-0.5"
+              >
+                Request Early Access <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div
+              className="border-t"
+              style={{ borderColor: isDark ? "rgba(212,175,55,0.10)" : "rgba(184,150,14,0.15)" }}
+            />
+
+            {/* Institutional links */}
+            <div
+              className="grid grid-cols-2 md:grid-cols-5 gap-8 text-[11px]"
+              style={{ color: isDark ? "#3A5E47" : "#5A7A62" }}
+            >
+              {[
+                { label: "Technology",   links: ["AI Engine", "Infrastructure", "API Docs", "Open Source"]       },
+                { label: "Security",     links: ["AES-256", "Non-Custodial", "Zero-Knowledge", "Audits"]         },
+                { label: "Protocols",    links: ["50/30/20", "4% Rule", "Rule of 72", "EMI Limits"]              },
+                { label: "Disclaimers",  links: ["Risk Notice", "Simulation Only", "Not Financial Advice", "Regulatory"] },
+                { label: "Company",      links: ["About", "Careers", "Privacy Charter", "Terms"]                 },
+              ].map((s) => (
+                <div key={s.label} className="space-y-3">
+                  <h4
+                    className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]"
+                    style={{ color: isDark ? "#6A9B7A" : "#4A7A5A" }}
+                  >
+                    {s.label}
+                  </h4>
+                  <ul className="space-y-2">
+                    {s.links.map((l) => (
+                      <li key={l}>
+                        <a
+                          href="#"
+                          className="hover:text-[#D4AF37] transition-colors duration-200"
+                        >
+                          {l}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Legal bar */}
+            <div
+              className="border-t pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[10px]"
+              style={{
+                borderColor: isDark ? "rgba(212,175,55,0.05)" : "rgba(184,150,14,0.10)",
+                color: isDark ? "#2A4A37" : "#4A6A52",
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <Shield className="h-3 w-3 text-[#D4AF37]/60" />
+                <span>OptiWealth Technologies Inc. — Simulation Engine Only</span>
+              </div>
+              <p>
+                © 2026 OptiWealth. All calculations are for educational modeling purposes only.
+                Not a registered investment advisor.
+              </p>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </>
   );
 }

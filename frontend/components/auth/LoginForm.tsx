@@ -8,6 +8,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { loginUser } from "@/lib/api";
 import { loginSchema } from "@/lib/validations/auth";
 import { PremiumOptiWealthLogo } from "@/components/layout/PremiumOptiWealthLogo";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import type { ApiError } from "@/lib/types";
 import type { ZodError } from "zod";
 
@@ -162,7 +163,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-tr from-white via-slate-50 to-[#E6F7F0]/40 relative overflow-hidden flex items-center justify-center p-4 md:p-8 font-sans antialiased">
+    <div className="min-h-screen w-full bg-gradient-to-tr from-background via-background/95 to-luxe-copper/10 dark:to-luxe-emerald/5 relative overflow-hidden flex items-center justify-center p-4 md:p-8 font-sans antialiased">
       
       {/* Dynamic Background Canvas */}
       <canvas 
@@ -174,26 +175,29 @@ export function LoginForm() {
       <div className="fintech-grid opacity-20 pointer-events-none absolute inset-0 z-10" />
 
       {/* Centered Interlocking Dual-Pane Container */}
-      <div className="z-20 flex flex-col md:flex-row max-w-4xl w-full rounded-3xl overflow-hidden animate-fade-in-up border border-slate-200/60 shadow-xl bg-white">
+      <div className="z-20 flex flex-col md:flex-row max-w-4xl w-full rounded-3xl overflow-hidden animate-fade-in-up border border-border shadow-xl bg-card text-foreground">
         
         {/* Left Control Panel (Sign-In Fields) */}
-        <div className="w-full md:w-1/2 bg-white p-8 md:p-10 flex flex-col justify-between">
+        <div className="w-full md:w-1/2 bg-card p-8 md:p-10 flex flex-col justify-between">
           
           {/* Brand Header Row */}
-          <div className="flex items-center gap-2.5">
-            <PremiumOptiWealthLogo className="h-7 w-7 text-finance-deep shrink-0" />
-            <span className="font-header font-bold text-xl tracking-tight text-slate-900">
-              OptiWealth
-            </span>
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2.5">
+              <PremiumOptiWealthLogo className="h-7 w-7 text-luxe-copper dark:text-luxe-emerald shrink-0" />
+              <span className="font-header font-bold text-xl tracking-tight text-foreground">
+                OptiWealth
+              </span>
+            </div>
+            <ThemeToggle />
           </div>
 
           {/* Center Login Form Wrapper */}
           <div className="my-auto py-8 space-y-6">
             <div className="space-y-1">
-              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 font-header mb-1">
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground font-header mb-1">
                 Welcome back
               </h2>
-              <p className="text-sm text-slate-500 font-sans mb-6">
+              <p className="text-sm text-muted-foreground font-sans mb-6">
                 Sign in to your OptiWealth dashboard
               </p>
             </div>
@@ -201,7 +205,7 @@ export function LoginForm() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Field */}
               <div className="space-y-1.5">
-                <label htmlFor="login-email" className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">
+                <label htmlFor="login-email" className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-header">
                   Email Address
                 </label>
                 <input
@@ -209,7 +213,7 @@ export function LoginForm() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] transition-all text-sm font-sans text-slate-700 outline-none"
+                  className="w-full px-4 py-3 bg-secondary border border-border rounded-xl focus:bg-card focus:border-luxe-copper dark:focus:border-luxe-emerald focus:ring-1 focus:ring-luxe-copper dark:focus:ring-luxe-emerald transition-all text-sm font-sans text-foreground outline-none"
                   required
                   placeholder="e.g. sandbox.reviewer1@optiwealth.app"
                 />
@@ -220,7 +224,7 @@ export function LoginForm() {
 
               {/* Password Field */}
               <div className="space-y-1.5">
-                <label htmlFor="login-password" className="text-xs font-bold text-slate-500 uppercase tracking-wider font-header">
+                <label htmlFor="login-password" className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-header">
                   Password
                 </label>
                 <div className="relative">
@@ -229,14 +233,14 @@ export function LoginForm() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#037A6B] focus:ring-1 focus:ring-[#037A6B] transition-all text-sm font-sans text-slate-700 pr-10 outline-none"
+                    className="w-full px-4 py-3 bg-secondary border border-border rounded-xl focus:bg-card focus:border-luxe-copper dark:focus:border-luxe-emerald focus:ring-1 focus:ring-luxe-copper dark:focus:ring-luxe-emerald transition-all text-sm font-sans text-foreground pr-10 outline-none"
                     required
                     placeholder="••••••••"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -259,7 +263,7 @@ export function LoginForm() {
               {/* Action Button CTA */}
               <button 
                 type="submit" 
-                className="w-full py-3 bg-[#037A6B] hover:bg-[#026356] text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 transition-all shadow-md mt-4 font-sans outline-none disabled:opacity-50"
+                className="w-full py-3 bg-luxe-copper hover:bg-luxe-copper/90 dark:bg-luxe-emerald dark:hover:bg-luxe-emerald/90 text-white rounded-xl font-medium tracking-wide flex items-center justify-center gap-2 transition-all shadow-md mt-4 font-sans outline-none disabled:opacity-50"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -277,45 +281,45 @@ export function LoginForm() {
             </form>
 
             {/* Onboarding Link */}
-            <p className="text-center text-sm text-slate-500 font-sans mt-4">
+            <p className="text-center text-sm text-muted-foreground font-sans mt-4">
               New to OptiWealth?{" "}
-              <Link href="/onboard" className="font-semibold text-[#037A6B] hover:underline">
+              <Link href="/onboard" className="font-semibold text-luxe-copper dark:text-luxe-emerald hover:underline">
                 Create your profile
               </Link>
             </p>
           </div>
 
           {/* Footer info */}
-          <div className="text-[10px] text-slate-400 font-sans text-center md:text-left mt-4">
+          <div className="text-[10px] text-muted-foreground font-sans text-center md:text-left mt-4">
             OptiWealth © 2026. Secure personal finance sandbox.
           </div>
 
         </div>
 
         {/* Right Viewport Panel (The Frosted Mint Quote Block) */}
-        <div className="w-full md:w-1/2 bg-[#E6F7F0]/30 backdrop-blur-md p-8 md:p-10 flex flex-col justify-between border-t md:border-t-0 md:border-l border-[#E6F7F0]/80">
+        <div className="w-full md:w-1/2 bg-secondary/35 dark:bg-black/15 backdrop-blur-md p-8 md:p-10 flex flex-col justify-between border-t md:border-t-0 md:border-l border-border">
           
           {/* Header Status Badge */}
-          <div className="flex items-center gap-2 self-start bg-[#037A6B]/10 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest text-[#037A6B] uppercase font-header">
+          <div className="flex items-center gap-2 self-start bg-luxe-copper/10 dark:bg-luxe-emerald/10 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest text-luxe-copper dark:text-luxe-emerald uppercase font-header">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#037A6B] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#037A6B]"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-luxe-copper dark:bg-luxe-emerald opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-luxe-copper dark:bg-luxe-emerald"></span>
             </span>
             <span>ENGINE STATUS: ACTIVE</span>
           </div>
 
           {/* Rotating Quote List */}
           <div className="my-auto py-8 transition-all duration-500 ease-in-out">
-            <p className="text-slate-800 text-base md:text-lg italic font-semibold leading-relaxed font-sans">
+            <p className="text-foreground text-base md:text-lg italic font-semibold leading-relaxed font-sans">
               &ldquo;{QUOTES[currentQuoteIndex].text}&rdquo;
             </p>
-            <p className="text-[#037A6B] text-xs font-bold uppercase tracking-widest mt-4 font-header">
+            <p className="text-luxe-copper dark:text-luxe-emerald text-xs font-bold uppercase tracking-widest mt-4 font-header">
               — {QUOTES[currentQuoteIndex].author}, {QUOTES[currentQuoteIndex].source}
             </p>
           </div>
 
           {/* Footer status text */}
-          <div className="text-[10px] text-slate-500 font-sans">
+          <div className="text-[10px] text-muted-foreground font-sans">
             Real-time telemetry and capital allocation engine active.
           </div>
 

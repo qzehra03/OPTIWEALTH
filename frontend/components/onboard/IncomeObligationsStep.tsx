@@ -28,7 +28,7 @@ const EMPTY_DEBT = {
 };
 
 const getPasswordStrength = (pass: string) => {
-  if (!pass) return { score: 0, label: "", colorClass: "bg-slate-200" };
+  if (!pass) return { score: 0, label: "", colorClass: "bg-luxe-copper/20" };
   
   let score = 0;
   if (pass.length >= 8) score++;
@@ -44,7 +44,7 @@ const getPasswordStrength = (pass: string) => {
     colorClass = "bg-yellow-500";
   } else if (score >= 3) {
     label = "Institutional Grade";
-    colorClass = "bg-[#037A6B]"; // Premium Deep Emerald
+    colorClass = "bg-luxe-copper"; // Premium Deep Emerald
   }
   
   return { score, label, colorClass };
@@ -80,10 +80,10 @@ export function IncomeObligationsStep({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full mt-2">
       <div className="md:col-span-2">
-        <h2 className="text-[#037A6B] font-extrabold text-xl tracking-tight font-header">
+        <h2 className="text-luxe-bronze font-extrabold text-xl tracking-tight font-header">
           Income & Obligations
         </h2>
-        <p className="mt-0.5 text-xs text-slate-500 font-sans">
+        <p className="mt-0.5 text-xs text-muted-foreground font-sans">
           Capture credentials, annual earnings, fixed costs, and debt liabilities.
         </p>
       </div>
@@ -136,7 +136,7 @@ export function IncomeObligationsStep({
                       key={index}
                       className={cn(
                         "h-1 w-full rounded-full transition-all duration-300",
-                        index <= score ? colorClass : "bg-slate-200/50"
+                        index <= score ? colorClass : "bg-luxe-copper/20"
                       )}
                     />
                   );
@@ -145,7 +145,7 @@ export function IncomeObligationsStep({
               <span className={cn("text-[10px] font-bold font-sans uppercase tracking-wider block mt-1", 
                 getPasswordStrength(values.password).score === 1 && "text-red-500",
                 getPasswordStrength(values.password).score === 2 && "text-yellow-600",
-                getPasswordStrength(values.password).score >= 3 && "text-[#037A6B]"
+                getPasswordStrength(values.password).score >= 3 && "text-luxe-bronze"
               )}>
                 Strength: {getPasswordStrength(values.password).label}
               </span>
@@ -171,7 +171,7 @@ export function IncomeObligationsStep({
       </div>
 
       {/* Right Column: Financial Sliders & Debts */}
-      <div className="space-y-4 max-h-[45vh] overflow-y-auto pr-2 custom-scrollbar">
+      <div className="space-y-4 font-sans">
         <SliderWithNumericInput
           id="annualGrossSalary"
           label="Gross Annual Salary"
@@ -214,29 +214,29 @@ export function IncomeObligationsStep({
           />
         </div>
 
-        <Card className="border border-slate-100 bg-white/40 shadow-sm">
+        <Card className="border border-luxe-copper/20 bg-luxe-emerald/30 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-800 font-header">Active Debts</CardTitle>
-              <p className="text-[10px] text-slate-500 font-sans">
+              <CardTitle className="text-sm font-bold text-luxe-ivory font-header">Active Debts</CardTitle>
+              <p className="text-[10px] text-muted-foreground font-sans">
                 Liabilities list
               </p>
             </div>
-            <Button type="button" variant="outline" size="sm" onClick={addDebt} className="h-7 text-xs border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg">
+            <Button type="button" variant="outline" size="sm" onClick={addDebt} className="h-7 text-xs border-luxe-copper/30 text-luxe-ivory/90 hover:bg-luxe-forest/50 rounded-lg">
               <Plus className="h-3.5 w-3.5 mr-1" />
               Add
             </Button>
           </CardHeader>
           <CardContent className="space-y-3 p-3 pt-0">
             {values.debts.length === 0 && (
-              <p className="rounded-md border border-dashed border-slate-200 p-4 text-center text-xs text-slate-500 bg-slate-50/20 font-sans">
+              <p className="rounded-md border border-dashed border-luxe-copper/30 p-4 text-center text-xs text-muted-foreground bg-luxe-forest/30 font-sans">
                 No active debts.
               </p>
             )}
             {values.debts.map((debt, index) => (
               <div
                 key={index}
-                className="grid gap-2 rounded-md border border-slate-100 p-3 bg-white/70"
+                className="grid gap-2 rounded-md border border-luxe-copper/20 p-3 bg-luxe-forest/50"
               >
                 <TextField
                   id={`debt-name-${index}`}

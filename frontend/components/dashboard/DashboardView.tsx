@@ -16,7 +16,9 @@ import {
   Coins,
   Car,
   Menu,
-  ChevronDown
+  ChevronDown,
+  BookOpen,
+  X
 } from "lucide-react";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { useAuth } from "@/components/providers/AuthProvider";
@@ -30,6 +32,73 @@ import { DataPipelineView } from "./DataPipelineView";
 import { Matrix503020View } from "./Matrix503020View";
 import { RetirementCenterView } from "./RetirementCenterView";
 import { DailyCashLimitWidget } from "./DailyCashLimitWidget";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+
+const GLOSSARY_TERMS = [
+  {
+    title: "Asset Value",
+    definition: "The total market value of all your money and financial holdings combined.",
+    calculation: "We add up the exact current cash value of your bank balances, stock investments, mutual funds, and any other assets tracked in the app."
+  },
+  {
+    title: "Tax Optimization",
+    definition: "Legally reducing the amount of money you have to pay the government from your earnings.",
+    calculation: "The system scans your income alongside tax laws to find deductions, exemptions, and investment plans that lower your taxable income, letting you keep more of your money."
+  },
+  {
+    title: "Compound Interest",
+    definition: "Earning returns not just on your original savings, but also on the interest you have already accumulated over time.",
+    calculation: "We use mathematical growth formulas to project your future balance, reinvesting your earned profits back into the principal amount so your wealth accelerates."
+  },
+  {
+    title: "The 50/30/20 Rule",
+    definition: "A simple, structured budgeting blueprint used to divide your monthly take-home income into three clear categories.",
+    calculation: "The app takes your total monthly net income and splits it mathematically: exactly 50% for essential living needs, 30% for personal wants, and 20% directed straight into savings."
+  },
+  {
+    title: "Diversification",
+    definition: "Spreading your investment money across many different types of financial assets instead of putting everything into one single place.",
+    calculation: "We measure the percentage distribution of your funds across various sectors (like equity, fixed deposits, or gold) to ensure a drop in one asset won't severely impact your overall balance."
+  },
+  {
+    title: "Inflation Adjustment",
+    definition: "Accounting for the steady rise in prices over time, which causes your money to lose its purchasing power.",
+    calculation: "We subtract the current yearly inflation rate from your investment growth rate to show you the real value and actual buying power of your future wealth."
+  },
+  {
+    title: "Liquidity",
+    definition: "How quickly and easily you can convert an asset back into spendable cash without losing its value.",
+    calculation: "The app categorizes your wealth into immediate funds (like savings accounts) and locked funds (like long-term deposits), showing you exactly how much cash is available for instant withdrawal."
+  },
+  {
+    title: "Portfolio Yield / ROI (Return on Investment)",
+    definition: "The percentage score that shows how much profit or loss your investments made over a specific period.",
+    calculation: "We divide your net profit by the original cost of your investment, multiplying it by 100 to show a clear percentage performance card."
+  },
+  {
+    title: "Volatility",
+    definition: "How fast and how drastically the price of an investment moves up and down in the market.",
+    calculation: "The system tracks price fluctuations over time to give your portfolio a stability rating, letting you know if your investments are steady or high-risk."
+  },
+  {
+    title: "Expense Ratio",
+    definition: "The annual management fee charged by an investment fund to cover its operational costs.",
+    calculation: "It is expressed as a tiny percentage (e.g., 0.5%). We show you exactly how much money is deducted from your investment returns to pay the fund managers."
+  }
+];
+
+const GLOSSARY_MAP: Record<string, { view: string; id: string }> = {
+  "Asset Value": { view: "retirement", id: "retirement-portfolio-card" },
+  "Tax Optimization": { view: "tax", id: "tax-optimization-card" },
+  "Compound Interest": { view: "retirement", id: "retirement-calc-card" },
+  "The 50/30/20 Rule": { view: "matrix", id: "monthly-budget-card" },
+  "Diversification": { view: "retirement", id: "retirement-portfolio-card" },
+  "Inflation Adjustment": { view: "retirement", id: "retirement-calc-card" },
+  "Liquidity": { view: "overview", id: "daily-cash-limit-card" },
+  "Portfolio Yield / ROI (Return on Investment)": { view: "overview", id: "savings-rate-card" },
+  "Volatility": { view: "overview", id: "debt-income-card" },
+  "Expense Ratio": { view: "overview", id: "expense-ratio-card" }
+};
 
 export function DashboardView() {
   const { user, logout } = useAuth();
@@ -40,6 +109,7 @@ export function DashboardView() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
 
   const isExpanded = !isCollapsed || isHovered;
 
@@ -60,18 +130,43 @@ export function DashboardView() {
     loadDashboardData();
   }, [user]);
 
+  const handleGlossaryTermClick = (title: string) => {
+    const target = GLOSSARY_MAP[title];
+    if (!target) return;
+
+    // Set the view
+    setActiveView(target.view);
+    setIsGlossaryOpen(false);
+
+    // Scroll and highlight
+    setTimeout(() => {
+      const element = document.getElementById(target.id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        
+        // Add highlight classes
+        element.classList.add("ring-4", "ring-luxe-copper", "scale-[1.02]", "transition-all", "duration-500");
+        
+        // Remove highlight classes after 2 seconds
+        setTimeout(() => {
+          element.classList.remove("ring-4", "ring-luxe-copper", "scale-[1.02]");
+        }, 2000);
+      }
+    }, 200);
+  };
+
   return (
     <AuthGuard>
-      <div className={`relative flex min-h-screen bg-slate-50/50 font-sans transition-all duration-300 ${isExpanded ? "pl-64" : "pl-16"}`}>
+      <div className={`relative flex min-h-screen bg-background font-sans transition-all duration-300 ${isExpanded ? "pl-64" : "pl-16"}`}>
         {/* Left fixed sidebar */}
         <aside 
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`fixed left-0 top-0 h-screen z-40 bg-white border-r border-slate-100 flex flex-col justify-between transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-16"}`}
+          className={`fixed left-0 top-0 h-screen z-40 bg-card border-r border-border flex flex-col justify-between transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-16"}`}
         >
           <div className="flex flex-col flex-1 min-h-0">
             {/* Header logo & menu toggle */}
-            <div className={`flex items-center justify-between py-5 border-b border-slate-100 ${isExpanded ? "px-6" : "px-2 justify-center"}`}>
+            <div className={`flex items-center justify-between py-5 border-b border-border ${isExpanded ? "px-6" : "px-2 justify-center"}`}>
               {isExpanded ? (
                 <div className="flex items-center gap-3 overflow-hidden">
                   <PremiumOptiWealthLogo className="h-8 w-8 text-finance-deep shrink-0" />
@@ -85,7 +180,7 @@ export function DashboardView() {
               {isExpanded && (
                 <button 
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="text-slate-500 hover:text-slate-800 focus:outline-none p-1 rounded hover:bg-slate-50 transition-colors shrink-0"
+                  className="text-muted-foreground hover:text-foreground focus:outline-none p-1 rounded hover:bg-accent transition-colors shrink-0"
                 >
                   <Menu className="h-5 w-5" />
                 </button>
@@ -101,8 +196,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "overview"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 shrink-0" />
@@ -116,8 +211,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "matrix"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <PieChart className="h-4 w-4 shrink-0" />
@@ -131,8 +226,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "tax"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Percent className="h-4 w-4 shrink-0" />
@@ -146,8 +241,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "debt"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <TrendingDown className="h-4 w-4 shrink-0" />
@@ -161,8 +256,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "retirement"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Coins className="h-4 w-4 shrink-0" />
@@ -176,8 +271,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "impulse"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <ShieldAlert className="h-4 w-4 shrink-0" />
@@ -191,8 +286,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "car_affordability"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Car className="h-4 w-4 shrink-0" />
@@ -206,8 +301,8 @@ export function DashboardView() {
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "pipeline"
-                    ? "bg-finance-mint text-finance-deep border-l-4 border-finance-deep"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                    ? "bg-accent text-accent-foreground border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Database className="h-4 w-4 shrink-0" />
@@ -217,13 +312,13 @@ export function DashboardView() {
           </div>
 
           {/* Footer reviewer card & logout button */}
-          <div className={`p-4 border-t border-slate-100 bg-slate-50/50 transition-all duration-300 ${isExpanded ? "" : "px-2"}`}>
+          <div className={`p-4 border-t border-border bg-muted/30 transition-all duration-300 ${isExpanded ? "" : "px-2"}`}>
             <div className="flex items-center gap-3 mb-4 justify-center">
-              <div className="h-9 w-9 rounded-full bg-finance-mint flex items-center justify-center text-finance-deep font-bold font-header text-sm shrink-0">
+              <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold font-header text-sm shrink-0">
                 SR
               </div>
               <div className={`min-w-0 flex-1 transition-all duration-300 overflow-hidden whitespace-nowrap ${isExpanded ? "w-auto opacity-100" : "w-0 opacity-0"}`}>
-                <p className="text-xs font-bold text-slate-800 truncate leading-none">Sandbox Reviewer</p>
+                <p className="text-xs font-bold text-foreground truncate leading-none">Sandbox Reviewer</p>
                 <p className="text-[10px] text-muted-foreground truncate mt-1">reviewer@optiwealth.io</p>
               </div>
             </div>
@@ -231,7 +326,7 @@ export function DashboardView() {
               variant="outline"
               size="sm"
               onClick={logout}
-              className={`flex items-center text-rose-600 border-slate-200 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 transition-colors ${
+              className={`flex items-center text-rose-600 border-border bg-card hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 dark:hover:bg-rose-950/20 transition-colors ${
                 isExpanded ? "w-full justify-start gap-2 h-9 text-xs font-semibold" : "w-full justify-center p-0 h-9"
               }`}
             >
@@ -244,9 +339,9 @@ export function DashboardView() {
         {/* Right content workspace */}
         <div className="flex-1 flex flex-col min-w-0 min-h-screen">
           {/* Top navigation header */}
-          <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4 flex items-center justify-between z-10 shrink-0">
+          <header className="sticky top-0 bg-card/85 backdrop-blur-md border-b border-border px-8 py-4 flex items-center justify-between z-10 shrink-0">
             <div>
-              <h1 className="text-xs font-header font-semibold tracking-wider text-slate-400 uppercase">
+              <h1 className="text-xs font-header font-semibold tracking-wider text-muted-foreground uppercase">
                 {activeView === "overview" && "Dashboard"}
                 {activeView === "matrix" && "50/30/20 Budget Matrix"}
                 {activeView === "tax" && "Tax Engine FY 2026-27"}
@@ -258,12 +353,22 @@ export function DashboardView() {
               </h1>
             </div>
             <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsGlossaryOpen(true)}
+                className="flex items-center gap-1.5 h-8 text-xs font-semibold border-luxe-copper/40 bg-card hover:bg-muted text-foreground transition-colors"
+              >
+                <BookOpen className="h-3.5 w-3.5 text-luxe-copper animate-pulse" />
+                Glossary
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={loadDashboardData}
                 disabled={loading}
-                className="flex items-center gap-1.5 h-8 text-xs font-semibold border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 transition-colors"
+                className="flex items-center gap-1.5 h-8 text-xs font-semibold border-border bg-card hover:bg-accent text-foreground transition-colors"
               >
                 <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
                 Sync Data
@@ -273,13 +378,13 @@ export function DashboardView() {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-2 h-8 px-2.5 rounded-lg border border-slate-200/80 bg-white hover:bg-slate-50 transition-colors text-xs font-semibold text-slate-700 outline-none font-sans"
+                  className="flex items-center gap-2 h-8 px-2.5 rounded-lg border border-border bg-card hover:bg-accent transition-colors text-xs font-semibold text-foreground outline-none font-sans"
                 >
-                  <div className="h-5.5 w-5.5 rounded-full bg-finance-mint flex items-center justify-center text-finance-deep font-bold text-[10px] shrink-0 font-sans">
+                  <div className="h-5.5 w-5.5 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-[10px] shrink-0 font-sans">
                     SR
                   </div>
                   <span className="hidden sm:inline font-sans">Sandbox Reviewer</span>
-                  <ChevronDown className={`h-3 w-3 text-slate-500 transition-transform duration-200 ${isProfileOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform duration-200 ${isProfileOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {isProfileOpen && (
@@ -288,9 +393,9 @@ export function DashboardView() {
                       className="fixed inset-0 z-30" 
                       onClick={() => setIsProfileOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
-                      <div className="px-3 py-2 border-b border-slate-50 mb-1">
-                        <p className="text-xs font-bold text-slate-800 font-sans">Sandbox Reviewer</p>
+                    <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="px-3 py-2 border-b border-border mb-1">
+                        <p className="text-xs font-bold text-foreground font-sans">Sandbox Reviewer</p>
                         <p className="text-[10px] text-muted-foreground mt-0.5 font-sans">reviewer@optiwealth.io</p>
                       </div>
                       <button
@@ -298,7 +403,7 @@ export function DashboardView() {
                           setIsProfileOpen(false);
                           alert("Account settings config paths trigger");
                         }}
-                        className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-50 rounded-lg transition-colors font-sans"
+                        className="w-full text-left px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
                       >
                         Account Settings
                       </button>
@@ -307,11 +412,11 @@ export function DashboardView() {
                           setIsProfileOpen(false);
                           alert("API pipeline key configuration");
                         }}
-                        className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-50 rounded-lg transition-colors font-sans"
+                        className="w-full text-left px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
                       >
                         API Pipeline Keys
                       </button>
-                      <div className="border-t border-slate-50 my-1" />
+                      <div className="border-t border-border my-1" />
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
@@ -348,17 +453,17 @@ export function DashboardView() {
                 {activeView === "overview" && healthScore && (
                   <div className="space-y-8">
                     {/* Welcome Hero Banner */}
-                    <div className="bg-white border border-slate-100 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+                    <div className="bg-card border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm text-foreground">
                       <div className="space-y-1">
-                        <h2 className="text-2xl font-header font-bold tracking-tight text-slate-900">
+                        <h2 className="text-2xl font-header font-bold tracking-tight text-foreground">
                           Welcome back, Reviewer! 👋
                         </h2>
-                        <p className="text-base text-slate-650 font-sans">
-                          Your cash runway is secured for the next <strong className="text-[#037A6B] font-semibold">18 days</strong>.
+                        <p className="text-base text-muted-foreground font-sans">
+                          Your cash runway is secured for the next <strong className="text-primary font-semibold">18 days</strong>.
                         </p>
                       </div>
                       <div className="flex items-center">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-finance-mint text-finance-deep px-3 py-1.5 text-xs font-semibold border border-finance-mint/20">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1.5 text-xs font-semibold border border-accent/20">
                           💡 Optimization Nudge: Maintain savings buffer above 3 months to boost health rating.
                         </span>
                       </div>
@@ -408,6 +513,70 @@ export function DashboardView() {
           </main>
         </div>
       </div>
+
+      {/* Expandable Side Glossary Drawer */}
+      {isGlossaryOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/45 backdrop-blur-sm z-50 transition-opacity duration-300"
+            onClick={() => setIsGlossaryOpen(false)}
+            role="presentation"
+          />
+          
+          {/* Drawer Panel */}
+          <div className="fixed right-0 top-0 h-screen w-full sm:w-96 bg-card border-l border-border shadow-2xl z-50 flex flex-col justify-between animate-in slide-in-from-right duration-300 text-foreground">
+            {/* Header */}
+            <div className="p-5 border-b border-border flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-luxe-copper" />
+                <h3 className="font-header font-bold text-base text-luxe-bronze">Financial Glossary</h3>
+              </div>
+              <button 
+                onClick={() => setIsGlossaryOpen(false)}
+                className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors outline-none"
+                aria-label="Close glossary"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Glossary List */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
+              <p className="text-xs text-muted-foreground leading-normal mb-2">
+                Literal, simplified definitions of complex financial metrics. Defined cleanly without analogies.
+              </p>
+              
+              {GLOSSARY_TERMS.map((term, index) => (
+                <div 
+                  key={index} 
+                  onClick={() => handleGlossaryTermClick(term.title)}
+                  className="p-4 rounded-xl border border-luxe-copper/25 bg-muted/5 space-y-2.5 hover:border-luxe-copper/60 hover:bg-luxe-copper/5 cursor-pointer transition-all duration-300"
+                >
+                  <h4 className="font-header font-bold text-xs uppercase tracking-wider text-luxe-bronze">
+                    {term.title}
+                  </h4>
+                  <div className="space-y-2 text-xs leading-normal">
+                    <div>
+                      <span className="font-semibold text-[10px] text-muted-foreground uppercase tracking-wider block">What it means</span>
+                      <p className="mt-0.5 text-foreground font-medium">{term.definition}</p>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-[10px] text-muted-foreground uppercase tracking-wider block">How it's calculated</span>
+                      <p className="mt-0.5 text-foreground font-medium">{term.calculation}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-border bg-muted/10 text-center text-[10px] text-muted-foreground font-semibold">
+              OptiWealth Financial Intelligence Workspace
+            </div>
+          </div>
+        </>
+      )}
     </AuthGuard>
   );
 }

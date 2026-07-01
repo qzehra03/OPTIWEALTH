@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { getStoredToken, getStoredUser } from "@/lib/auth";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -12,12 +13,17 @@ interface AuthGuardProps {
 export function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const hasStoredSession =
+    typeof window !== "undefined" &&
+    !!getStoredToken() &&
+    !!getStoredUser();
+  const authed = isAuthenticated || hasStoredSession;
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !authed) {
       router.replace("/login");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [authed, isLoading, router]);
 
   if (isLoading) {
     return (
@@ -27,7 +33,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!authed) {
     return null;
   }
 

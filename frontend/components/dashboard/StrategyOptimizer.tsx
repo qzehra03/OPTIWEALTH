@@ -99,25 +99,25 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
     if (debtLoading && !debtData) {
       return (
         <div className="flex items-center justify-center p-12">
-          <Loader2 className="h-8 w-8 animate-spin text-finance-deep" />
+          <Loader2 className="h-8 w-8 animate-spin text-luxe-bronze" />
         </div>
       );
     }
 
     return (
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-slate-500/5 p-4 rounded-xl border border-slate-500/10">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-luxe-forest/500/5 p-4 rounded-xl border border-luxe-copper/15">
           <div className="space-y-1">
             <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Prioritization Strategy</h4>
             <p className="text-xs text-muted-foreground">Toggle payoff models configured dynamically by the engines.</p>
           </div>
-          <div className="bg-slate-100 p-1 rounded-xl inline-flex items-center gap-1 self-start sm:self-center">
+          <div className="bg-luxe-forest/60 p-1 rounded-xl inline-flex items-center gap-1 self-start sm:self-center">
             <button
               onClick={() => setStrategy("avalanche")}
               disabled={debtLoading}
               className={strategy === "avalanche"
-                ? "bg-white text-[#037A6B] font-semibold shadow-sm px-4 py-2 rounded-lg text-base transition-all"
-                : "text-slate-600 hover:text-slate-900 font-medium px-4 py-2 rounded-lg text-base transition-all"
+                ? "bg-luxe-emerald/40 text-luxe-bronze font-semibold shadow-sm px-4 py-2 rounded-lg text-base transition-all"
+                : "text-muted-foreground hover:text-luxe-ivory font-medium px-4 py-2 rounded-lg text-base transition-all"
               }
             >
               Avalanche (High APR)
@@ -126,8 +126,8 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
               onClick={() => setStrategy("snowball")}
               disabled={debtLoading}
               className={strategy === "snowball"
-                ? "bg-white text-[#037A6B] font-semibold shadow-sm px-4 py-2 rounded-lg text-base transition-all"
-                : "text-slate-600 hover:text-slate-900 font-medium px-4 py-2 rounded-lg text-base transition-all"
+                ? "bg-luxe-emerald/40 text-luxe-bronze font-semibold shadow-sm px-4 py-2 rounded-lg text-base transition-all"
+                : "text-muted-foreground hover:text-luxe-ivory font-medium px-4 py-2 rounded-lg text-base transition-all"
               }
             >
               Snowball (Low Balance)
@@ -139,25 +139,25 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Left side: stats */}
             <div className="space-y-4 md:col-span-1">
-              <Card className="border border-slate-100 bg-white shadow-sm">
+              <Card className="border border-luxe-copper/20 shadow-luxe-sm">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-base font-bold text-slate-500 uppercase tracking-wider font-header">
+                  <CardTitle className="text-base font-bold text-muted-foreground uppercase tracking-wider font-header">
                     Total Debt Balance
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-5xl font-extrabold font-sans text-slate-850">{formatCurrency(debtData.total_debt)}</p>
+                  <p className="text-5xl font-extrabold font-sans text-luxe-ivory">{formatCurrency(debtData.total_debt)}</p>
                 </CardContent>
               </Card>
 
-              <Card className="border border-slate-100 bg-white shadow-sm">
+              <Card className="border border-luxe-copper/20 shadow-luxe-sm">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-base font-bold text-slate-500 uppercase tracking-wider font-header">
+                  <CardTitle className="text-base font-bold text-muted-foreground uppercase tracking-wider font-header">
                     Total Min Monthly Pay
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-4xl font-extrabold font-sans text-slate-850">{formatCurrency(debtData.total_minimum_payment)}</p>
+                  <p className="text-4xl font-extrabold font-sans text-luxe-ivory">{formatCurrency(debtData.total_minimum_payment)}</p>
                 </CardContent>
               </Card>
 
@@ -173,26 +173,26 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
 
             {/* Right side: debt list */}
             <div className="md:col-span-2 space-y-3">
-              <h4 className="text-lg font-bold font-header text-slate-700">Priority Payoff Order</h4>
+              <h4 className="text-lg font-bold font-header text-luxe-ivory/90">Priority Payoff Order</h4>
               {debtData.optimized_order.map((debt: any) => (
                 <div
                   key={debt.id || debt.name}
-                  className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex items-center justify-between transition-all hover:bg-slate-5/50"
+                  className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm flex items-center justify-between transition-all hover:bg-luxe-copper/5"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-finance-mint text-finance-deep font-extrabold font-sans text-base">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-luxe-copper/15 text-luxe-bronze font-extrabold font-sans text-base">
                       {debt.priority}
                     </span>
                     <div>
-                      <h5 className="font-bold text-base font-header text-slate-800">{debt.name}</h5>
-                      <div className="flex gap-4 mt-1 text-sm text-slate-500 font-sans">
-                        <span>APR: <strong className="text-slate-700 font-semibold">{debt.interest_rate}%</strong></span>
-                        <span>Min Pay: <strong className="text-slate-700 font-semibold">{formatCurrency(debt.minimum_payment)}</strong></span>
+                      <h5 className="font-bold text-base font-header text-luxe-ivory">{debt.name}</h5>
+                      <div className="flex gap-4 mt-1 text-sm text-muted-foreground font-sans">
+                        <span>APR: <strong className="text-luxe-ivory/90 font-semibold">{debt.interest_rate}%</strong></span>
+                        <span>Min Pay: <strong className="text-luxe-ivory/90 font-semibold">{formatCurrency(debt.minimum_payment)}</strong></span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-sm font-extrabold font-sans text-slate-800">{formatCurrency(debt.remaining_balance)}</span>
+                    <span className="text-sm font-extrabold font-sans text-luxe-ivory">{formatCurrency(debt.remaining_balance)}</span>
                     <p className="text-[10px] text-muted-foreground mt-0.5 font-sans">Remaining</p>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
     if (taxLoading && !taxData) {
       return (
         <div className="flex items-center justify-center p-12">
-          <Loader2 className="h-8 w-8 animate-spin text-finance-deep" />
+          <Loader2 className="h-8 w-8 animate-spin text-luxe-bronze" />
         </div>
       );
     }
@@ -222,30 +222,30 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
           {/* Column 1 & 2: Slabs and Summary */}
           <div className="lg:col-span-2 space-y-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-header">Gross Income</span>
-                <p className="text-lg font-bold mt-1 font-sans text-slate-800">{formatCurrency(taxData.annual_gross_income)}</p>
+                <p className="text-lg font-bold mt-1 font-sans text-luxe-ivory">{formatCurrency(taxData.annual_gross_income)}</p>
               </div>
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-header">Standard Ded.</span>
-                <p className="text-lg font-bold mt-1 font-sans text-slate-800">{formatCurrency(taxData.standard_deduction)}</p>
+                <p className="text-lg font-bold mt-1 font-sans text-luxe-ivory">{formatCurrency(taxData.standard_deduction)}</p>
               </div>
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-header">Taxable Income</span>
-                <p className="text-lg font-bold mt-1 font-sans text-slate-800">{formatCurrency(taxData.taxable_income)}</p>
+                <p className="text-lg font-bold mt-1 font-sans text-luxe-ivory">{formatCurrency(taxData.taxable_income)}</p>
               </div>
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-header">Effective Rate</span>
                 <p className="text-lg font-bold mt-1 text-emerald-600 font-sans">{taxData.effective_tax_rate_percent}%</p>
               </div>
             </div>
 
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold font-header text-slate-700">New Regime Slab Breakdown (FY 2026-27)</h4>
-              <div className="border border-slate-100 rounded-xl overflow-hidden bg-white shadow-sm">
+              <h4 className="text-sm font-semibold font-header text-luxe-ivory/90">New Regime Slab Breakdown (FY 2026-27)</h4>
+              <div className="border border-luxe-copper/20 rounded-xl overflow-hidden shadow-luxe-sm">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-slate-100 bg-slate-50/50 font-bold text-muted-foreground font-header">
+                    <tr className="border-b border-luxe-copper/20 bg-luxe-forest/40 font-bold text-muted-foreground font-header">
                       <th className="p-3">Slab Range</th>
                       <th className="p-3 text-center">Rate</th>
                       <th className="p-3 text-right">Taxable Amount</th>
@@ -254,20 +254,20 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
                   </thead>
                   <tbody>
                     {taxData.slab_breakdown.map((slab: any, idx: number) => (
-                      <tr key={idx} className="border-b border-slate-100 last:border-0 hover:bg-slate-50/30 font-sans">
-                        <td className="p-3 text-slate-600">
+                      <tr key={idx} className="border-b border-luxe-copper/20 last:border-0 hover:bg-luxe-forest/50/30 font-sans">
+                        <td className="p-3 text-muted-foreground">
                           {slab.upper
                             ? `₹${(slab.lower / 100000).toFixed(1)}L - ₹${(slab.upper / 100000).toFixed(1)}L`
                             : `Above ₹${(slab.lower / 100000).toFixed(1)}L`}
                         </td>
-                        <td className="p-3 text-center font-bold text-finance-deep">{slab.rate_percent}%</td>
-                        <td className="p-3 text-right text-slate-600">{formatCurrency(slab.taxable_amount)}</td>
-                        <td className="p-3 text-right font-semibold text-slate-700">{formatCurrency(slab.tax)}</td>
+                        <td className="p-3 text-center font-bold text-luxe-bronze">{slab.rate_percent}%</td>
+                        <td className="p-3 text-right text-muted-foreground">{formatCurrency(slab.taxable_amount)}</td>
+                        <td className="p-3 text-right font-semibold text-luxe-ivory/90">{formatCurrency(slab.tax)}</td>
                       </tr>
                     ))}
-                    <tr className="bg-slate-50/50 font-bold text-sm border-t border-slate-100">
-                      <td className="p-3 text-slate-700 font-header" colSpan={3}>Total Net Tax (Before Health & Edu Cess)</td>
-                      <td className="p-3 text-right text-finance-deep font-sans">{formatCurrency(taxData.final_tax)}</td>
+                    <tr className="bg-luxe-forest/40 font-bold text-sm border-t border-luxe-copper/20">
+                      <td className="p-3 text-luxe-ivory/90 font-header" colSpan={3}>Total Net Tax (Before Health & Edu Cess)</td>
+                      <td className="p-3 text-right text-luxe-bronze font-sans">{formatCurrency(taxData.final_tax)}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -277,7 +277,7 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
 
           {/* Column 3: Comparison & Intelligence */}
           <div className="space-y-6">
-            <h4 className="text-sm font-semibold font-header text-slate-700">Regime Deductions Simulator</h4>
+            <h4 className="text-sm font-semibold font-header text-luxe-ivory/90">Regime Deductions Simulator</h4>
             <div className="space-y-4">
               {/* New Regime Card */}
               <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 flex flex-col justify-between">
@@ -288,10 +288,10 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
                       Standard Default
                     </Badge>
                   </div>
-                  <div className="text-2xl font-extrabold font-sans text-slate-800">{formatCurrency(totalNewDeductions)}</div>
+                  <div className="text-2xl font-extrabold font-sans text-luxe-ivory">{formatCurrency(totalNewDeductions)}</div>
                   <p className="text-[10px] text-muted-foreground mt-1">Flat deductions without declaring investments.</p>
                 </div>
-                <div className="border-t border-slate-200/10 pt-3 mt-4 text-xs">
+                <div className="border-t border-luxe-copper/30/10 pt-3 mt-4 text-xs">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Standard Deduction</span>
                     <span>{formatCurrency(totalNewDeductions)}</span>
@@ -300,18 +300,18 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
               </div>
 
               {/* Old Regime Card */}
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm flex flex-col justify-between">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-header">Old Regime (Simulated)</span>
-                    <Badge variant="outline" className="border-slate-200/30 text-muted-foreground">
+                    <Badge variant="outline" className="border-luxe-copper/30/30 text-muted-foreground">
                       Declaration Required
                     </Badge>
                   </div>
-                  <div className="text-2xl font-extrabold font-sans text-slate-800">{formatCurrency(totalOldDeductions)}</div>
+                  <div className="text-2xl font-extrabold font-sans text-luxe-ivory">{formatCurrency(totalOldDeductions)}</div>
                   <p className="text-[10px] text-muted-foreground mt-1 font-sans">Requires proof submission for Section 80C & 80D.</p>
                 </div>
-                <div className="border-t border-slate-100 pt-3 mt-4 text-xs space-y-1">
+                <div className="border-t border-luxe-copper/20 pt-3 mt-4 text-xs space-y-1">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Standard Deduction</span>
                     <span>{formatCurrency(standardDeductionOld)}</span>
@@ -328,8 +328,8 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
               </div>
 
               {/* Recommendation Box */}
-              <div className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm text-xs space-y-2">
-                <span className="font-bold flex items-center gap-1.5 text-finance-deep font-header">
+              <div className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm text-xs space-y-2">
+                <span className="font-bold flex items-center gap-1.5 text-luxe-bronze font-header">
                   <TrendingUp className="h-4 w-4" /> Recommendation
                 </span>
                 <p className="text-muted-foreground leading-relaxed">
@@ -347,18 +347,21 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
 
   if (hideTabs) {
     return (
-      <div className="space-y-4 font-sans animate-fade-in">
-        <div className="pb-2 border-b border-slate-100 flex items-center justify-between">
+      <div 
+        id={activeTab === "tax" ? "tax-optimization-card" : "debt-optimization-card"}
+        className="space-y-4 font-sans animate-fade-in"
+      >
+        <div className="pb-2 border-b border-luxe-copper/20 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold font-header tracking-tight text-finance-deep flex items-center gap-2">
+            <h2 className="text-2xl font-bold font-header tracking-tight text-luxe-bronze flex items-center gap-2">
               {activeTab === "debts" ? (
                 <>
-                  <Layers className="h-6 w-6 text-finance-deep" />
+                  <Layers className="h-6 w-6 text-luxe-bronze" />
                   Debt Payoff Optimizer
                 </>
               ) : (
                 <>
-                  <FileText className="h-6 w-6 text-finance-deep" />
+                  <FileText className="h-6 w-6 text-luxe-bronze" />
                   Tax Slabs & Regimes
                 </>
               )}
@@ -378,33 +381,33 @@ export function StrategyOptimizer({ user, defaultTab = "debts", hideTabs = false
   }
 
   return (
-    <Card className="border border-slate-100 bg-white shadow-sm font-sans">
+    <Card className="border border-luxe-copper/20 shadow-luxe-sm font-sans">
       <CardHeader className="pb-4">
         <Tabs.Root value={activeTab} onValueChange={(val) => setActiveTab(val as "debts" | "tax")}>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <CardTitle className="text-xl font-bold font-header flex items-center gap-2 text-slate-800">
+            <CardTitle className="text-xl font-bold font-header flex items-center gap-2 text-luxe-ivory">
               {activeTab === "debts" ? (
                 <>
-                  <Layers className="h-5 w-5 text-finance-deep" />
+                  <Layers className="h-5 w-5 text-luxe-bronze" />
                   Debt Payoff & Strategy
                 </>
               ) : (
                 <>
-                  <FileText className="h-5 w-5 text-finance-deep" />
+                  <FileText className="h-5 w-5 text-luxe-bronze" />
                   Tax Optimization Simulator
                 </>
               )}
             </CardTitle>
-            <Tabs.List className="flex gap-2 bg-slate-50 p-1 rounded-lg border border-slate-100 self-start">
+            <Tabs.List className="flex gap-2 bg-luxe-forest/50 p-1 rounded-lg border border-luxe-copper/20 self-start">
               <Tabs.Trigger
                 value="debts"
-                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground rounded-md data-[state=active]:bg-white data-[state=active]:text-finance-deep data-[state=active]:shadow-sm transition-all"
+                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground rounded-md data-[state=active]:bg-luxe-emerald/40 data-[state=active]:text-luxe-bronze data-[state=active]:shadow-sm transition-all"
               >
                 Debt Payoffs
               </Tabs.Trigger>
               <Tabs.Trigger
                 value="tax"
-                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground rounded-md data-[state=active]:bg-white data-[state=active]:text-finance-deep data-[state=active]:shadow-sm transition-all"
+                className="px-3 py-1.5 text-xs font-semibold text-muted-foreground rounded-md data-[state=active]:bg-luxe-emerald/40 data-[state=active]:text-luxe-bronze data-[state=active]:shadow-sm transition-all"
               >
                 Tax Slabs
               </Tabs.Trigger>
