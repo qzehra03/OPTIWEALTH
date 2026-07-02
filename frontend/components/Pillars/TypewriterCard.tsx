@@ -70,7 +70,7 @@ export function TypewriterCard({
   return (
     <div
       ref={cardRef}
-      className={`group relative flex flex-col gap-4 p-7 rounded-2xl border overflow-hidden transition-all duration-500 hover:-translate-y-1 ${
+      className={`group relative flex flex-col gap-4 p-5 pb-4 rounded-2xl border overflow-hidden transition-all duration-500 hover:-translate-y-1 ${
         dark
           ? "border-[#D4AF37]/18 bg-[#0B1C15]/60 backdrop-blur-sm hover:border-[#D4AF37]/40 hover:shadow-xl hover:shadow-[#D4AF37]/10"
           : "border-[#D4AF37]/20 bg-white/70 backdrop-blur-sm shadow-xl hover:shadow-2xl hover:shadow-[#D4AF37]/10"
@@ -83,27 +83,30 @@ export function TypewriterCard({
         style={{ background: `${accentColor}1A` }}
       />
 
-      {/* Icon */}
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0"
-        style={{ background: `${accentColor}14`, border: `1px solid ${accentColor}28` }}
-      >
-        {icon}
-      </div>
+      {/* Header (Icon + Title) */}
+      <div className="flex flex-row items-center gap-4">
+        {/* Icon */}
+        <div
+          className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0"
+          style={{ background: `${accentColor}14`, border: `1px solid ${accentColor}28` }}
+        >
+          {icon}
+        </div>
 
-      {/* Title */}
-      <h3
-        className={`text-base font-extrabold tracking-tight font-sans uppercase ${
-          dark ? "text-[#D4AF37]" : "text-[#0B1C15]"
-        }`}
-      >
-        {title}
-      </h3>
+        {/* Title */}
+        <h3
+          className={`text-base font-bold tracking-widest uppercase ${
+            dark ? "text-[#D4AF37]" : "text-[#0B1C15]"
+          }`}
+        >
+          {title}
+        </h3>
+      </div>
 
       {/* Typewriter body */}
       <p
-        className={`text-xs leading-relaxed font-sans min-h-[72px] ${
-          dark ? "text-[#8FB89A]" : "text-[#334E3C]"
+        className={`text-sm leading-loose font-medium font-sans min-h-[72px] pt-1 ${
+          dark ? "text-[#A3C8AF]" : "text-[#2A4032]"
         }`}
       >
         {typed}

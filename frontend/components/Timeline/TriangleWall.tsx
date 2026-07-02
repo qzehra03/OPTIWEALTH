@@ -45,141 +45,87 @@ type PolyDef = {
   scale?: number;    // optional text scale
 };
 
-// Extracted from the perfect black and white image mapping!
-const POLYGONS: PolyDef[] = [
-  // User 1 (Poly 2)
-  { pts: "0.60% 32.42%, 0.60% 0.74%, 3.48% 9.96%, 4.14% 7.52%, 5.76% 12.08%, 6.54% 8.90%, 9.60% 13.03%, 6.66% 8.90%, 8.10% 5.30%, 1.56% 0.85%, 8.82% 0.64%, 17.89% 16.00%", tx: 7.0, ty: 15.0, type: "quote", idx: 0, scale: 0.65 },
-  // User 2 (Poly 0)
-  { pts: "9.06% 0.74%, 36.85% 0.85%, 25.75% 28.39%", tx: 23.9, ty: 10.1, type: "rule", idx: 0 },
-  // User 3 (Poly 3)
-  { pts: "27.13% 27.01%, 37.09% 0.64%, 55.64% 0.85%, 56.12% 16.95%", tx: 43.0, ty: 12.1, type: "quote", idx: 1, scale: 0.8 },
-  // User 4 (Poly 1)
-  { pts: "56.30% 16.63%, 55.82% 0.64%, 91.66% 0.74%", tx: 68.2, ty: 6.0, type: "rule", idx: 1 },
-  // User 5 (Poly 4)
-  { pts: "99.34% 0.74%, 99.04% 4.34%, 78.99% 31.46%, 73.05% 10.28%, 92.38% 0.64%", tx: 84.9, ty: 13.0, type: "quote", idx: 2, scale: 0.8 },
-  // User 6 (Poly 5)
-  { pts: "25.57% 28.39%, 15.97% 43.64%, 0.60% 35.70%, 0.66% 32.73%, 17.95% 16.21%", tx: 13.8, ty: 30.7, type: "quote", idx: 3, scale: 0.7 },
-  // User 7 (Poly 6)
-  { pts: "55.40% 17.48%, 41.48% 43.11%, 27.25% 27.44%", tx: 41.3, ty: 29.1, type: "rule", idx: 2 },
-  // User 8 (Poly 7)
-  { pts: "72.69% 10.38%, 62.18% 42.06%, 51.02% 25.64%, 55.70% 17.27%", tx: 61.6, ty: 24.5, type: "quote", idx: 4, scale: 0.75 },
-  // User 9 (Poly 9)
-  { pts: "99.28% 4.24%, 99.34% 30.83%, 81.63% 41.53%, 78.99% 31.78%", tx: 90.9, ty: 25.6, type: "quote", idx: 5, scale: 0.7 },
-  // User 10 (Poly 10)
-  { pts: "18.19% 40.25%, 27.01% 27.44%, 41.30% 43.43%, 36.31% 52.12%", tx: 30.0, ty: 40.1, type: "quote", idx: 6, scale: 0.8 },
-  // User 11 (Poly 13)
-  { pts: "50.78% 26.17%, 54.14% 59.85%, 35.23% 54.77%", tx: 46.7, ty: 46.9, type: "rule", idx: 3 },
-  // User 12 (Poly 8)
-  { pts: "72.93% 10.28%, 81.33% 41.10%, 62.55% 41.84%", tx: 72.2, ty: 30.9, type: "rule", idx: 4 },
-  // User 13 (Poly 11)
-  { pts: "15.73% 43.64%, 0.66% 72.03%, 0.60% 36.12%", tx: 5.6, ty: 50.5, type: "quote", idx: 7, scale: 0.6 },
-  // User 14 & 19 (Poly 19)
-  { pts: "17.95% 40.68%, 28.09% 89.09%, 0.60% 77.12%, 0.60% 72.46%", tx: 15.2, ty: 68.5, type: "rule", idx: 5 },
-  // User 15 (Poly 18)
-  { pts: "18.19% 40.78%, 36.25% 52.44%, 24.07% 67.16%", tx: 26.2, ty: 53.3, type: "quote", idx: 8, scale: 0.65 },
-  // User 16 (Poly 15)
-  { pts: "50.96% 26.06%, 69.03% 53.60%, 57.20% 61.02%, 54.26% 60.06%", tx: 58.2, ty: 46.9, type: "quote", idx: 9, scale: 0.8 },
-  // User 17 (Poly 16)
-  { pts: "62.30% 42.16%, 81.39% 41.42%, 99.34% 61.02%, 69.45% 54.03%", tx: 79.5, ty: 50.0, type: "quote", idx: 10, scale: 0.8 },
-  // User 18 (Poly 17)
-  { pts: "99.34% 59.85%, 81.87% 41.63%, 99.28% 31.14%", tx: 93.5, ty: 44.2, type: "quote", idx: 11, scale: 0.7 },
-  // User 20 (Poly 20)
-  { pts: "34.81% 54.98%, 30.19% 86.02%, 28.81% 88.14%, 24.07% 67.48%", tx: 29.5, ty: 70.7, type: "quote", idx: 12, scale: 0.65 },
-  // User 21 (Poly 21)
-  { pts: "30.25% 86.12%, 35.05% 54.87%, 56.84% 61.12%", tx: 40.7, ty: 67.4, type: "rule", idx: 6 },
-  // User 22 (Poly 22)
-  { pts: "69.03% 54.03%, 59.18% 92.80%, 40.34% 76.91%, 57.02% 61.23%", tx: 56.1, ty: 73.7, type: "rule", idx: 7 },
-  // User 23 (Poly 24)
-  { pts: "69.27% 53.92%, 82.29% 81.36%, 59.48% 92.48%", tx: 70.3, ty: 75.8, type: "rule", idx: 8 },
-  // User 24 (Poly 23)
-  { pts: "69.63% 54.34%, 98.92% 61.33%, 81.63% 79.66%", tx: 83.4, ty: 64.9, type: "quote", idx: 13, scale: 0.8 },
-  // User 25 (Poly 25)
-  { pts: "99.22% 61.23%, 99.28% 99.26%, 81.75% 79.98%", tx: 93.3, ty: 80.1, type: "quote", idx: 14, scale: 0.7 },
-  // User 26 (Poly 26)
-  { pts: "0.60% 77.54%, 27.85% 89.41%, 20.83% 99.26%, 0.66% 99.15%", tx: 11.4, ty: 90.4, type: "quote", idx: 15, scale: 0.65 },
-  // User 27 (Poly 27)
-  { pts: "21.19% 99.05%, 40.16% 77.01%, 64.05% 99.15%", tx: 41.8, ty: 91.5, type: "quote", idx: 16, scale: 0.8 },
-  // User 28 (Poly 30)
-  { pts: "98.92% 99.15%, 64.41% 99.26%, 59.36% 92.90%, 82.47% 81.57%", tx: 78.6, ty: 92.8, type: "quote", idx: 17, scale: 0.8 },
+// Centers exactly computed from the dark background image gold line regions
+const REGIONS = [
+  { tx: 25.95, ty: 9.55, type: "rule", idx: 0, scale: 0.95 },  // 50/30/20
+  { tx: 46.06, ty: 12.88, type: "quote", idx: 0, scale: 0.8 },
+  { tx: 70.88, ty: 6.00, type: "rule", idx: 1, scale: 0.95 },   // 4% Rule
+  // Moved from top-left (7.72, 7.61) to new empty region on the top-right
+  { tx: 85.00, ty: 18.00, type: "quote", idx: 1, scale: 0.7 },
+  { tx: 6.55, ty: 25.46, type: "quote", idx: 2, scale: 0.7 },
+  { tx: 73.51, ty: 25.40, type: "rule", idx: 2, scale: 0.95 },  // Pay Yourself
+  { tx: 91.97, ty: 28.25, type: "quote", idx: 3, scale: 0.7 },
+  { tx: 21.50, ty: 37.14, type: "quote", idx: 4, scale: 0.8 },
+  { tx: 40.86, ty: 34.16, type: "rule", idx: 4, scale: 0.95 },  // 10-5-3
+  { tx: 8.07, ty: 58.29, type: "quote", idx: 5, scale: 0.7 },
+  { tx: 44.96, ty: 55.12, type: "rule", idx: 3, scale: 0.95 },  // 3X to 6X
+  { tx: 87.41, ty: 49.20, type: "quote", idx: 6, scale: 0.8 },
+  { tx: 58.73, ty: 60.21, type: "rule", idx: 6, scale: 0.95 },  // EMI
+  { tx: 80.95, ty: 64.38, type: "quote", idx: 8, scale: 0.8 },
+  { tx: 18.56, ty: 78.03, type: "rule", idx: 5, scale: 0.95 },  // 100 Minus Age
+  { tx: 41.37, ty: 78.28, type: "rule", idx: 7, scale: 0.95 },  // Rule 72
+  { tx: 63.25, ty: 84.61, type: "rule", idx: 8, scale: 0.95 },  // Rule 70
+  { tx: 81.17, ty: 88.64, type: "quote", idx: 9, scale: 0.7 },
+  { tx: 47.57, ty: 94.84, type: "quote", idx: 12, scale: 0.8 },
 ];
 
-function Tile({ p, isDark }: { p: PolyDef; isDark: boolean }) {
-  const [flipped, setFlipped] = useState(false);
-  const isRule = p.type === "rule";
-  const rule = isRule ? RULES[p.idx] : null;
-  const quote = !isRule ? QUOTES[p.idx] : null;
+function Tile({ r, isDark }: { r: any; isDark: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  const isRule = r.type === "rule";
+  const rule = isRule ? RULES[r.idx] : null;
+  const quote = !isRule ? QUOTES[r.idx] : null;
 
   const gold = isDark ? "#D4AF37" : "#B8960E";
-  const backBg = isDark ? "rgba(11,28,21,0.95)" : "rgba(245,245,240,0.95)";
   const backText = isDark ? "#E2E8F0" : "#1A2E22";
   const shadow = isDark ? "0 2px 6px rgba(0,0,0,0.8)" : "0 1px 4px rgba(0,0,0,0.3)";
 
   return (
     <div
-      className="absolute inset-0 cursor-pointer group"
+      className="absolute cursor-pointer group"
       style={{
-        clipPath: `polygon(${p.pts})`,
-        backgroundColor: flipped ? backBg : "transparent",
-        transition: "background-color 0.45s ease",
+        left: `${r.tx}%`,
+        top: `${r.ty}%`,
+        width: isRule ? "130px" : "120px",
+        height: "120px",
+        transform: `translate(-50%, -50%) scale(${r.scale ?? 1})`,
       }}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
-      onClick={() => setFlipped(f => !f)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => setHovered(f => !f)}
     >
-      <div
-        className="absolute"
-        style={{
-          left: `${p.tx}%`,
-          top: `${p.ty}%`,
-          width: isRule ? "160px" : "150px",
-          height: "130px",
-          transform: `translate(-50%, -50%) scale(${p.scale ?? 1})`,
-          perspective: "600px",
-        }}
-      >
+      <div className="relative w-full h-full flex items-center justify-center">
+        {/* Front */}
         <div
-          style={{
-            width: "100%", height: "100%",
-            position: "relative",
-            transformStyle: "preserve-3d",
-            transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-          }}
+          className={`absolute inset-0 flex flex-col items-center justify-center text-center px-1 transition-opacity duration-500 ${hovered ? 'opacity-0' : 'opacity-100'}`}
         >
-          {/* Front */}
-          <div
-            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-1"
-          >
-            {isRule && rule && (
-              <h3 className="text-[11px] md:text-[13px] font-bold tracking-widest uppercase leading-snug whitespace-pre-line group-hover:scale-105 transition-transform duration-300"
-                style={{ color: gold, textShadow: shadow }}>
-                {rule.title}
-              </h3>
-            )}
-            {!isRule && quote && (
-              <p className="text-[9px] md:text-[11px] font-serif italic leading-relaxed group-hover:scale-105 transition-transform duration-300"
-                style={{ color: gold, maxWidth: "130px", textShadow: shadow }}>
-                &ldquo;{quote.text}&rdquo;
-              </p>
-            )}
-          </div>
-          {/* Back */}
-          <div
-            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-2 bg-transparent"
-          >
-            {isRule && rule && (
-              <p className="text-[9px] md:text-[11px] font-medium leading-relaxed drop-shadow-md" style={{ color: backText }}>
-                {rule.detail}
-              </p>
-            )}
-            {!isRule && quote && (
-              <p className="text-[9px] md:text-[11px] font-bold tracking-widest uppercase drop-shadow-md" style={{ color: gold }}>
-                &mdash; {quote.author}
-              </p>
-            )}
-          </div>
+          {isRule && rule && (
+            <h3 className="text-[12px] md:text-[14px] font-black tracking-widest uppercase leading-tight whitespace-pre-line font-display"
+              style={{ color: gold, textShadow: shadow }}>
+              {rule.title}
+            </h3>
+          )}
+          {!isRule && quote && (
+            <p className="text-[10px] md:text-[12px] font-serif italic leading-relaxed font-semibold drop-shadow-md"
+              style={{ color: gold, maxWidth: "150px", textShadow: shadow }}>
+              &ldquo;{quote.text}&rdquo;
+            </p>
+          )}
+        </div>
+        {/* Back (Details) */}
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center text-center px-2 transition-opacity duration-500 rounded-xl backdrop-blur-md ${hovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          style={{ backgroundColor: isDark ? "rgba(11,28,21,0.85)" : "rgba(245,245,240,0.85)" }}
+        >
+          {isRule && rule && (
+            <p className="text-[11px] md:text-[13px] font-medium leading-relaxed drop-shadow-md" style={{ color: backText }}>
+              {rule.detail}
+            </p>
+          )}
+          {!isRule && quote && (
+            <p className="text-[10px] md:text-[12px] font-bold tracking-widest uppercase drop-shadow-md font-sans" style={{ color: gold }}>
+              &mdash; {quote.author}
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -208,11 +154,11 @@ export function TriangleWall() {
         <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border border-[#D4AF37]/30 ring-1 ring-[#D4AF37]/10">
           {/* Background Image */}
           <div className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${isDark ? "/bg-triangle-dark.png" : "/bg-triangle-light.png"}')` }} />
+            style={{ backgroundImage: `url('${isDark ? "/bg-triangle-dark.png" : "/bg-triangle-light-final.png"}')` }} />
 
-          {/* All 27 Perfect Tiles */}
-          {POLYGONS.map((p, i) => (
-            <Tile key={i} p={p} isDark={isDark} />
+          {/* All Precise Center Tiles */}
+          {REGIONS.map((r, i) => (
+            <Tile key={i} r={r} isDark={isDark} />
           ))}
         </div>
       </div>

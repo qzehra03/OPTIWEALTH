@@ -21,7 +21,7 @@ import { ArrowRight, Shield } from "lucide-react";
 // ─────────────────────────────────────────────
 function GoldRibbonSeparator() {
   return (
-    <div className="w-full flex justify-center py-6 pointer-events-none" aria-hidden>
+    <div className="w-full flex justify-center pointer-events-none" aria-hidden>
       <svg viewBox="0 0 600 60" className="w-full max-w-3xl h-auto opacity-60" fill="none">
         <path
           d="M0 30 Q100 10 200 30 Q300 50 400 30 Q500 10 600 30"
@@ -99,7 +99,7 @@ export function LandingPage() {
     const s2 = heroScreen2Ref.current;
     if (!s1 || !s2) return;
 
-    gsap.set(s2, { opacity: 0, y: 30 });
+    gsap.set(s2, { autoAlpha: 0, y: 30 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -110,8 +110,8 @@ export function LandingPage() {
       },
     });
 
-    tl.to(s1, { opacity: 0, y: -50, ease: "power2.inOut" }, 0)
-      .to(s2, { opacity: 1, y: 0,  ease: "power2.inOut" }, 0.25);
+    tl.to(s1, { autoAlpha: 0, y: -50, ease: "power2.inOut" }, 0)
+      .to(s2, { autoAlpha: 1, y: 0,  ease: "power2.inOut" }, 0.25);
 
     // Subtle pan and scale on satin background for "flowing" effect
     if (satinBgRef.current) {
@@ -153,6 +153,12 @@ export function LandingPage() {
         @keyframes breathScale {
           0% { transform: scale(1); }
           100% { transform: scale(1.05); }
+        }
+        @keyframes floatBubble {
+          0% { transform: translateY(0px) rotate(0deg); }
+          33% { transform: translateY(-10px) rotate(1deg); }
+          66% { transform: translateY(5px) rotate(-1deg); }
+          100% { transform: translateY(0px) rotate(0deg); }
         }
       `}</style>
 
@@ -206,7 +212,7 @@ export function LandingPage() {
               <ThemeToggle />
               {/* CTA */}
               <Link
-                href={isAuthenticated ? "/dashboard" : "/onboard"}
+                href={isAuthenticated ? "/dashboard" : "/login"}
                 className="flex items-center gap-1.5 px-5 py-2 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 shadow-md"
               >
                 {isAuthenticated ? "Dashboard" : "Get Started"} <ArrowRight className="h-3 w-3"/>
@@ -272,7 +278,7 @@ export function LandingPage() {
 
                 <div className="flex flex-col sm:flex-row gap-4 items-center justify-center pt-2">
                   <Link
-                    href="/onboard"
+                    href="/dashboard"
                     className="group flex items-center gap-2 px-8 py-3.5 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] font-bold rounded-2xl transition-all duration-300 text-sm tracking-wide shadow-lg shadow-[#D4AF37]/25 hover:-translate-y-0.5"
                   >
                     Launch OptiWealth Beta →
@@ -375,16 +381,24 @@ export function LandingPage() {
         {/* ══════════════════════════════════════════════ */}
         <section
           id="pillars"
-          className="relative w-full py-28 px-6 overflow-hidden"
+          className="relative w-full py-10 px-6 overflow-hidden"
           style={{ backgroundColor: sectionBg }}
         >
-          {/* Four Pillars Background image (single diagonal ribbon) */}
-          <div className="absolute inset-0 overflow-hidden flex items-center justify-center">
+          {/* Premium Ambient Background Gradient */}
+          <div className="absolute inset-0 overflow-hidden">
             <div 
-              className="absolute w-[110%] h-[110%] bg-cover bg-center transition-all duration-700 ease-in-out"
+              className="absolute inset-0 transition-colors duration-700 ease-in-out"
               style={{
-                backgroundImage: `url('${isDark ? '/bg-ribbon-dark.png' : '/bg-ribbon-light.png'}')`,
-                animation: "panScale 20s ease-in-out infinite alternate"
+                background: isDark 
+                  ? "radial-gradient(circle at 50% -20%, rgba(212,175,55,0.15) 0%, transparent 60%)" 
+                  : "radial-gradient(circle at 50% -20%, rgba(184,150,14,0.12) 0%, transparent 60%)",
+              }}
+            />
+            {/* Edge shadows for depth */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                boxShadow: isDark ? "inset 0 0 100px rgba(0,0,0,0.8)" : "inset 0 0 100px rgba(0,0,0,0.05)"
               }}
             />
           </div>
@@ -398,8 +412,8 @@ export function LandingPage() {
             }}
           />
 
-          <div className="relative z-10 max-w-6xl mx-auto space-y-14">
-            <div className="text-center space-y-2 mb-10 md:mb-0">
+          <div className="relative z-10 max-w-6xl mx-auto space-y-6">
+            <div className="text-center mb-4 md:mb-0">
               <p
                 className="font-script text-5xl md:text-6xl leading-none drop-shadow-md"
                 style={{ color: scriptColor }}
@@ -413,8 +427,8 @@ export function LandingPage() {
               </p>
             </div>
 
-            <div className="relative md:h-[600px] flex flex-col md:block gap-5 mt-10">
-              <div className="md:absolute md:top-[0%] md:left-[2%] md:w-[320px] lg:w-[350px]">
+            <div className="relative mt-3">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                 <TypewriterCard
                   index={0}
                   icon={PILLARS[0].icon}
@@ -422,8 +436,13 @@ export function LandingPage() {
                   description={PILLARS[0].description}
                   darkMode={isDark}
                 />
-              </div>
-              <div className="md:absolute md:top-[12%] md:right-[2%] md:w-[320px] lg:w-[350px]">
+                <TypewriterCard
+                  index={1}
+                  icon={PILLARS[1].icon}
+                  title={PILLARS[1].title}
+                  description={PILLARS[1].description}
+                  darkMode={isDark}
+                />
                 <TypewriterCard
                   index={2}
                   icon={PILLARS[2].icon}
@@ -431,22 +450,11 @@ export function LandingPage() {
                   description={PILLARS[2].description}
                   darkMode={isDark}
                 />
-              </div>
-              <div className="md:absolute md:bottom-[0%] md:left-[25%] md:w-[320px] lg:w-[350px]">
                 <TypewriterCard
                   index={3}
                   icon={PILLARS[3].icon}
                   title={PILLARS[3].title}
                   description={PILLARS[3].description}
-                  darkMode={isDark}
-                />
-              </div>
-              <div className="md:absolute md:bottom-[15%] md:right-[15%] md:w-[320px] lg:w-[350px]">
-                <TypewriterCard
-                  index={1}
-                  icon={PILLARS[1].icon}
-                  title={PILLARS[1].title}
-                  description={PILLARS[1].description}
                   darkMode={isDark}
                 />
               </div>
@@ -495,49 +503,64 @@ export function LandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 px-4 md:px-8">
               {[
                 {
                   icon: "✦",
                   title: "Engineered Wealth.\nNot Hoped For.",
                   body: "OptiWealth was conceived to bridge the gap between institutional-grade capital management and the everyday investor. We believe wealth is not luck — it is a system.",
+                  delay: "0s",
                 },
                 {
                   icon: "✦",
                   title: "Rules-Based.\nBias-Free.",
                   body: "Every decision OptiWealth makes is governed by strict mathematical models: the same frameworks employed by quant funds, hedge desks, and endowments — now available to you.",
+                  delay: "2s",
                 },
                 {
                   icon: "✦",
                   title: "Transparent\nby Design.",
                   body: "Non-custodial. Zero-knowledge. Fully auditable. We will never hold your funds or obscure our logic. You see everything. You control everything.",
+                  delay: "4s",
                 },
               ].map((card) => (
                 <div
                   key={card.title}
-                  className="p-8 rounded-2xl backdrop-blur-sm space-y-5 group hover:-translate-y-1 transition-all duration-500"
+                  className="relative aspect-square rounded-full flex flex-col items-center justify-center text-center p-8 sm:p-10 backdrop-blur-sm transition-all duration-700 hover:scale-105 hover:z-10 group"
                   style={{
                     border: `1px solid ${cardBorder}`,
-                    backgroundColor: isDark ? "rgba(13,43,30,0.6)" : "rgba(255,255,255,0.6)",
+                    background: isDark
+                      ? "radial-gradient(circle at 30% 30%, rgba(212,175,55,0.1), rgba(13,43,30,0.6) 70%)"
+                      : "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(245,245,240,0.7) 70%)",
+                    boxShadow: isDark 
+                      ? "inset 0 0 40px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.3)"
+                      : "inset 0 0 40px rgba(255,255,255,0.8), 0 20px 40px rgba(0,0,0,0.1)",
+                    animation: `floatBubble 8s ease-in-out infinite alternate`,
+                    animationDelay: card.delay,
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.40)" : "rgba(184,150,14,0.40)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = cardBorder)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.50)" : "rgba(184,150,14,0.50)";
+                    e.currentTarget.style.boxShadow = isDark 
+                      ? "inset 0 0 40px rgba(0,0,0,0.5), 0 0 60px rgba(212,175,55,0.2)"
+                      : "inset 0 0 40px rgba(255,255,255,0.8), 0 0 60px rgba(184,150,14,0.15)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = cardBorder;
+                    e.currentTarget.style.boxShadow = isDark 
+                      ? "inset 0 0 40px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.3)"
+                      : "inset 0 0 40px rgba(255,255,255,0.8), 0 20px 40px rgba(0,0,0,0.1)";
+                  }}
                 >
-                  <div className="text-3xl" style={{ color: scriptColor }}>{card.icon}</div>
-                  <h3
-                    className="text-lg font-black uppercase tracking-tight whitespace-pre-line font-display"
-                    style={{ color: headingColor }}
-                  >
-                    {card.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: subColor }}>{card.body}</p>
-                  {/* Animated underline reveal on hover */}
-                  <div
-                    className="h-[1px] w-0 group-hover:w-full transition-all duration-700"
-                    style={{
-                      background: `linear-gradient(to right, transparent, ${isDark ? "#D4AF37" : "#B8960E"}, transparent)`,
-                    }}
-                  />
+                  <div className="flex flex-col items-center justify-center h-full space-y-4">
+                    <div className="text-3xl transition-transform duration-500 group-hover:rotate-45" style={{ color: scriptColor }}>{card.icon}</div>
+                    <h3
+                      className="text-[13px] sm:text-[15px] font-black uppercase tracking-widest whitespace-pre-line font-display"
+                      style={{ color: headingColor }}
+                    >
+                      {card.title}
+                    </h3>
+                    <p className="text-[10px] sm:text-xs leading-relaxed max-w-[200px]" style={{ color: subColor }}>{card.body}</p>
+                  </div>
                 </div>
               ))}
             </div>

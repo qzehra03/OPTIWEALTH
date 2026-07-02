@@ -2,6 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 60 20% 95%; /* #F5F5F0 */
+    --foreground: 153 43% 8%; /* #0B1C15 */
+    --card: 0 0% 100%;
+    --card-foreground: 153 43% 8%;
+    --primary: 46 65% 52%; /* #D4AF37 Gold */
+    --primary-foreground: 153 43% 8%;
+    --secondary: 153 20% 90%;
+    --secondary-foreground: 153 43% 8%;
+    --muted: 153 20% 90%;
+    --muted-foreground: 153 10% 40%;
+    --accent: 46 65% 52%;
+    --accent-foreground: 153 43% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 153 20% 85%;
+    --input: 153 20% 85%;
+    --ring: 46 65% 52%;
+    --radius: 0.75rem;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --hazard: 0 72% 51%;
+    --hazard-foreground: 0 0% 100%;
+
+    /* Luxe Palette */
+    --luxe-forest: 153 43% 15%;
+    --luxe-emerald: 168 47% 53%;
+    --luxe-copper: 46 65% 52%;
+    --luxe-bronze: 35 45% 45%;
+    --luxe-ivory: 60 20% 95%;
+  }
+
+  .dark {
+    --background: 153 43% 8%; /* #0B1C15 */
+    --foreground: 60 20% 95%;
+    --card: 153 43% 12%;
+    --card-foreground: 60 20% 95%;
+    --primary: 46 65% 52%; /* Gold */
+    --primary-foreground: 153 43% 8%;
+    --secondary: 153 43% 15%;
+    --secondary-foreground: 60 20% 95%;
+    --muted: 153 43% 15%;
+    --muted-foreground: 153 10% 65%;
+    --accent: 46 65% 52%;
+    --accent-foreground: 153 43% 8%;
+    --destructive: 0 63% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 153 43% 20%;
+    --input: 153 43% 20%;
+    --ring: 46 65% 52%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --hazard: 0 72% 51%;
+    --hazard-foreground: 0 0% 100%;
+
+    /* Luxe Palette Dark */
+    --luxe-forest: 153 43% 10%;
+    --luxe-emerald: 168 47% 45%;
+    --luxe-copper: 46 65% 52%;
+    --luxe-bronze: 35 45% 55%;
+    --luxe-ivory: 60 20% 95%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
 @layer utilities {
   .style-3d {
     transform-style: preserve-3d;
@@ -11,6 +88,28 @@
   }
   .rotate-y-180 {
     transform: rotateY(180deg);
+  }
+
+  .fintech-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.4) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }
 
