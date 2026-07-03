@@ -295,7 +295,7 @@ export function OnboardingWizard() {
       </div>
 
       {/* Floating Translucent Glass Tile Container */}
-      <div className="bg-card/75 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 shadow-xl w-full max-w-5xl flex flex-col gap-4 z-10 relative select-none max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-130px)]">
+      <div className="bg-card/75 backdrop-blur-md border border-border rounded-3xl p-6 md:p-8 shadow-xl w-full max-w-[calc(100vw-8rem)] flex flex-col gap-4 z-10 relative select-none max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-130px)]">
         
         {/* Step Indicator & Progress */}
         <div className="space-y-2.5 shrink-0">
@@ -331,7 +331,7 @@ export function OnboardingWizard() {
         {/* Scrollable Main Form Content with Sidebar */}
         <div className="flex-1 flex flex-col md:flex-row gap-6 min-h-0">
           {/* Left Column: Form Content */}
-          <div className="flex-1 overflow-y-auto pr-1.5 custom-scrollbar min-h-0 py-1 space-y-4">
+          <div className="flex-1 overflow-y-auto pr-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] min-h-0 py-1 space-y-4">
             <div
               key={`${step}-${direction}`}
               className={cn(
@@ -377,7 +377,7 @@ export function OnboardingWizard() {
           </div>
 
           {/* Right Column: Live Preview Card Sidebar */}
-          <div className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-border/80 pt-4 md:pt-0 md:pl-6 flex flex-col gap-4 justify-between bg-muted/5 p-4 rounded-2xl overflow-y-auto custom-scrollbar">
+          <div className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-border/80 pt-4 md:pt-0 md:pl-6 flex flex-col gap-4 justify-between overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <div className="space-y-4">
               <div className="flex items-center gap-1.5">
                 <h4 className="font-header font-bold text-xs uppercase tracking-wider text-luxe-bronze">

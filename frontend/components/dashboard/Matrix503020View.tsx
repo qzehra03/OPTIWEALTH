@@ -29,14 +29,14 @@ export function Matrix503020View() {
   const savingsAllocated = savingsTarget * (savingsPercent / 100);
 
   return (
-    <div className="space-y-8 animate-fade-in font-sans antialiased">
+    <div className="space-y-8 animate-fade-in font-sans">
       {/* Title section */}
       <div className="space-y-2">
-        <h2 className="text-3xl font-sans antialiased tracking-tight text-luxe-bronze flex items-center gap-2.5">
-          <PieChart className="h-7 w-7 text-luxe-bronze" />
+        <h2 className="text-3xl font-sans tracking-tight text-foreground flex items-center gap-2.5">
+          <PieChart className="h-7 w-7 text-foreground" />
           50/30/20 Budget Matrix
         </h2>
-        <p className="text-base text-muted-foreground font-sans leading-relaxed">
+        <p className="text-base text-foreground/80 font-sans leading-relaxed">
           Allocate your net monthly income into structural categories to secure regular cash compounding.
         </p>
       </div>
@@ -45,9 +45,9 @@ export function Matrix503020View() {
         {/* Card Header (No accordion toggle) */}
         <div className="p-6 bg-luxe-emerald/40 flex items-center justify-between border-b border-luxe-copper/20">
           <div className="space-y-1.5 flex-1 pr-4">
-            <h3 className="text-xl font-header font-semibold tracking-tight text-luxe-ivory">Monthly Budget Allocation</h3>
-            <p className="text-base text-muted-foreground font-sans">
-              Net income: <strong className="text-luxe-ivory/90 font-semibold">{formatCurrency(income)}/mo</strong> •{" "}
+            <h3 className="text-xl font-header font-semibold tracking-tight text-foreground">Monthly Budget Allocation</h3>
+            <p className="text-base text-foreground/80 font-sans">
+              Net income: <strong className="text-foreground font-semibold">{formatCurrency(income)}/mo</strong> •{" "}
               Status: <span className="text-emerald-600 font-bold">Within Limits</span>
             </p>
           </div>
@@ -61,15 +61,15 @@ export function Matrix503020View() {
               <div className="space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-base">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-sans antialiased tracking-tight font-semibold text-luxe-ivory/90">Needs (50% Target)</span>
+                    <span className="font-sans tracking-tight font-semibold text-foreground">Needs (50% Target)</span>
                     <Tooltip 
                       title="Needs (50% of Income)" 
                       definition="A simple, structured budgeting blueprint used to divide your monthly take-home income into three categories. Needs represent essential living costs." 
                       calculation="We take your total monthly net income and calculate exactly 50% for essential living needs like rent, groceries, and debt payments."
                     />
                   </div>
-                  <span className="font-sans text-muted-foreground">
-                    <strong className="text-luxe-ivory font-bold">{formatCurrency(needsSpent)}</strong> spent of {formatCurrency(needsTarget)} limit
+                  <span className="font-sans text-foreground/80">
+                    <strong className="text-foreground font-bold">{formatCurrency(needsSpent)}</strong> spent of {formatCurrency(needsTarget)} limit
                   </span>
                 </div>
                 <div className="h-4 w-full bg-luxe-forest/60 rounded-full overflow-hidden flex">
@@ -78,7 +78,7 @@ export function Matrix503020View() {
                     style={{ width: '83%' }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground font-sans">
+                <div className="flex items-center justify-between text-sm text-foreground/80 font-sans">
                   <span>Usage: {needsPercent}%</span>
                   <span>{formatCurrency(needsTarget - needsSpent)} remaining</span>
                 </div>
@@ -88,15 +88,15 @@ export function Matrix503020View() {
               <div className="space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-base">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-sans antialiased tracking-tight font-semibold text-luxe-ivory/90">Wants (30% Target)</span>
+                    <span className="font-sans tracking-tight font-semibold text-foreground">Wants (30% Target)</span>
                     <Tooltip 
                       title="Wants (30% of Income)" 
                       definition="A simple, structured budgeting blueprint used to divide your monthly take-home income into three categories. Wants represent personal, non-essential spending." 
                       calculation="We take your total monthly net income and calculate exactly 30% for discretionary personal wants like dining out, shopping, and entertainment."
                     />
                   </div>
-                  <span className="font-sans text-muted-foreground">
-                    <strong className="text-luxe-ivory font-bold">{formatCurrency(wantsSpent)}</strong> spent of {formatCurrency(wantsTarget)} limit
+                  <span className="font-sans text-foreground/80">
+                    <strong className="text-foreground font-bold">{formatCurrency(wantsSpent)}</strong> spent of {formatCurrency(wantsTarget)} limit
                   </span>
                 </div>
                 <div className="h-4 w-full bg-luxe-forest/60 rounded-full overflow-hidden flex">
@@ -105,7 +105,7 @@ export function Matrix503020View() {
                     style={{ width: '60%' }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground font-sans">
+                <div className="flex items-center justify-between text-sm text-foreground/80 font-sans">
                   <span>Usage: {wantsPercent}%</span>
                   <span>{formatCurrency(wantsTarget - wantsSpent)} remaining</span>
                 </div>
@@ -115,15 +115,15 @@ export function Matrix503020View() {
               <div className="space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-base">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-sans antialiased tracking-tight font-semibold text-luxe-ivory/90">Savings & Investments (20% Target)</span>
+                    <span className="font-sans tracking-tight font-semibold text-foreground">Savings & Investments (20% Target)</span>
                     <Tooltip 
                       title="Savings & Investments (20% of Income)" 
                       definition="A simple, structured budgeting blueprint used to divide your monthly take-home income into three categories. Savings are directed into wealth building." 
                       calculation="We take your total monthly net income and calculate exactly 20% to be directed straight into long-term investments and savings caches."
                     />
                   </div>
-                  <span className="font-sans text-muted-foreground">
-                    <strong className="text-luxe-ivory font-bold">{formatCurrency(savingsAllocated)}</strong> filled of {formatCurrency(savingsTarget)} target
+                  <span className="font-sans text-foreground/80">
+                    <strong className="text-foreground font-bold">{formatCurrency(savingsAllocated)}</strong> filled of {formatCurrency(savingsTarget)} target
                   </span>
                 </div>
                 <div className="h-4 w-full bg-luxe-forest/60 rounded-full overflow-hidden flex">
@@ -132,7 +132,7 @@ export function Matrix503020View() {
                     style={{ width: '75%' }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground font-sans">
+                <div className="flex items-center justify-between text-sm text-foreground/80 font-sans">
                   <span>Compounding: {savingsPercent}% filled</span>
                   <span>{formatCurrency(savingsTarget - savingsAllocated)} deficit</span>
                 </div>
@@ -142,30 +142,30 @@ export function Matrix503020View() {
             {/* Matrix details card */}
             <div className="p-5 rounded-2xl border border-luxe-copper/20 bg-luxe-forest/40 grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-1.5">
-                <div className="text-luxe-ivory font-bold tracking-wider text-sm uppercase">NEEDS CATEGORY</div>
-                <p className="text-sm text-muted-foreground font-sans leading-relaxed mt-2">
+                <div className="text-foreground font-bold tracking-wider text-sm uppercase">NEEDS CATEGORY</div>
+                <p className="text-sm text-foreground/80 font-sans leading-relaxed mt-2">
                   Includes rent, home loans, utilities, groceries, insurance premiums, and minimum debt payments. Your needs consume <span className="font-semibold">{Math.round((needsSpent / income) * 100)}%</span> of total net income.
                 </p>
               </div>
               <div className="space-y-1.5">
-                <div className="text-luxe-ivory font-bold tracking-wider text-sm uppercase">WANTS CATEGORY</div>
-                <p className="text-sm text-muted-foreground font-sans leading-relaxed mt-2">
+                <div className="text-foreground font-bold tracking-wider text-sm uppercase">WANTS CATEGORY</div>
+                <p className="text-sm text-foreground/80 font-sans leading-relaxed mt-2">
                   Includes dining out, subscriptions, shopping, travel, and non-essential expenses. Your wants consume <span className="font-semibold">{Math.round((wantsSpent / income) * 100)}%</span> of total net income.
                 </p>
               </div>
               <div className="space-y-1.5">
-                <div className="text-luxe-ivory font-bold tracking-wider text-sm uppercase">SAVINGS CATEGORY</div>
-                <p className="text-sm text-muted-foreground font-sans leading-relaxed mt-2">
+                <div className="text-foreground font-bold tracking-wider text-sm uppercase">SAVINGS CATEGORY</div>
+                <p className="text-sm text-foreground/80 font-sans leading-relaxed mt-2">
                   Includes investments, mutual funds, EPF contributions, stock portfolios, and building emergency cache. You currently allocate <span className="font-semibold">{Math.round((savingsAllocated / income) * 100)}%</span> of your total net income.
                 </p>
               </div>
             </div>
 
             {/* Recommendation alert */}
-            <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-luxe-ivory/90 text-sm flex gap-3 items-start">
+            <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-foreground text-sm flex gap-3 items-start">
               <CheckCircle className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-luxe-ivory font-header">Optimization Recommendation:</span> Your current monthly expenses are well balanced. Maintain this exact allocation ratio to preserve your <strong>{needsPercent >= 90 ? "Warning" : "Optimized"}</strong> status. Your savings are on track to increase your overall Health Index score dynamically over the next 90 days.
+                <span className="font-bold text-foreground font-header">Optimization Recommendation:</span> Your current monthly expenses are well balanced. Maintain this exact allocation ratio to preserve your <strong>{needsPercent >= 90 ? "Warning" : "Optimized"}</strong> status. Your savings are on track to increase your overall Health Index score dynamically over the next 90 days.
               </div>
             </div>
           </CardContent>

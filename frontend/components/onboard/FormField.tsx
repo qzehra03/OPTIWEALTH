@@ -23,12 +23,12 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div className={cn("space-y-1.5", className)}>
-      <Label htmlFor={id} className="text-slate-700 font-semibold text-sm tracking-wide font-sans">
+      <Label htmlFor={id} className="text-foreground font-semibold text-sm tracking-wide font-sans">
         {label}
       </Label>
       {children}
       {hint && !error && (
-        <p className="text-[11px] text-slate-500 font-sans">{hint}</p>
+        <p className="text-[11px] text-muted-foreground font-sans">{hint}</p>
       )}
       {error && (
         <p className="text-red-500 font-sans text-xs font-semibold mt-1 flex items-center gap-1" role="alert">

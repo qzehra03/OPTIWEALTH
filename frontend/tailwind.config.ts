@@ -92,7 +92,10 @@ const config: Config = {
         header: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
         display: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
         script: ["var(--font-script)", "cursive"],
-        mono: ["var(--font-geist-mono)", "monospace"],
+        mono: ['var(--font-geist-mono)', 'monospace'],
+        playful: ['var(--font-playful)', 'sans-serif'],
+        landing: ['var(--font-landing-sans)', 'sans-serif'],
+        landingHeader: ['var(--font-landing-header)', 'serif'],
       },
       keyframes: {
         "slide-in-right": {

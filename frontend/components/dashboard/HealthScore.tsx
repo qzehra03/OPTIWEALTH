@@ -62,7 +62,7 @@ export function HealthScore({ data }: HealthScoreProps) {
   const expenseRatio = Number(metrics.expense_ratio_percent ?? 0);
 
   return (
-    <Card className="border border-border bg-card shadow-sm font-sans text-card-foreground">
+    <Card className="border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm font-sans text-card-foreground">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-2xl font-header font-semibold tracking-tight text-foreground">Financial Health Index</CardTitle>
@@ -72,7 +72,7 @@ export function HealthScore({ data }: HealthScoreProps) {
       <CardContent>
         <div className="space-y-8 mt-4">
           {/* Top Centered circular health gauge */}
-          <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-muted/40 border border-border shadow-sm max-w-sm mx-auto w-full">
+          <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-muted/40 border border-luxe-copper/30 dark:border-luxe-copper/20 shadow-sm max-w-sm mx-auto w-full">
             <div className="relative w-36 h-36 flex items-center justify-center">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 200 200">
                 <circle
@@ -97,12 +97,12 @@ export function HealthScore({ data }: HealthScoreProps) {
               </svg>
               <div className="absolute flex flex-col items-center justify-center text-center">
                 <span className="text-4xl font-extrabold tracking-tight font-sans text-foreground">{Math.round(health_score)}</span>
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-header mt-1">
+                <span className="text-xs font-bold text-foreground/80 uppercase tracking-wider font-header mt-1">
                   {rating}
                 </span>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground text-center mt-4 max-w-[260px] font-sans leading-relaxed">
+            <p className="text-sm text-foreground/80 text-center mt-4 max-w-[260px] font-sans leading-relaxed">
               Calculated dynamically by the OptiWealth backend analysis engines.
             </p>
           </div>
@@ -110,11 +110,11 @@ export function HealthScore({ data }: HealthScoreProps) {
           {/* Bottom 1-column vertical list */}
           <div className="grid grid-cols-1 gap-4 w-full mt-4">
             {/* Savings Rate Card */}
-            <div id="savings-rate-card" className="p-4 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between text-card-foreground">
+            <div id="savings-rate-card" className="p-4 rounded-xl border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm flex flex-col justify-between text-card-foreground">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-header">SAVINGS RATE</span>
+                    <span className="text-xs font-semibold tracking-wider text-foreground/80 uppercase font-header">SAVINGS RATE</span>
                     <Tooltip 
                       title="Portfolio Yield / ROI" 
                       definition="The percentage score that shows how much profit or loss your investments made over a specific period." 
@@ -130,17 +130,17 @@ export function HealthScore({ data }: HealthScoreProps) {
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 font-sans leading-relaxed">
+              <p className="text-xs text-foreground/80 mt-2 font-sans leading-relaxed">
                 Target: 50% or more. Currently saving {savingsRate}% of your gross monthly income.
               </p>
             </div>
 
             {/* Emergency Fund Card */}
-            <div className="p-4 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between text-card-foreground">
+            <div className="p-4 rounded-xl border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm flex flex-col justify-between text-card-foreground">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-header">EMERGENCY BUFFER</span>
+                    <span className="text-xs font-semibold tracking-wider text-foreground/80 uppercase font-header">EMERGENCY BUFFER</span>
                     <Tooltip 
                       title="Liquidity" 
                       definition="How quickly and easily you can convert an asset back into spendable cash without losing its value." 
@@ -156,17 +156,17 @@ export function HealthScore({ data }: HealthScoreProps) {
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 font-sans leading-relaxed">
+              <p className="text-xs text-foreground/80 mt-2 font-sans leading-relaxed">
                 Target: 6 months of expenses. You have {emergencyMonths} months covered.
               </p>
             </div>
 
             {/* DTI Card */}
-            <div id="debt-income-card" className="p-4 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between text-card-foreground">
+            <div id="debt-income-card" className="p-4 rounded-xl border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm flex flex-col justify-between text-card-foreground">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-header">DEBT-TO-INCOME</span>
+                    <span className="text-xs font-semibold tracking-wider text-foreground/80 uppercase font-header">DEBT-TO-INCOME</span>
                     <Tooltip 
                       title="Debt-To-Income" 
                       definition="The portion of your gross monthly income that goes toward paying off debts." 
@@ -182,17 +182,17 @@ export function HealthScore({ data }: HealthScoreProps) {
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 font-sans leading-relaxed">
+              <p className="text-xs text-foreground/80 mt-2 font-sans leading-relaxed">
                 Target: 20% or less. High DTI reduces liquidity and increases financial risk.
               </p>
             </div>
 
             {/* Spending Discipline Card */}
-            <div id="expense-ratio-card" className="p-4 rounded-xl border border-border bg-card shadow-sm flex flex-col justify-between text-card-foreground">
+            <div id="expense-ratio-card" className="p-4 rounded-xl border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm flex flex-col justify-between text-card-foreground">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-header">EXPENSE RATIO</span>
+                    <span className="text-xs font-semibold tracking-wider text-foreground/80 uppercase font-header">EXPENSE RATIO</span>
                     <Tooltip 
                       title="Expense Ratio" 
                       definition="The annual management fee charged by an investment fund to cover its operational costs." 
@@ -208,7 +208,7 @@ export function HealthScore({ data }: HealthScoreProps) {
                   </span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 font-sans leading-relaxed">
+              <p className="text-xs text-foreground/80 mt-2 font-sans leading-relaxed">
                 Target: 50% or less. Your expenses consume {expenseRatio}% of your monthly earnings.
               </p>
             </div>

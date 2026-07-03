@@ -76,7 +76,7 @@ export function DailyCashLimitWidget() {
   const strokeDashoffset = circumference - fillPercent * circumference;
 
   return (
-    <Card id="daily-cash-limit-card" className="border border-border bg-card shadow-sm font-sans flex flex-col justify-between text-card-foreground">
+    <Card id="daily-cash-limit-card" className="border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card shadow-sm font-sans flex flex-col justify-between text-card-foreground">
       <div>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
@@ -99,13 +99,13 @@ export function DailyCashLimitWidget() {
               </Badge>
             )}
           </div>
-          <CardDescription className="text-sm text-muted-foreground font-sans mt-1">
+          <CardDescription className="text-sm text-foreground/80 font-sans mt-1">
             Predictive liquidity guard adjusts limits to prevent end-of-month cash dips.
           </CardDescription>
         </CardHeader>
         
         <CardContent className="pt-4 space-y-6">
-          <div className="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-muted/50 border border-border shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-muted/50 border border-luxe-copper/30 dark:border-luxe-copper/20 shadow-sm">
             {/* Ring gauge */}
             <div className="relative w-32 h-32 flex items-center justify-center shrink-0">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 150 150">
@@ -130,8 +130,8 @@ export function DailyCashLimitWidget() {
                 />
               </svg>
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-2xl font-extrabold font-sans text-foreground">₹{remainingToday}</span>
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-header mt-0.5">
+                <span className="text-2xl font-bold font-header tracking-tight text-foreground">₹{remainingToday}</span>
+                <span className="text-[10px] font-bold text-foreground/80 uppercase tracking-wider font-header mt-0.5">
                   Remaining
                 </span>
               </div>
@@ -139,19 +139,19 @@ export function DailyCashLimitWidget() {
 
             {/* Metrics column */}
             <div className="flex-1 space-y-2 text-base">
-              <div className="flex justify-between text-muted-foreground font-sans">
+              <div className="flex justify-between text-foreground/80 font-sans">
                 <span>Standard Limit:</span>
                 <span className="font-semibold text-foreground">₹{standardDailyLimit}</span>
               </div>
-              <div className="flex justify-between text-muted-foreground font-sans">
+              <div className="flex justify-between text-foreground/80 font-sans">
                 <span>Runway Discount:</span>
                 <span className="font-semibold text-amber-600">-₹{dailyRunwayReduction}</span>
               </div>
-              <div className="flex justify-between text-muted-foreground font-sans border-t border-border pt-2 font-bold">
+              <div className="flex justify-between text-foreground/80 font-sans border-t border-luxe-copper/30 dark:border-luxe-copper/20 pt-2 font-bold">
                 <span>Adjusted Limit:</span>
                 <span className="text-foreground">₹{adjustedDailyLimit}</span>
               </div>
-              <div className="flex justify-between text-muted-foreground font-sans text-sm mt-1">
+              <div className="flex justify-between text-foreground/80 font-sans text-sm mt-1">
                 <span>Spent today:</span>
                 <span className="text-foreground font-medium">₹{spentToday}</span>
               </div>
@@ -159,9 +159,9 @@ export function DailyCashLimitWidget() {
           </div>
 
           {/* Behavioral Reward Shortcuts */}
-          <div className="pt-4 border-t border-border mt-4 space-y-3">
+          <div className="pt-4 border-t border-luxe-copper/30 dark:border-luxe-copper/20 mt-4 space-y-3">
             <div className="flex items-center justify-between">
-              <h5 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-header">Behavioral Rewards</h5>
+              <h5 className="text-xs font-semibold tracking-wider text-foreground/80 uppercase font-header">Behavioral Rewards</h5>
               {spentToday !== 100 && (
                 <button 
                   onClick={() => setSpentToday(100)} 
@@ -174,13 +174,13 @@ export function DailyCashLimitWidget() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSpentToday(prev => prev - 150)}
-                className="bg-muted text-foreground text-xs py-1.5 px-3 rounded-full border border-border hover:bg-accent hover:text-accent-foreground font-medium transition-all outline-none"
+                className="bg-muted text-foreground text-xs py-1.5 px-3 rounded-full border border-luxe-copper/30 dark:border-luxe-copper/20 hover:bg-accent hover:text-accent-foreground font-medium transition-all outline-none"
               >
                 ☕ Skipped Coffee (+₹150)
               </button>
               <button
                 onClick={() => setSpentToday(prev => prev - 300)}
-                className="bg-muted text-foreground text-xs py-1.5 px-3 rounded-full border border-border hover:bg-accent hover:text-accent-foreground font-medium transition-all outline-none"
+                className="bg-muted text-foreground text-xs py-1.5 px-3 rounded-full border border-luxe-copper/30 dark:border-luxe-copper/20 hover:bg-accent hover:text-accent-foreground font-medium transition-all outline-none"
               >
                 🚗 Took Metro (+₹300)
               </button>
@@ -188,17 +188,17 @@ export function DailyCashLimitWidget() {
           </div>
 
           {/* Runway event timeline */}
-          <div className="pt-4 border-t border-border mt-4 space-y-3">
-            <h4 className="text-base font-sans antialiased tracking-tight text-foreground flex items-center gap-1.5">
+          <div className="pt-4 border-t border-luxe-copper/30 dark:border-luxe-copper/20 mt-4 space-y-3">
+            <h4 className="text-base font-sans tracking-tight text-foreground flex items-center gap-1.5">
               <Calendar className="h-4.5 w-4.5 text-primary" />
               Predictive Event Runway
             </h4>
             <div className="space-y-2">
               {events.map((event) => (
-                <div key={event.id} className="flex items-center justify-between p-3.5 rounded-xl border border-border bg-card hover:bg-accent transition-colors">
+                <div key={event.id} className="flex items-center justify-between p-3.5 rounded-xl border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card hover:bg-accent transition-colors">
                   <div className="space-y-0.5">
                     <p className="text-sm font-bold text-foreground font-header">{event.name}</p>
-                    <p className="text-xs text-muted-foreground font-sans">{event.dateStr} ({event.daysRemaining} days left)</p>
+                    <p className="text-xs text-foreground/80 font-sans">{event.dateStr} ({event.daysRemaining} days left)</p>
                   </div>
                   <div className="text-right">
                     <span className="text-sm font-bold font-sans text-foreground">₹{event.amount}</span>

@@ -3,38 +3,21 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
-import { Playfair_Display, Montserrat, Lora, Inter, Fraunces, Great_Vibes } from "next/font/google";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-fraunces", // Map to --font-fraunces so 'font-header' picks it up (Headings)
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-playful", // Used for tabs/subheadings
-  display: "swap",
-});
-
-const lora = Lora({
-  subsets: ["latin"],
-  variable: "--font-inter", // Map to --font-inter so 'font-sans' picks it up (Actual Body Text)
-  display: "swap",
-});
+import { Playfair_Display, Montserrat, Lora } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-landing-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
 const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-landing-header",
+  variable: "--font-fraunces",
   display: "swap",
 });
 
+const fredoka = Fredoka({ subsets: ['latin'], variable: '--font-playful', display: 'swap' });
 const greatVibes = Great_Vibes({
   subsets: ["latin"],
   weight: "400",
@@ -54,28 +37,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${montserrat.variable} ${lora.variable} ${playfair.variable} ${inter.variable} ${fraunces.variable} ${greatVibes.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${fraunces.variable} ${greatVibes.variable} ${fredoka.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  var saved = localStorage.getItem('theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var active = saved || (prefersDark ? 'dark' : 'light');
+                  if (active === 'dark') {
                     document.documentElement.classList.add('dark');
                   } else {
                     document.documentElement.classList.remove('dark');
                   }
                 } catch (e) {}
-              })();
+              })()
             `,
           }}
         />
       </head>
-      <body className="font-sans antialiased bg-bgBase text-textPrimary">
+      <body className="font-sans min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

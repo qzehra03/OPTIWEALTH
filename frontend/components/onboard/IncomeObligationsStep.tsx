@@ -217,12 +217,12 @@ export function IncomeObligationsStep({
         <Card className="border border-luxe-copper/20 bg-luxe-emerald/30 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <div>
-              <CardTitle className="text-sm font-bold text-luxe-ivory font-header">Active Debts</CardTitle>
+              <CardTitle className="text-sm font-bold text-foreground font-header">Active Debts</CardTitle>
               <p className="text-[10px] text-muted-foreground font-sans">
                 Liabilities list
               </p>
             </div>
-            <Button type="button" variant="outline" size="sm" onClick={addDebt} className="h-7 text-xs border-luxe-copper/30 text-luxe-ivory/90 hover:bg-luxe-forest/50 rounded-lg">
+            <Button type="button" variant="outline" size="sm" onClick={addDebt} className="h-7 text-xs border-luxe-copper/30 text-foreground hover:bg-luxe-forest/50 rounded-lg">
               <Plus className="h-3.5 w-3.5 mr-1" />
               Add
             </Button>

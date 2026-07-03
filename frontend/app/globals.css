@@ -3,58 +3,83 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 15px;
+  }
+  
   :root {
-    --background: 60 20% 95%; /* #F5F5F0 */
-    --foreground: 153 43% 8%; /* #0B1C15 */
-    --card: 0 0% 100%;
-    --card-foreground: 153 43% 8%;
-    --primary: 46 65% 52%; /* #D4AF37 Gold */
-    --primary-foreground: 153 43% 8%;
-    --secondary: 153 20% 90%;
-    --secondary-foreground: 153 43% 8%;
-    --muted: 153 20% 90%;
-    --muted-foreground: 153 10% 40%;
-    --accent: 46 65% 52%;
-    --accent-foreground: 153 43% 8%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 153 20% 85%;
-    --input: 153 20% 85%;
-    --ring: 46 65% 52%;
-    --radius: 0.75rem;
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --hazard: 0 72% 51%;
-    --hazard-foreground: 0 0% 100%;
+    /* Backgrounds */
+    --background: 79 26% 71%; /* #BCC8A1 (Lighter Sage Green) */
+    --card: 71 38% 82%; /* #DDE3C1 (Light Cream/Ivory Green) */
+    --secondary: 161 52% 63%; /* #6FD1B2 (Mint Green) */
+    --muted: 88 20% 65%; /* #A7B894 (Muted Sage) */
+    
+    /* Borders & Inputs */
+    --border: 86 18% 56%; /* #91A37A (Darker Sage) */
+    --input: 86 18% 56%; /* #91A37A */
+    
+    /* Accents (Golds) */
+    --primary: 41 54% 54%; /* #C89F49 (Medium Gold / Mustard) */
+    --accent: 43 67% 66%; /* #E2C16F (Soft Gold / Sand) */
+    --ring: 48 42% 39%; /* #8E7D3A (Dark Bronze / Gold) */
 
-    /* Luxe Palette */
-    --luxe-forest: 153 43% 15%;
-    --luxe-emerald: 168 47% 53%;
-    --luxe-copper: 46 65% 52%;
-    --luxe-bronze: 35 45% 45%;
-    --luxe-ivory: 60 20% 95%;
+    /* Text */
+    --foreground: 154 59% 11%; /* Very Dark Green (from dark mode for contrast) */
+    --card-foreground: 154 59% 11%;
+    --primary-foreground: 154 59% 11%; /* Dark text on Gold background */
+    --secondary-foreground: 154 59% 11%; /* Dark text on Mint background */
+    --muted-foreground: 154 59% 11%; /* Dark text on Muted backgrounds */
+    --accent-foreground: 154 59% 11%; /* Dark text on Sand backgrounds */
+    
+    /* States */
+    --destructive: 0 63% 51%;
+    --destructive-foreground: 154 59% 11%;
+    --success: 142 71% 45%;
+    --success-foreground: 154 59% 11%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 154 59% 11%;
+    --hazard: 0 72% 51%;
+    --hazard-foreground: 154 59% 11%;
+
+    /* Luxe Palette Light (Direct Map) */
+    --luxe-forest: 154 59% 11%;
+    --luxe-emerald: 161 52% 63%;
+    --luxe-copper: 41 54% 54%;
+    --luxe-bronze: 48 42% 39%;
+    --luxe-ivory: 71 38% 82%;
+
+    /* Dynamic Dashboard Backgrounds */
+    --dashboard-bg-image: url("/light-bg.png");
+    --dashboard-bg-blend: soft-light;
   }
 
   .dark {
-    --background: 153 43% 8%; /* #0B1C15 */
-    --foreground: 60 20% 95%;
-    --card: 153 43% 12%;
+    /* Backgrounds */
+    --background: 154 59% 11%; /* #0B2B1D (Deepest Black/Green) */
+    --card: 155 60% 17%; /* #124731 (Deep Forest) */
+    --secondary: 145 25% 39%; /* #4A7C5F (Muted Green) */
+    --muted: 153 42% 26%; /* #265C44 (Dark Green) */
+    
+    /* Borders & Inputs */
+    --border: 153 42% 26%; /* #265C44 (Dark Green) */
+    --input: 153 42% 26%; /* #265C44 (Dark Green) */
+    
+    /* Accents (Gold/Bronze) */
+    --primary: 38 55% 56%; /* #CDA052 (Light Gold) */
+    --accent: 36 42% 48%; /* #AE8648 (Bronze/Deep Gold) */
+    --ring: 38 55% 56%; /* #CDA052 (Light Gold) */
+
+    /* Text */
+    --foreground: 60 20% 95%; /* Keep readable cream for text */
     --card-foreground: 60 20% 95%;
-    --primary: 46 65% 52%; /* Gold */
-    --primary-foreground: 153 43% 8%;
-    --secondary: 153 43% 15%;
+    --primary-foreground: 154 59% 11%;
     --secondary-foreground: 60 20% 95%;
-    --muted: 153 43% 15%;
     --muted-foreground: 153 10% 65%;
-    --accent: 46 65% 52%;
-    --accent-foreground: 153 43% 8%;
+    --accent-foreground: 154 59% 11%;
+    
+    /* States */
     --destructive: 0 63% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 153 43% 20%;
-    --input: 153 43% 20%;
-    --ring: 46 65% 52%;
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
@@ -62,12 +87,16 @@
     --hazard: 0 72% 51%;
     --hazard-foreground: 0 0% 100%;
 
-    /* Luxe Palette Dark */
-    --luxe-forest: 153 43% 10%;
-    --luxe-emerald: 168 47% 45%;
-    --luxe-copper: 46 65% 52%;
-    --luxe-bronze: 35 45% 55%;
+    /* Luxe Palette Dark (Direct Map) */
+    --luxe-forest: 154 59% 11%;
+    --luxe-emerald: 145 25% 39%;
+    --luxe-copper: 38 55% 56%;
+    --luxe-bronze: 36 42% 48%;
     --luxe-ivory: 60 20% 95%;
+
+    /* Dynamic Dashboard Backgrounds */
+    --dashboard-bg-image: url("/chatgpt-bg.png");
+    --dashboard-bg-blend: overlay;
   }
 
   * {
@@ -91,10 +120,23 @@
   }
 
   .fintech-grid {
-    background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.4) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.4) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(200, 159, 73, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(200, 159, 73, 0.05) 1px, transparent 1px);
+  }
+
+  .fintech-topography {
+    background-color: var(--background);
+    background-size: 400px, 40px 40px, 40px 40px, cover;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='400' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200c50-20 100-20 150 0s100 20 150 0 100-20 150 0v200H0V200z' fill='none' stroke='rgba(111,209,178,0.04)' stroke-width='1'/%3E%3Cpath d='M0 100c50-30 150-10 200 10s100 20 200-10v300H0V100z' fill='none' stroke='rgba(200,159,73,0.03)' stroke-width='1'/%3E%3Ccircle cx='200' cy='200' r='100' fill='none' stroke='rgba(111,209,178,0.02)' stroke-width='1'/%3E%3Ccircle cx='200' cy='200' r='150' fill='none' stroke='rgba(200,159,73,0.02)' stroke-width='1'/%3E%3Cpath d='M0 300c100 20 200-20 300 0s100 20 100 0' fill='none' stroke='rgba(111,209,178,0.03)' stroke-width='1'/%3E%3C/svg%3E"),
+      linear-gradient(to right, rgba(200, 159, 73, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(200, 159, 73, 0.04) 1px, transparent 1px),
+      var(--dashboard-bg-image);
+    background-position: center center, top left, top left, center center;
+    background-attachment: scroll, scroll, scroll, fixed;
+    background-blend-mode: normal, normal, normal, var(--dashboard-bg-blend);
   }
 
   @keyframes fadeInUp {

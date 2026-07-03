@@ -57,12 +57,12 @@ function TaxFormattedField({
     <div className="space-y-1.5">
       <Label
         htmlFor={id}
-        className="font-sans font-semibold text-luxe-ivory/90 text-sm block tracking-wide"
+        className="font-sans font-semibold text-foreground text-sm block tracking-wide"
       >
         {label}
       </Label>
       <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-luxe-bronze">
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-foreground/70">
           ₹
         </span>
         <Input
@@ -71,7 +71,7 @@ function TaxFormattedField({
           inputMode="numeric"
           value={displayValue}
           onChange={handleInputChange}
-          className="pl-8 bg-luxe-forest/50 border-luxe-copper/30 text-luxe-bronze font-extrabold text-xl placeholder-slate-400 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none h-10 rounded-lg font-sans"
+          className="pl-8 bg-background/50 border-border text-foreground font-extrabold text-xl placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary focus-visible:ring-primary focus-visible:border-primary focus-visible:ring-offset-0 outline-none h-10 rounded-lg font-sans"
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
           placeholder="0"

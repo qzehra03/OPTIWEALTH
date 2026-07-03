@@ -113,6 +113,15 @@ export function DashboardView() {
 
   const isExpanded = !isCollapsed || isHovered;
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty('--mouse-x', `${x}px`);
+    target.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   const loadDashboardData = () => {
     if (!user) return;
     setLoading(true);
@@ -162,15 +171,15 @@ export function DashboardView() {
         <aside 
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`fixed left-0 top-0 h-screen z-40 bg-card border-r border-border flex flex-col justify-between transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-16"}`}
+          className={`fixed left-0 top-0 h-screen z-40 bg-card border-r border-luxe-copper/30 dark:border-luxe-copper/20 flex flex-col justify-between transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-16"}`}
         >
           <div className="flex flex-col flex-1 min-h-0">
             {/* Header logo & menu toggle */}
-            <div className={`flex items-center justify-between py-5 border-b border-border ${isExpanded ? "px-6" : "px-2 justify-center"}`}>
+            <div className={`flex items-center justify-between py-5 border-b border-luxe-copper/30 dark:border-luxe-copper/20 ${isExpanded ? "px-6" : "px-2 justify-center"}`}>
               {isExpanded ? (
                 <div className="flex items-center gap-3 overflow-hidden">
                   <PremiumOptiWealthLogo className="h-8 w-8 text-finance-deep shrink-0" />
-                  <span className="font-sans antialiased tracking-tight text-xl text-finance-deep font-bold">OptiWealth</span>
+                  <span className="font-sans tracking-tight text-xl text-finance-deep font-bold">OptiWealth</span>
                 </div>
               ) : (
                 <div className="flex items-center justify-center shrink-0">
@@ -180,7 +189,7 @@ export function DashboardView() {
               {isExpanded && (
                 <button 
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="text-muted-foreground hover:text-foreground focus:outline-none p-1 rounded hover:bg-accent transition-colors shrink-0"
+                  className="text-foreground/80 hover:text-foreground focus:outline-none p-1 rounded hover:bg-accent transition-colors shrink-0"
                 >
                   <Menu className="h-5 w-5" />
                 </button>
@@ -192,12 +201,12 @@ export function DashboardView() {
               {/* Overview */}
               <button
                 onClick={() => setActiveView("overview")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "overview"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 shrink-0" />
@@ -207,12 +216,12 @@ export function DashboardView() {
               {/* 50/30/20 Matrix */}
               <button
                 onClick={() => setActiveView("matrix")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "matrix"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <PieChart className="h-4 w-4 shrink-0" />
@@ -222,12 +231,12 @@ export function DashboardView() {
               {/* Tax Engine */}
               <button
                 onClick={() => setActiveView("tax")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "tax"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Percent className="h-4 w-4 shrink-0" />
@@ -237,12 +246,12 @@ export function DashboardView() {
               {/* Debt Router */}
               <button
                 onClick={() => setActiveView("debt")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "debt"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <TrendingDown className="h-4 w-4 shrink-0" />
@@ -252,12 +261,12 @@ export function DashboardView() {
               {/* Retirement Center */}
               <button
                 onClick={() => setActiveView("retirement")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "retirement"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Coins className="h-4 w-4 shrink-0" />
@@ -267,12 +276,12 @@ export function DashboardView() {
               {/* Impulse Guard */}
               <button
                 onClick={() => setActiveView("impulse")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "impulse"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <ShieldAlert className="h-4 w-4 shrink-0" />
@@ -282,12 +291,12 @@ export function DashboardView() {
               {/* Car Affordability */}
               <button
                 onClick={() => setActiveView("car_affordability")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "car_affordability"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Car className="h-4 w-4 shrink-0" />
@@ -297,12 +306,12 @@ export function DashboardView() {
               {/* Data Pipeline */}
               <button
                 onClick={() => setActiveView("pipeline")}
-                className={`w-full flex items-center rounded-lg text-xs font-semibold transition-all outline-none ${
+                className={`w-full flex items-center rounded-lg text-[15px] font-playful font-medium tracking-wide transition-all outline-none ${
                   isExpanded ? "gap-3 px-4 py-2.5" : "justify-center px-2 py-2.5"
                 } ${
                   activeView === "pipeline"
                     ? "bg-accent text-accent-foreground border-l-4 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    : "text-foreground/80 hover:text-foreground hover:bg-accent"
                 }`}
               >
                 <Database className="h-4 w-4 shrink-0" />
@@ -312,22 +321,22 @@ export function DashboardView() {
           </div>
 
           {/* Footer reviewer card & logout button */}
-          <div className={`p-4 border-t border-border bg-muted/30 transition-all duration-300 ${isExpanded ? "" : "px-2"}`}>
+          <div className={`p-4 border-t border-luxe-copper/30 dark:border-luxe-copper/20 bg-muted/30 transition-all duration-300 ${isExpanded ? "" : "px-2"}`}>
             <div className="flex items-center gap-3 mb-4 justify-center">
               <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold font-header text-sm shrink-0">
                 SR
               </div>
               <div className={`min-w-0 flex-1 transition-all duration-300 overflow-hidden whitespace-nowrap ${isExpanded ? "w-auto opacity-100" : "w-0 opacity-0"}`}>
                 <p className="text-xs font-bold text-foreground truncate leading-none">Sandbox Reviewer</p>
-                <p className="text-[10px] text-muted-foreground truncate mt-1">reviewer@optiwealth.io</p>
+                <p className="text-[10px] text-foreground/80 truncate mt-1">reviewer@optiwealth.io</p>
               </div>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={logout}
-              className={`flex items-center text-rose-600 border-border bg-card hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 dark:hover:bg-rose-950/20 transition-colors ${
-                isExpanded ? "w-full justify-start gap-2 h-9 text-xs font-semibold" : "w-full justify-center p-0 h-9"
+              className={`flex items-center text-rose-600 border-luxe-copper/30 dark:border-luxe-copper/20 bg-card hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 dark:hover:bg-rose-950/20 transition-colors ${
+                isExpanded ? "w-full justify-start gap-2 h-9 text-[15px] font-playful font-medium tracking-wide" : "w-full justify-center p-0 h-9"
               }`}
             >
               <LogOut className="h-4 w-4 shrink-0" />
@@ -339,9 +348,9 @@ export function DashboardView() {
         {/* Right content workspace */}
         <div className="flex-1 flex flex-col min-w-0 min-h-screen">
           {/* Top navigation header */}
-          <header className="sticky top-0 bg-card/85 backdrop-blur-md border-b border-border px-8 py-4 flex items-center justify-between z-10 shrink-0">
+          <header className="sticky top-0 bg-card/85 backdrop-blur-md border-b border-luxe-copper/30 dark:border-luxe-copper/20 px-8 py-4 flex items-center justify-between z-10 shrink-0">
             <div>
-              <h1 className="text-xs font-header font-semibold tracking-wider text-muted-foreground uppercase">
+              <h1 className="text-xs font-header font-semibold tracking-wider text-foreground/80 uppercase">
                 {activeView === "overview" && "Dashboard"}
                 {activeView === "matrix" && "50/30/20 Budget Matrix"}
                 {activeView === "tax" && "Tax Engine FY 2026-27"}
@@ -358,7 +367,7 @@ export function DashboardView() {
                 variant="outline"
                 size="sm"
                 onClick={() => setIsGlossaryOpen(true)}
-                className="flex items-center gap-1.5 h-8 text-xs font-semibold border-luxe-copper/40 bg-card hover:bg-muted text-foreground transition-colors"
+                className="flex items-center gap-1.5 h-8 text-[15px] font-playful font-medium tracking-wide border-luxe-copper/40 bg-card hover:bg-muted text-foreground transition-colors"
               >
                 <BookOpen className="h-3.5 w-3.5 text-luxe-copper animate-pulse" />
                 Glossary
@@ -368,7 +377,7 @@ export function DashboardView() {
                 size="sm"
                 onClick={loadDashboardData}
                 disabled={loading}
-                className="flex items-center gap-1.5 h-8 text-xs font-semibold border-border bg-card hover:bg-accent text-foreground transition-colors"
+                className="flex items-center gap-1.5 h-8 text-[15px] font-playful font-medium tracking-wide border-luxe-copper/30 dark:border-luxe-copper/20 bg-card hover:bg-accent text-foreground transition-colors"
               >
                 <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
                 Sync Data
@@ -378,13 +387,13 @@ export function DashboardView() {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-2 h-8 px-2.5 rounded-lg border border-border bg-card hover:bg-accent transition-colors text-xs font-semibold text-foreground outline-none font-sans"
+                  className="flex items-center gap-2 h-8 px-2.5 rounded-lg border border-luxe-copper/30 dark:border-luxe-copper/20 bg-card hover:bg-accent transition-colors text-[15px] font-playful font-medium tracking-wide text-foreground outline-none font-sans"
                 >
                   <div className="h-5.5 w-5.5 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-[10px] shrink-0 font-sans">
                     SR
                   </div>
                   <span className="hidden sm:inline font-sans">Sandbox Reviewer</span>
-                  <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform duration-200 ${isProfileOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`h-3 w-3 text-foreground/80 transition-transform duration-200 ${isProfileOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {isProfileOpen && (
@@ -393,17 +402,17 @@ export function DashboardView() {
                       className="fixed inset-0 z-30" 
                       onClick={() => setIsProfileOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
-                      <div className="px-3 py-2 border-b border-border mb-1">
+                    <div className="absolute right-0 mt-2 w-48 bg-card border border-luxe-copper/30 dark:border-luxe-copper/20 rounded-xl shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="px-3 py-2 border-b border-luxe-copper/30 dark:border-luxe-copper/20 mb-1">
                         <p className="text-xs font-bold text-foreground font-sans">Sandbox Reviewer</p>
-                        <p className="text-[10px] text-muted-foreground mt-0.5 font-sans">reviewer@optiwealth.io</p>
+                        <p className="text-[10px] text-foreground/80 mt-0.5 font-sans">reviewer@optiwealth.io</p>
                       </div>
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
                           alert("Account settings config paths trigger");
                         }}
-                        className="w-full text-left px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
+                        className="w-full text-left px-3 py-2 text-[15px] font-playful font-medium tracking-wide text-foreground/80 hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
                       >
                         Account Settings
                       </button>
@@ -412,17 +421,17 @@ export function DashboardView() {
                           setIsProfileOpen(false);
                           alert("API pipeline key configuration");
                         }}
-                        className="w-full text-left px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
+                        className="w-full text-left px-3 py-2 text-[15px] font-playful font-medium tracking-wide text-foreground/80 hover:text-foreground hover:bg-accent rounded-lg transition-colors font-sans"
                       >
                         API Pipeline Keys
                       </button>
-                      <div className="border-t border-border my-1" />
+                      <div className="border-t border-luxe-copper/30 dark:border-luxe-copper/20 my-1" />
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
                           logout();
                         }}
-                        className="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors flex items-center gap-1.5 font-sans"
+                        className="w-full text-left px-3 py-2 text-[15px] font-playful font-medium tracking-wide text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors flex items-center gap-1.5 font-sans"
                       >
                         <LogOut className="h-3.5 w-3.5" />
                         Log Out
@@ -435,7 +444,18 @@ export function DashboardView() {
           </header>
 
           {/* Main workspace layout */}
-          <main className="flex-1 overflow-y-auto fintech-grid p-8">
+          <main 
+            className="flex-1 overflow-y-auto fintech-topography p-8 relative group"
+            onMouseMove={handleMouseMove}
+          >
+            {/* Interactive Spotlight Overlay */}
+            <div 
+              className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
+              style={{
+                background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(200, 159, 73, 0.08), transparent 40%)`
+              }}
+            />
+            <div className="relative z-10">
             {error && (
               <div className="mb-6 p-4 rounded-xl border border-destructive/20 bg-destructive/5 text-destructive text-sm flex items-center gap-2">
                 <AlertCircle className="h-5 w-5 shrink-0" />
@@ -446,24 +466,24 @@ export function DashboardView() {
             {loading && !healthScore ? (
               <div className="flex flex-col items-center justify-center py-24 space-y-4">
                 <Loader2 className="h-10 w-10 animate-spin text-finance-deep" />
-                <p className="text-sm text-muted-foreground font-semibold">Orchestrating financial metrics...</p>
+                <p className="text-sm text-foreground/80 font-semibold">Orchestrating financial metrics...</p>
               </div>
             ) : (
-              <div className="max-w-7xl mx-auto space-y-8 animate-fade-in">
+              <div className="w-full space-y-8 animate-fade-in">
                 {activeView === "overview" && healthScore && (
                   <div className="space-y-8">
                     {/* Welcome Hero Banner */}
-                    <div className="bg-card border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm text-foreground">
+                    <div className="bg-card border border-luxe-copper/30 dark:border-luxe-copper/20 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm text-foreground">
                       <div className="space-y-1">
                         <h2 className="text-2xl font-header font-bold tracking-tight text-foreground">
                           Welcome back, Reviewer! 👋
                         </h2>
-                        <p className="text-base text-muted-foreground font-sans">
+                        <p className="text-base text-foreground/80 font-sans">
                           Your cash runway is secured for the next <strong className="text-primary font-semibold">18 days</strong>.
                         </p>
                       </div>
                       <div className="flex items-center">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1.5 text-xs font-semibold border border-accent/20">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1.5 text-[15px] font-playful font-medium tracking-wide border border-accent/20">
                           💡 Optimization Nudge: Maintain savings buffer above 3 months to boost health rating.
                         </span>
                       </div>
@@ -510,6 +530,7 @@ export function DashboardView() {
                 )}
               </div>
             )}
+            </div>
           </main>
         </div>
       </div>
@@ -525,16 +546,16 @@ export function DashboardView() {
           />
           
           {/* Drawer Panel */}
-          <div className="fixed right-0 top-0 h-screen w-full sm:w-96 bg-card border-l border-border shadow-2xl z-50 flex flex-col justify-between animate-in slide-in-from-right duration-300 text-foreground">
+          <div className="fixed right-0 top-0 h-screen w-full sm:w-96 bg-card border-l border-luxe-copper/30 dark:border-luxe-copper/20 shadow-2xl z-50 flex flex-col justify-between animate-in slide-in-from-right duration-300 text-foreground">
             {/* Header */}
-            <div className="p-5 border-b border-border flex items-center justify-between">
+            <div className="p-5 border-b border-luxe-copper/30 dark:border-luxe-copper/20 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BookOpen className="h-5 w-5 text-luxe-copper" />
-                <h3 className="font-header font-bold text-base text-luxe-bronze">Financial Glossary</h3>
+                <h3 className="font-header font-bold text-base text-foreground">Financial Glossary</h3>
               </div>
               <button 
                 onClick={() => setIsGlossaryOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors outline-none"
+                className="p-1.5 rounded-lg hover:bg-muted text-foreground/80 hover:text-foreground transition-colors outline-none"
                 aria-label="Close glossary"
               >
                 <X className="h-5 w-5" />
@@ -543,7 +564,7 @@ export function DashboardView() {
 
             {/* Glossary List */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
-              <p className="text-xs text-muted-foreground leading-normal mb-2">
+              <p className="text-xs text-foreground/80 leading-normal mb-2">
                 Literal, simplified definitions of complex financial metrics. Defined cleanly without analogies.
               </p>
               
@@ -553,16 +574,16 @@ export function DashboardView() {
                   onClick={() => handleGlossaryTermClick(term.title)}
                   className="p-4 rounded-xl border border-luxe-copper/25 bg-muted/5 space-y-2.5 hover:border-luxe-copper/60 hover:bg-luxe-copper/5 cursor-pointer transition-all duration-300"
                 >
-                  <h4 className="font-header font-bold text-xs uppercase tracking-wider text-luxe-bronze">
+                  <h4 className="font-header font-bold text-xs uppercase tracking-wider text-foreground">
                     {term.title}
                   </h4>
                   <div className="space-y-2 text-xs leading-normal">
                     <div>
-                      <span className="font-semibold text-[10px] text-muted-foreground uppercase tracking-wider block">What it means</span>
+                      <span className="font-semibold text-[10px] text-foreground/80 uppercase tracking-wider block">What it means</span>
                       <p className="mt-0.5 text-foreground font-medium">{term.definition}</p>
                     </div>
                     <div>
-                      <span className="font-semibold text-[10px] text-muted-foreground uppercase tracking-wider block">How it's calculated</span>
+                      <span className="font-semibold text-[10px] text-foreground/80 uppercase tracking-wider block">How it's calculated</span>
                       <p className="mt-0.5 text-foreground font-medium">{term.calculation}</p>
                     </div>
                   </div>
@@ -571,7 +592,7 @@ export function DashboardView() {
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-border bg-muted/10 text-center text-[10px] text-muted-foreground font-semibold">
+            <div className="p-4 border-t border-luxe-copper/30 dark:border-luxe-copper/20 bg-muted/10 text-center text-[10px] text-foreground/80 font-semibold">
               OptiWealth Financial Intelligence Workspace
             </div>
           </div>

@@ -33,7 +33,7 @@ function GoldRibbonSeparator() {
             <stop offset="0.3" stopColor="#D4AF37" />
             <stop offset="0.5" stopColor="#F0D060" />
             <stop offset="0.7" stopColor="#D4AF37" />
-            <stop offset="1"   stopColor="#8B6914" />
+            <stop offset="1" stopColor="#8B6914" />
           </linearGradient>
         </defs>
       </svg>
@@ -111,7 +111,7 @@ export function LandingPage() {
     });
 
     tl.to(s1, { autoAlpha: 0, y: -50, ease: "power2.inOut" }, 0)
-      .to(s2, { autoAlpha: 1, y: 0,  ease: "power2.inOut" }, 0.25);
+      .to(s2, { autoAlpha: 1, y: 0, ease: "power2.inOut" }, 0.25);
 
     // Subtle pan and scale on satin background for "flowing" effect
     if (satinBgRef.current) {
@@ -130,20 +130,20 @@ export function LandingPage() {
   }, []);
 
   // ── Centralised design tokens (dark / light) ──
-  const bg           = isDark ? "#0B1C15" : "#F5F5F0";
-  const sectionBg    = isDark ? "#071410" : "#ECEFE9";
-  const scriptColor  = isDark ? "#D4AF37" : "#B8960E";
+  const bg = isDark ? "#0B1C15" : "#F5F5F0";
+  const sectionBg = isDark ? "#071410" : "#ECEFE9";
+  const scriptColor = isDark ? "#D4AF37" : "#B8960E";
   const headingColor = isDark ? "#FFFFFF" : "#1A2E22";
-  const subColor     = isDark ? "#8FB89A" : "#4F6E56";
-  const cardBg       = isDark ? "rgba(0,0,0,0.3)"   : "rgba(255,255,255,0.5)";
-  const cardBorder   = isDark ? "rgba(212,175,55,0.15)" : "rgba(184,150,14,0.2)";
-  const quoteBorder  = isDark ? "#D4AF37" : "#B8960E";
-  const quoteText    = isDark ? "#D4AF37" : "#B8960E";
-  const headerBg     = isDark ? "rgba(11,28,21,0.85)"   : "rgba(245,245,240,0.85)";
+  const subColor = isDark ? "#8FB89A" : "#4F6E56";
+  const cardBg = isDark ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.5)";
+  const cardBorder = isDark ? "rgba(212,175,55,0.15)" : "rgba(184,150,14,0.2)";
+  const quoteBorder = isDark ? "#D4AF37" : "#B8960E";
+  const quoteText = isDark ? "#D4AF37" : "#B8960E";
+  const headerBg = isDark ? "rgba(11,28,21,0.85)" : "rgba(245,245,240,0.85)";
   const headerBorder = isDark ? "rgba(212,175,55,0.10)" : "rgba(184,150,14,0.15)";
-  const navText      = isDark ? "#8FB89A" : "#5A7E64";
-  const navHover     = isDark ? "#D4AF37" : "#B8960E";
-  const vignette     = isDark
+  const navText = isDark ? "#8FB89A" : "#5A7E64";
+  const navHover = isDark ? "#D4AF37" : "#B8960E";
+  const vignette = isDark
     ? "radial-gradient(ellipse 70% 70% at 50% 50%,transparent 20%,rgba(11,28,21,0.65) 100%)"
     : "radial-gradient(ellipse 70% 70% at 50% 50%,transparent 20%,rgba(242,239,231,0.45) 100%)";
 
@@ -162,7 +162,7 @@ export function LandingPage() {
         }
       `}</style>
 
-      <div className="relative w-full overflow-x-clip" style={{ backgroundColor: bg }}>
+      <div className="relative w-full overflow-x-clip font-landing" style={{ backgroundColor: bg }}>
 
         {/* ══════════════════════════════════════════════ */}
         {/* STICKY NAV                                     */}
@@ -188,11 +188,11 @@ export function LandingPage() {
             {/* Nav links */}
             <nav className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.18em]">
               {[
-                ["Problem",       "#problem"],
-                ["Four Pillars",  "#pillars"],
-                ["Feature Wall",  "#rule-wall"],
-                ["Security",      "#security"],
-                ["About",         "#about"],
+                ["Problem", "#problem"],
+                ["Four Pillars", "#pillars"],
+                ["Feature Wall", "#rule-wall"],
+                ["Security", "#security"],
+                ["About", "#about"],
               ].map(([label, href]) => (
                 <a
                   key={href}
@@ -215,7 +215,7 @@ export function LandingPage() {
                 href={isAuthenticated ? "/dashboard" : "/login"}
                 className="flex items-center gap-1.5 px-5 py-2 bg-[#D4AF37] hover:bg-[#F0D060] text-[#0B1C15] text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 shadow-md"
               >
-                {isAuthenticated ? "Dashboard" : "Get Started"} <ArrowRight className="h-3 w-3"/>
+                {isAuthenticated ? "Dashboard" : "Get Started"} <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
           </div>
@@ -233,13 +233,13 @@ export function LandingPage() {
 
             {/* Full-viewport satin background from image */}
             <div className="absolute inset-0 overflow-hidden">
-              <div 
+              <div
                 ref={satinBgRef}
-                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out" 
-                style={{ 
-                  backgroundImage: `url('${isDark ? '/bg-satin-dark.png' : '/bg-satin-light.png'}')`,
+                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out"
+                style={{
+                  backgroundImage: `url('${isDark ? '/bg-satin-dark.png' : '/landing-light-p1.png'}')`,
                   transformOrigin: "center center",
-                }} 
+                }}
               />
             </div>
 
@@ -307,7 +307,7 @@ export function LandingPage() {
             >
               {/* Problem section background from image (marble with branches) */}
               <div className="absolute inset-0 overflow-hidden">
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out"
                   style={{
                     backgroundImage: `url('${isDark ? '/bg-marble-dark.png' : '/bg-marble-light.png'}')`,
@@ -386,16 +386,16 @@ export function LandingPage() {
         >
           {/* Premium Ambient Background Gradient */}
           <div className="absolute inset-0 overflow-hidden">
-            <div 
+            <div
               className="absolute inset-0 transition-colors duration-700 ease-in-out"
               style={{
-                background: isDark 
-                  ? "radial-gradient(circle at 50% -20%, rgba(212,175,55,0.15) 0%, transparent 60%)" 
+                background: isDark
+                  ? "radial-gradient(circle at 50% -20%, rgba(212,175,55,0.15) 0%, transparent 60%)"
                   : "radial-gradient(circle at 50% -20%, rgba(184,150,14,0.12) 0%, transparent 60%)",
               }}
             />
             {/* Edge shadows for depth */}
-            <div 
+            <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 boxShadow: isDark ? "inset 0 0 100px rgba(0,0,0,0.8)" : "inset 0 0 100px rgba(0,0,0,0.05)"
@@ -482,7 +482,7 @@ export function LandingPage() {
         >
           {/* Faint marble vein layer for texture continuity using the image */}
           <div className="absolute inset-0 pointer-events-none opacity-25">
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url('${isDark ? '/bg-marble-dark.png' : '/bg-marble-light.png'}')`
@@ -532,7 +532,7 @@ export function LandingPage() {
                     background: isDark
                       ? "radial-gradient(circle at 30% 30%, rgba(212,175,55,0.1), rgba(13,43,30,0.6) 70%)"
                       : "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(245,245,240,0.7) 70%)",
-                    boxShadow: isDark 
+                    boxShadow: isDark
                       ? "inset 0 0 40px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.3)"
                       : "inset 0 0 40px rgba(255,255,255,0.8), 0 20px 40px rgba(0,0,0,0.1)",
                     animation: `floatBubble 8s ease-in-out infinite alternate`,
@@ -540,13 +540,13 @@ export function LandingPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = isDark ? "rgba(212,175,55,0.50)" : "rgba(184,150,14,0.50)";
-                    e.currentTarget.style.boxShadow = isDark 
+                    e.currentTarget.style.boxShadow = isDark
                       ? "inset 0 0 40px rgba(0,0,0,0.5), 0 0 60px rgba(212,175,55,0.2)"
                       : "inset 0 0 40px rgba(255,255,255,0.8), 0 0 60px rgba(184,150,14,0.15)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = cardBorder;
-                    e.currentTarget.style.boxShadow = isDark 
+                    e.currentTarget.style.boxShadow = isDark
                       ? "inset 0 0 40px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.3)"
                       : "inset 0 0 40px rgba(255,255,255,0.8), 0 20px 40px rgba(0,0,0,0.1)";
                   }}
@@ -576,7 +576,7 @@ export function LandingPage() {
         >
           {/* Re-emerging satin canvas image at low opacity */}
           <div className="absolute inset-0 opacity-[0.25] pointer-events-none">
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url('${isDark ? '/bg-satin-dark.png' : '/bg-satin-light.png'}')`
@@ -623,11 +623,11 @@ export function LandingPage() {
               style={{ color: isDark ? "#3A5E47" : "#5A7A62" }}
             >
               {[
-                { label: "Technology",   links: ["AI Engine", "Infrastructure", "API Docs", "Open Source"]       },
-                { label: "Security",     links: ["AES-256", "Non-Custodial", "Zero-Knowledge", "Audits"]         },
-                { label: "Protocols",    links: ["50/30/20", "4% Rule", "Rule of 72", "EMI Limits"]              },
-                { label: "Disclaimers",  links: ["Risk Notice", "Simulation Only", "Not Financial Advice", "Regulatory"] },
-                { label: "Company",      links: ["About", "Careers", "Privacy Charter", "Terms"]                 },
+                { label: "Technology", links: ["AI Engine", "Infrastructure", "API Docs", "Open Source"] },
+                { label: "Security", links: ["AES-256", "Non-Custodial", "Zero-Knowledge", "Audits"] },
+                { label: "Protocols", links: ["50/30/20", "4% Rule", "Rule of 72", "EMI Limits"] },
+                { label: "Disclaimers", links: ["Risk Notice", "Simulation Only", "Not Financial Advice", "Regulatory"] },
+                { label: "Company", links: ["About", "Careers", "Privacy Charter", "Terms"] },
               ].map((s) => (
                 <div key={s.label} className="space-y-3">
                   <h4

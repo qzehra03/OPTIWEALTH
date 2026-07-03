@@ -71,7 +71,7 @@ export function SliderWithNumericInput({
     <div className="space-y-2">
       <Label
         htmlFor={id}
-        className="text-luxe-ivory/90 font-semibold text-sm tracking-wide font-sans block"
+        className="text-foreground font-semibold text-sm tracking-wide font-sans block"
       >
         {label}
       </Label>
@@ -97,7 +97,7 @@ export function SliderWithNumericInput({
         {/* Dynamic formatted input */}
         <div className="relative w-32 sm:w-40 shrink-0">
           {isCurrency && (
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-luxe-bronze">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-extrabold text-foreground/70">
               ₹
             </span>
           )}
@@ -108,7 +108,7 @@ export function SliderWithNumericInput({
             value={inputValue}
             onChange={handleInputChange}
             className={cn(
-              "text-right font-sans font-extrabold text-xl text-luxe-bronze h-10 bg-luxe-forest/50 border-luxe-copper/30 focus:border-luxe-copper focus:ring-1 focus:ring-luxe-bronze focus-visible:ring-luxe-bronze focus-visible:border-luxe-copper focus-visible:ring-offset-0 outline-none rounded-lg",
+              "text-right font-sans font-extrabold text-xl text-foreground h-10 bg-background/50 border-border focus:border-primary focus:ring-1 focus:ring-primary focus-visible:ring-primary focus-visible:border-primary focus-visible:ring-offset-0 outline-none rounded-lg",
               isCurrency ? "pl-7 pr-2.5" : "px-2.5"
             )}
             placeholder="0"

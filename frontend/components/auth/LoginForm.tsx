@@ -163,7 +163,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-tr from-background via-background/95 to-luxe-copper/10 dark:to-luxe-emerald/5 relative overflow-hidden flex items-center justify-center p-4 md:p-8 font-sans antialiased">
+    <div className="min-h-screen w-full bg-background relative overflow-hidden flex items-center justify-center p-4 md:p-8 font-sans antialiased">
       
       {/* Dynamic Background Canvas */}
       <canvas 

@@ -181,46 +181,46 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
       <div className="w-full font-sans space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-start">
           {/* Left Column: Logger Form */}
-          <div className="bg-luxe-emerald/40 border border-luxe-copper/20 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-white dark:bg-card border border-luxe-copper/20 rounded-xl p-6 shadow-sm space-y-4">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="h-5 w-5 text-luxe-bronze" />
-              <h3 className="text-xl font-header font-semibold text-luxe-ivory">Impulse Buy Cooling Guard</h3>
+              <ShoppingBag className="h-5 w-5 text-foreground" />
+              <h3 className="text-xl font-header font-semibold text-foreground">Impulse Buy Cooling Guard</h3>
             </div>
-            <p className="text-sm text-muted-foreground font-sans leading-relaxed">
+            <p className="text-sm text-foreground/80 font-sans leading-relaxed">
               Enforce a 30-day delay on discretionary spend items to curb emotional purchasing patterns. Log details of the desired item to start the cooling-off period.
             </p>
             <form onSubmit={handleAddItem} className="space-y-4 pt-2">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Item Name</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Item Name</label>
                 <input
                   type="text"
                   placeholder="Item Name (e.g. iPad Pro)"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                   required
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-muted-foreground uppercase font-header">Price (₹)</label>
+                  <label className="text-xs font-bold text-foreground/80 uppercase font-header">Price (₹)</label>
                   <input
                     type="number"
                     placeholder="Price (₹)"
                     value={newItemPrice}
                     onChange={(e) => setNewItemPrice(e.target.value)}
-                    className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                    className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-muted-foreground uppercase font-header">Simulate Days Ago</label>
+                  <label className="text-xs font-bold text-foreground/80 uppercase font-header">Simulate Days Ago</label>
                   <input
                     type="number"
                     placeholder="Simulate days ago"
                     value={simulateDays}
                     onChange={(e) => setSimulateDays(e.target.value)}
-                    className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                    className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                   />
                 </div>
               </div>
@@ -233,14 +233,14 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
           {/* Right Column: Cooling Queue */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-header font-semibold text-luxe-ivory">Cooling Queue Log</h3>
-              <Badge variant="outline" className="border-luxe-copper/30 text-muted-foreground font-sans">
+              <h3 className="text-lg font-header font-semibold text-foreground">Cooling Queue Log</h3>
+              <Badge variant="outline" className="border-luxe-copper/30 text-foreground/80 font-sans">
                 {items.length} {items.length === 1 ? "Item" : "Items"} Active
               </Badge>
             </div>
             <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
               {items.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-12 bg-luxe-emerald/40 border border-luxe-copper/20 rounded-xl shadow-sm">
+                <p className="text-sm text-foreground/80 text-center py-12 bg-white dark:bg-card border border-luxe-copper/20 rounded-xl shadow-sm">
                   Your cooling queue is empty. Good job staying mindful of discretionary spends!
                 </p>
               ) : (
@@ -251,13 +251,13 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                   return (
                     <div
                       key={item.id}
-                      className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm flex items-center justify-between transition-all hover:bg-luxe-forest/40"
+                      className="p-4 rounded-xl border border-luxe-copper/20 shadow-luxe-sm flex items-center justify-between transition-all hover:bg-white/80 dark:bg-black/20"
                     >
                       <div className="space-y-1">
-                        <h5 className="font-bold text-base font-header text-luxe-ivory">{item.name}</h5>
+                        <h5 className="font-bold text-base font-header text-foreground">{item.name}</h5>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-luxe-bronze font-sans">{formatCurrency(item.price)}</span>
-                          <span className="text-xs text-muted-foreground font-sans">• Added {new Date(item.addedDate).toLocaleDateString()}</span>
+                          <span className="text-sm font-semibold text-foreground font-sans">{formatCurrency(item.price)}</span>
+                          <span className="text-xs text-foreground/80 font-sans">• Added {new Date(item.addedDate).toLocaleDateString()}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -299,68 +299,68 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
             <div>
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <Car className="h-5 w-5 text-luxe-bronze" />
-                  <CardTitle className="text-xl font-header font-semibold tracking-tight text-luxe-ivory">20/4/10 Car Affordability Engine</CardTitle>
+                  <Car className="h-5 w-5 text-foreground" />
+                  <CardTitle className="text-xl font-header font-semibold tracking-tight text-foreground">20/4/10 Car Affordability Engine</CardTitle>
                 </div>
-                <CardDescription className="text-base text-muted-foreground mt-1.5 font-sans leading-relaxed">
+                <CardDescription className="text-base text-foreground/80 mt-1.5 font-sans leading-relaxed">
                   Verify if a vehicle purchase is sound: 20% down payment, 4-year max loan term, 10% max gross monthly income.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">Vehicle Price (₹)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">Vehicle Price (₹)</label>
                     <input
                       type="number"
                       value={vehiclePrice}
                       onChange={(e) => setVehiclePrice(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">Down Payment (₹)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">Down Payment (₹)</label>
                     <input
                       type="number"
                       value={downPayment}
                       onChange={(e) => setDownPayment(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">APR Interest (%)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">APR Interest (%)</label>
                     <input
                       type="number"
                       step="0.1"
                       value={interestRate}
                       onChange={(e) => setInterestRate(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">Loan Term (Months)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">Loan Term (Months)</label>
                     <input
                       type="number"
                       value={termMonths}
                       onChange={(e) => setTermMonths(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">Insurance/mo (₹)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">Insurance/mo (₹)</label>
                     <input
                       type="number"
                       value={insurance}
                       onChange={(e) => setInsurance(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-muted-foreground uppercase font-header">Maintenance/mo (₹)</label>
+                    <label className="text-xs font-bold text-foreground/80 uppercase font-header">Maintenance/mo (₹)</label>
                     <input
                       type="number"
                       value={maintenance}
                       onChange={(e) => setMaintenance(e.target.value)}
-                      className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                      className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                     />
                   </div>
                 </div>
@@ -391,8 +391,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
           {/* Right Column: Verdict Card */}
           <Card className="border border-luxe-copper/20 shadow-luxe-sm flex flex-col justify-between">
             <CardHeader>
-              <CardTitle className="text-lg font-header font-semibold tracking-tight text-luxe-ivory">Evaluation Verdict</CardTitle>
-              <CardDescription className="text-sm text-muted-foreground mt-1.5 font-sans leading-relaxed">
+              <CardTitle className="text-lg font-header font-semibold tracking-tight text-foreground">Evaluation Verdict</CardTitle>
+              <CardDescription className="text-sm text-foreground/80 mt-1.5 font-sans leading-relaxed">
                 Checklist evaluation results based on the 20/4/10 budgeting framework.
               </CardDescription>
             </CardHeader>
@@ -400,7 +400,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
               {calcResult ? (
                 <div className="space-y-6 w-full">
                   <div className="flex items-center justify-between border-b border-luxe-copper/20 pb-4">
-                    <span className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Evaluation Verdict</span>
+                    <span className="text-sm font-bold uppercase tracking-wider text-foreground/80">Evaluation Verdict</span>
                     {calcResult.is_affordable ? (
                       <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/30 font-bold flex gap-1 items-center text-sm px-4 py-1.5 rounded-full">
                         <CheckCircle2 className="h-4 w-4" /> AFFORDABLE
@@ -425,8 +425,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                             <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                           )}
                           <div>
-                            <span className="font-semibold text-luxe-ivory/90 font-header">Down Payment &ge; 20%</span>
-                            <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                            <span className="font-semibold text-foreground font-header">Down Payment &ge; 20%</span>
+                            <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                               Required: 20% (₹{(parseFloat(vehiclePrice) * 0.2).toLocaleString(undefined, { maximumFractionDigits: 0 })}). Actual: {rules.down_payment_20_percent.actual_percent}% (₹{parseFloat(downPayment).toLocaleString()}).
                             </p>
                           </div>
@@ -440,8 +440,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                             <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                           )}
                           <div>
-                            <span className="font-semibold text-luxe-ivory/90 font-header">Loan Term &le; 48 Months (4 Years)</span>
-                            <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                            <span className="font-semibold text-foreground font-header">Loan Term &le; 48 Months (4 Years)</span>
+                            <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                               Max allowed: 48 months. Actual term: {rules.loan_term_4_years.actual_months} months.
                             </p>
                           </div>
@@ -455,8 +455,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                             <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                           )}
                           <div>
-                            <span className="font-semibold text-luxe-ivory/90 font-header">Total Auto Cost &le; 10% Gross Income</span>
-                            <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                            <span className="font-semibold text-foreground font-header">Total Auto Cost &le; 10% Gross Income</span>
+                            <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                               Max Allowed: {formatCurrency(calcResult.max_allowed_monthly_auto_cost)}/mo. Actual Cost: {formatCurrency(calcResult.total_monthly_auto_cost)}/mo (EMI: {formatCurrency(calcResult.monthly_payment)} + ins + maint).
                             </p>
                           </div>
@@ -470,7 +470,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                       <span className="font-bold flex items-center gap-1.5 text-amber-600 font-header">
                         <AlertTriangle className="h-4 w-4" /> Optimization Recommendations
                       </span>
-                      <ul className="list-disc list-inside space-y-1 text-muted-foreground text-xs font-sans leading-relaxed">
+                      <ul className="list-disc list-inside space-y-1 text-foreground/80 text-xs font-sans leading-relaxed">
                         {calcResult.recommendations.map((rec, i) => (
                           <li key={i}>{rec}</li>
                         ))}
@@ -479,8 +479,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                   )}
                 </div>
               ) : (
-                <div className="text-center py-12 text-muted-foreground flex flex-col items-center justify-center space-y-3">
-                  <Car className="h-12 w-12 text-muted-foreground/45" />
+                <div className="text-center py-12 text-foreground/80 flex flex-col items-center justify-center space-y-3">
+                  <Car className="h-12 w-12 text-foreground/80/45" />
                   <p className="text-sm font-semibold">Awaiting calculation input</p>
                   <p className="text-xs max-w-[240px]">Enter vehicle financing details in the left panel and click evaluate to review affordability metrics.</p>
                 </div>
@@ -499,10 +499,10 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
         <div>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <ShoppingBag className="h-5 w-5 text-luxe-bronze" />
-              <CardTitle className="text-xl font-header font-semibold tracking-tight text-luxe-ivory">Impulse Buy Cooling Guard</CardTitle>
+              <ShoppingBag className="h-5 w-5 text-foreground" />
+              <CardTitle className="text-xl font-header font-semibold tracking-tight text-foreground">Impulse Buy Cooling Guard</CardTitle>
             </div>
-            <CardDescription className="text-base text-muted-foreground mt-1.5 font-sans leading-relaxed">
+            <CardDescription className="text-base text-foreground/80 mt-1.5 font-sans leading-relaxed">
               Enforce a 30-day delay on discretionary spend items to curb emotional purchasing patterns.
             </CardDescription>
           </CardHeader>
@@ -514,7 +514,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                   placeholder="Item Name (e.g. iPad Pro)"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                   required
                 />
                 <div className="flex gap-2">
@@ -523,7 +523,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                     placeholder="Price (₹)"
                     value={newItemPrice}
                     onChange={(e) => setNewItemPrice(e.target.value)}
-                    className="w-1/2 text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                    className="w-1/2 text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                     required
                   />
                   <input
@@ -531,7 +531,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                     placeholder="Simulate days ago"
                     value={simulateDays}
                     onChange={(e) => setSimulateDays(e.target.value)}
-                    className="w-1/2 text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
+                    className="w-1/2 text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2.5 outline-none focus:border-finance-medium"
                   />
                 </div>
               </div>
@@ -542,7 +542,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
 
             <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
               {items.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-8">
+                <p className="text-sm text-foreground/80 text-center py-8">
                   Your cooling queue is empty. Good job staying mindful of discretionary spends!
                 </p>
               ) :
@@ -553,13 +553,13 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                   return (
                     <div
                       key={item.id}
-                      className="p-3.5 rounded-xl border border-luxe-copper/20 bg-luxe-forest/40 flex items-center justify-between transition-all hover:bg-luxe-forest/50"
+                      className="p-3.5 rounded-xl border border-luxe-copper/20 bg-white/80 dark:bg-black/20 flex items-center justify-between transition-all hover:bg-white/50 dark:bg-black/20"
                     >
                       <div className="space-y-1">
-                        <h5 className="font-bold text-base font-header text-luxe-ivory">{item.name}</h5>
+                        <h5 className="font-bold text-base font-header text-foreground">{item.name}</h5>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-luxe-bronze font-sans">{formatCurrency(item.price)}</span>
-                          <span className="text-xs text-muted-foreground font-sans">• Added {new Date(item.addedDate).toLocaleDateString()}</span>
+                          <span className="text-sm font-semibold text-foreground font-sans">{formatCurrency(item.price)}</span>
+                          <span className="text-xs text-foreground/80 font-sans">• Added {new Date(item.addedDate).toLocaleDateString()}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -595,68 +595,68 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
         <div>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Car className="h-5 w-5 text-luxe-bronze" />
-              <CardTitle className="text-xl font-header font-semibold tracking-tight text-luxe-ivory">20/4/10 Car Affordability Engine</CardTitle>
+              <Car className="h-5 w-5 text-foreground" />
+              <CardTitle className="text-xl font-header font-semibold tracking-tight text-foreground">20/4/10 Car Affordability Engine</CardTitle>
             </div>
-            <CardDescription className="text-base text-muted-foreground mt-1.5 font-sans leading-relaxed">
+            <CardDescription className="text-base text-foreground/80 mt-1.5 font-sans leading-relaxed">
               Verify if a vehicle purchase is sound: 20% down payment, 4-year max loan term, 10% max gross monthly income.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Vehicle Price (₹)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Vehicle Price (₹)</label>
                 <input
                   type="number"
                   value={vehiclePrice}
                   onChange={(e) => setVehiclePrice(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Down Payment (₹)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Down Payment (₹)</label>
                 <input
                   type="number"
                   value={downPayment}
                   onChange={(e) => setDownPayment(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">APR Interest (%)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">APR Interest (%)</label>
                 <input
                   type="number"
                   step="0.1"
                   value={interestRate}
                   onChange={(e) => setInterestRate(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Loan Term (Months)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Loan Term (Months)</label>
                 <input
                   type="number"
                   value={termMonths}
                   onChange={(e) => setTermMonths(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Insurance/mo (₹)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Insurance/mo (₹)</label>
                 <input
                   type="number"
                   value={insurance}
                   onChange={(e) => setInsurance(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-muted-foreground uppercase font-header">Maintenance/mo (₹)</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase font-header">Maintenance/mo (₹)</label>
                 <input
                   type="number"
                   value={maintenance}
                   onChange={(e) => setMaintenance(e.target.value)}
-                  className="w-full text-sm bg-luxe-forest/50 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-luxe-ivory/90"
+                  className="w-full text-sm bg-white/50 dark:bg-black/20 rounded-lg border border-luxe-copper/30/60 p-2 outline-none focus:border-finance-medium font-semibold font-sans text-foreground"
                 />
               </div>
             </div>
@@ -684,7 +684,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
             {calcResult && (
               <div className="space-y-4 pt-4 border-t border-luxe-copper/20">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Evaluation Verdict</span>
+                  <span className="text-sm font-bold uppercase tracking-wider text-foreground/80">Evaluation Verdict</span>
                   {calcResult.is_affordable ? (
                     <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/30 font-bold flex gap-1 items-center text-sm px-2.5 py-1">
                       <CheckCircle2 className="h-4 w-4" /> AFFORDABLE
@@ -709,8 +709,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                           <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                         )}
                         <div>
-                          <span className="font-semibold text-luxe-ivory/90 font-header">Down Payment &ge; 20%</span>
-                          <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                          <span className="font-semibold text-foreground font-header">Down Payment &ge; 20%</span>
+                          <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                             Required: 20% (₹{(parseFloat(vehiclePrice) * 0.2).toLocaleString(undefined, { maximumFractionDigits: 0 })}). Actual: {rules.down_payment_20_percent.actual_percent}% (₹{parseFloat(downPayment).toLocaleString()}).
                           </p>
                         </div>
@@ -724,8 +724,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                           <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                         )}
                         <div>
-                          <span className="font-semibold text-luxe-ivory/90 font-header">Loan Term &le; 48 Months (4 Years)</span>
-                          <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                          <span className="font-semibold text-foreground font-header">Loan Term &le; 48 Months (4 Years)</span>
+                          <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                             Max allowed: 48 months. Actual term: {rules.loan_term_4_years.actual_months} months.
                           </p>
                         </div>
@@ -739,8 +739,8 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                           <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
                         )}
                         <div>
-                          <span className="font-semibold text-luxe-ivory/90 font-header">Total Auto Cost &le; 10% Gross Income</span>
-                          <p className="text-xs text-muted-foreground mt-0.5 font-sans leading-relaxed">
+                          <span className="font-semibold text-foreground font-header">Total Auto Cost &le; 10% Gross Income</span>
+                          <p className="text-xs text-foreground/80 mt-0.5 font-sans leading-relaxed">
                             Max Allowed: {formatCurrency(calcResult.max_allowed_monthly_auto_cost)}/mo. Actual Cost: {formatCurrency(calcResult.total_monthly_auto_cost)}/mo (EMI: {formatCurrency(calcResult.monthly_payment)} + ins + maint).
                           </p>
                         </div>
@@ -754,7 +754,7 @@ export function ImpulseGuard({ user, mode }: ImpulseGuardProps) {
                     <span className="font-bold flex items-center gap-1.5 text-amber-600 font-header">
                       <AlertTriangle className="h-4 w-4" /> Optimization Recommendations
                     </span>
-                    <ul className="list-disc list-inside space-y-1 text-muted-foreground text-xs font-sans leading-relaxed">
+                    <ul className="list-disc list-inside space-y-1 text-foreground/80 text-xs font-sans leading-relaxed">
                       {calcResult.recommendations.map((rec, i) => (
                         <li key={i}>{rec}</li>
                       ))}
